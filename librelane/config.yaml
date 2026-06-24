@@ -31,10 +31,10 @@ meta:
     #Netgen.LVS: null
     #Checker.LVS: null
 
-DESIGN_NAME: chip_top
+DESIGN_NAME: ocdcprodemo
 VERILOG_FILES:
-- dir::../src/chip_top.sv
-- dir::../src/chip_core.sv
+- dir::../src/ocdcprodemo.sv
+- dir::../src/Synth.v
 
 VERILOG_DEFINES: [FUNCTIONAL]
 
@@ -102,9 +102,9 @@ PAD_WEST: [
 ]
 
 # SDC files
-PNR_SDC_FILE: dir::chip_top.sdc
-SIGNOFF_SDC_FILE: dir::chip_top.sdc
-FALLBACK_SDC: dir::chip_top.sdc
+PNR_SDC_FILE: dir::ocdcprodemo.sdc
+SIGNOFF_SDC_FILE: dir::ocdcprodemo.sdc
+FALLBACK_SDC: dir::ocdcprodemo.sdc
 
 # Power / ground nets
 VDD_NETS:
@@ -157,37 +157,4 @@ PDN_ENABLE_PINS: False
 
 # Because we have multiple power pads for one power domain
 MAGIC_EXT_UNIQUE: notopports
-
-MACROS:
-  RM_IHPSG13_1P_1024x32_c2_bm_bist:
-    gds:
-      - pdk_dir::libs.ref/sg13cmos5l_sram/gds/RM_IHPSG13_1P_1024x32_c2_bm_bist.gds
-    lef:
-      - pdk_dir::libs.ref/sg13cmos5l_sram/lef/RM_IHPSG13_1P_1024x32_c2_bm_bist.lef
-    vh:
-      - pdk_dir::libs.ref/sg13cmos5l_sram/verilog/RM_IHPSG13_1P_1024x32_c2_bm_bist.v
-      - pdk_dir::libs.ref/sg13cmos5l_sram/verilog/RM_IHPSG13_1P_core_behavioral_bm_bist.v
-    lib:
-      "*_typ_1p20V_25C":
-        - pdk_dir::libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_1024x32_c2_bm_bist_typ_1p20V_25C.lib
-      "*_fast_1p32V_m40C":
-        - pdk_dir::libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_1024x32_c2_bm_bist_fast_1p32V_m55C.lib
-      "*_slow_1p08V_125C":
-        - pdk_dir::libs.ref/sg13cmos5l_sram/lib/RM_IHPSG13_1P_1024x32_c2_bm_bist_slow_1p08V_125C.lib
-    instances:
-      # Make sure to specify the SRAMs in pdn_cfg.tcl
-      i_chip_core.sram_0:
-        location: [390, 400]
-        orientation: N
-      i_chip_core.sram_1:
-        location: [860, 400]
-        orientation: E
-
-# This is an alternative method compared to
-# specifying the power connections in the RTL
-PDN_MACRO_CONNECTIONS:
-- "i_chip_core.sram_0 VDD VSS VDDARRAY! VSS!"
-- "i_chip_core.sram_0 VDD VSS VDD! VSS!"
-- "i_chip_core.sram_1 VDD VSS VDDARRAY! VSS!"
-- "i_chip_core.sram_1 VDD VSS VDD! VSS!"
 

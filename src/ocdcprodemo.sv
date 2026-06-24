@@ -3,7 +3,7 @@
 
 `default_nettype none
 
-module chip_top #(
+module ocdcprodemo #(
     // Power/ground pads for core
     parameter NUM_VDD_PADS = 1,
     parameter NUM_VSS_PADS = 1,
@@ -41,7 +41,9 @@ module chip_top #(
     wire [NUM_BIDIR_PADS-1 :0] bidir_CORE2PAD_OE;
     wire [NUM_ANALOG_PADS-1:0] analog_PADRES;
 
+    //----------------------------
     // Power/ground pad instances
+    //----------------------------
     generate
     for (genvar i=0; i<NUM_IOVDD_PADS; i++) begin : iovdd_pads
         (* keep *)
@@ -89,7 +91,9 @@ module chip_top #(
     end
     endgenerate
 
+    //----------------------------
     // Signal IO pad instances
+    //----------------------------
 
     // Schmitt trigger
     sg13cmos5l_IOPadIn clk_pad (
@@ -178,22 +182,35 @@ module chip_top #(
     end
     endgenerate
 
-    // Core design
+    //-----------------------
+    // Bi directional pads (Unused)
+    //-----------------------
+    (* keep *) logic _unused_bidir;
+    assign _unused_bidir = &bidir_PAD2CORE;
+    assign bidir_CORE2PAD = '0;
+    assign bidir_CORE2PAD_OE = '1;
 
-    (* keep *) chip_core #(
-        .NUM_INPUT_PADS  (NUM_INPUT_PADS),
-        .NUM_OUTPUT_PADS (NUM_OUTPUT_PADS),
-        .NUM_BIDIR_PADS  (NUM_BIDIR_PADS),
-        .NUM_ANALOG_PADS (NUM_ANALOG_PADS)
-    ) i_chip_core (
-        .clk        (clk_PAD2CORE),
-        .rst_n      (rst_n_PAD2CORE),
-        .input_in   (input_PAD2CORE),
-        .output_out (output_CORE2PAD),
-        .bidir_in   (bidir_PAD2CORE),
-        .bidir_out  (bidir_CORE2PAD),
-        .bidir_oe   (bidir_CORE2PAD_OE),
-        .analog     (analog_PADRES)
+    //-----------------------
+    // Output pads (Unused)
+    //-----------------------
+    assign output_CORE2PAD[NUM_OUTPUT_PADS-1:3] = '0;
+
+    //-----------------------
+    // Input pads (Unused)
+    //-----------------------
+    (* keep *) logic _unused_input;
+    assign _unused_input = &input_PAD2CORE[NUM_INPUT_PADS-1:1];
+
+    //-----------------------
+    // Synth module instance
+    //-----------------------
+    (* keep *) Synth i_Synth (
+        .io_clk24MHz (clk_PAD2CORE),
+        .io_reset    (rst_n_PAD2CORE),
+        .io_uartRx   (input_PAD2CORE[0]),
+        .io_i2sBclk  (output_CORE2PAD[0]),
+        .io_i2sLrclk (output_CORE2PAD[1]),
+        .io_i2sData  (output_CORE2PAD[2])
     );
 
 endmodule
