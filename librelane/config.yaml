@@ -31,9 +31,9 @@ meta:
     #Netgen.LVS: null
     #Checker.LVS: null
 
-DESIGN_NAME: chip_top
+DESIGN_NAME: ocdcprodemo
 VERILOG_FILES:
-- dir::../src/chip_top.sv
+- dir::../src/ocdcprodemo.sv
 - dir::../src/Synth.v
 
 VERILOG_DEFINES: [FUNCTIONAL]
@@ -102,9 +102,9 @@ PAD_WEST: [
 ]
 
 # SDC files
-PNR_SDC_FILE: dir::chip_top.sdc
-SIGNOFF_SDC_FILE: dir::chip_top.sdc
-FALLBACK_SDC: dir::chip_top.sdc
+PNR_SDC_FILE: dir::ocdcprodemo.sdc
+SIGNOFF_SDC_FILE: dir::ocdcprodemo.sdc
+FALLBACK_SDC: dir::ocdcprodemo.sdc
 
 # Power / ground nets
 VDD_NETS:
