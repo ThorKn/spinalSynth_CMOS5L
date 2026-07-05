@@ -1,13 +1,14 @@
 // Generator : SpinalHDL v1.14.0    git head : 95a5e6c65c54acfc4707c8fe6ef8b5d297cfcbde
 // Component : Synth
-// Git hash  : 6e935ff3d5a5fb77bc050f0d5ddddd470da7a914
+// Git hash  : ac65480b5c0cfc523ebcb7459e26e079f781c720
 
-//`timescale 1ns/1ps
+`timescale 1ns/1ps
 
 module Synth (
   input  wire          io_clk24MHz,
   input  wire          io_reset,
   input  wire          io_uartRx,
+  input  wire          io_syncIn,
   output wire          io_i2sBclk,
   output wire          io_i2sLrclk,
   output wire          io_i2sData
@@ -42,12 +43,76 @@ module Synth (
   wire       [1:0]    core_uart_io_voiceConfig_1_filter_mode;
   wire       [7:0]    core_uart_io_voiceConfig_1_filter_cutoff;
   wire       [7:0]    core_uart_io_voiceConfig_1_filter_resonance;
+  wire       [23:0]   core_uart_io_voiceConfig_2_osc_freqWord;
+  wire       [2:0]    core_uart_io_voiceConfig_2_osc_waveSelect;
+  wire       [7:0]    core_uart_io_voiceConfig_2_osc_pwmWidth;
+  wire       [7:0]    core_uart_io_voiceConfig_2_osc_volume;
+  wire       [7:0]    core_uart_io_voiceConfig_2_env_ctrl;
+  wire       [7:0]    core_uart_io_voiceConfig_2_env_attack;
+  wire       [7:0]    core_uart_io_voiceConfig_2_env_decay;
+  wire       [7:0]    core_uart_io_voiceConfig_2_env_sustain;
+  wire       [7:0]    core_uart_io_voiceConfig_2_env_release;
+  wire       [7:0]    core_uart_io_voiceConfig_2_env_gate;
+  wire       [7:0]    core_uart_io_voiceConfig_2_filter_ctrl;
+  wire       [1:0]    core_uart_io_voiceConfig_2_filter_mode;
+  wire       [7:0]    core_uart_io_voiceConfig_2_filter_cutoff;
+  wire       [7:0]    core_uart_io_voiceConfig_2_filter_resonance;
+  wire       [23:0]   core_uart_io_voiceConfig_3_osc_freqWord;
+  wire       [2:0]    core_uart_io_voiceConfig_3_osc_waveSelect;
+  wire       [7:0]    core_uart_io_voiceConfig_3_osc_pwmWidth;
+  wire       [7:0]    core_uart_io_voiceConfig_3_osc_volume;
+  wire       [7:0]    core_uart_io_voiceConfig_3_env_ctrl;
+  wire       [7:0]    core_uart_io_voiceConfig_3_env_attack;
+  wire       [7:0]    core_uart_io_voiceConfig_3_env_decay;
+  wire       [7:0]    core_uart_io_voiceConfig_3_env_sustain;
+  wire       [7:0]    core_uart_io_voiceConfig_3_env_release;
+  wire       [7:0]    core_uart_io_voiceConfig_3_env_gate;
+  wire       [7:0]    core_uart_io_voiceConfig_3_filter_ctrl;
+  wire       [1:0]    core_uart_io_voiceConfig_3_filter_mode;
+  wire       [7:0]    core_uart_io_voiceConfig_3_filter_cutoff;
+  wire       [7:0]    core_uart_io_voiceConfig_3_filter_resonance;
+  wire       [23:0]   core_uart_io_voiceConfig_4_osc_freqWord;
+  wire       [2:0]    core_uart_io_voiceConfig_4_osc_waveSelect;
+  wire       [7:0]    core_uart_io_voiceConfig_4_osc_pwmWidth;
+  wire       [7:0]    core_uart_io_voiceConfig_4_osc_volume;
+  wire       [7:0]    core_uart_io_voiceConfig_4_env_ctrl;
+  wire       [7:0]    core_uart_io_voiceConfig_4_env_attack;
+  wire       [7:0]    core_uart_io_voiceConfig_4_env_decay;
+  wire       [7:0]    core_uart_io_voiceConfig_4_env_sustain;
+  wire       [7:0]    core_uart_io_voiceConfig_4_env_release;
+  wire       [7:0]    core_uart_io_voiceConfig_4_env_gate;
+  wire       [7:0]    core_uart_io_voiceConfig_4_filter_ctrl;
+  wire       [1:0]    core_uart_io_voiceConfig_4_filter_mode;
+  wire       [7:0]    core_uart_io_voiceConfig_4_filter_cutoff;
+  wire       [7:0]    core_uart_io_voiceConfig_4_filter_resonance;
+  wire       [23:0]   core_uart_io_voiceConfig_5_osc_freqWord;
+  wire       [2:0]    core_uart_io_voiceConfig_5_osc_waveSelect;
+  wire       [7:0]    core_uart_io_voiceConfig_5_osc_pwmWidth;
+  wire       [7:0]    core_uart_io_voiceConfig_5_osc_volume;
+  wire       [7:0]    core_uart_io_voiceConfig_5_env_ctrl;
+  wire       [7:0]    core_uart_io_voiceConfig_5_env_attack;
+  wire       [7:0]    core_uart_io_voiceConfig_5_env_decay;
+  wire       [7:0]    core_uart_io_voiceConfig_5_env_sustain;
+  wire       [7:0]    core_uart_io_voiceConfig_5_env_release;
+  wire       [7:0]    core_uart_io_voiceConfig_5_env_gate;
+  wire       [7:0]    core_uart_io_voiceConfig_5_filter_ctrl;
+  wire       [1:0]    core_uart_io_voiceConfig_5_filter_mode;
+  wire       [7:0]    core_uart_io_voiceConfig_5_filter_cutoff;
+  wire       [7:0]    core_uart_io_voiceConfig_5_filter_resonance;
   wire                core_timingGen_io_phaseTick;
   wire                core_timingGen_io_sampleTick;
   wire                core_voices_0_io_sampleOut_valid;
   wire       [15:0]   core_voices_0_io_sampleOut_payload;
   wire                core_voices_1_io_sampleOut_valid;
   wire       [15:0]   core_voices_1_io_sampleOut_payload;
+  wire                core_voices_2_io_sampleOut_valid;
+  wire       [15:0]   core_voices_2_io_sampleOut_payload;
+  wire                core_voices_3_io_sampleOut_valid;
+  wire       [15:0]   core_voices_3_io_sampleOut_payload;
+  wire                core_voices_4_io_sampleOut_valid;
+  wire       [15:0]   core_voices_4_io_sampleOut_payload;
+  wire                core_voices_5_io_sampleOut_valid;
+  wire       [15:0]   core_voices_5_io_sampleOut_payload;
   wire                core_mixer_io_sampleOut_valid;
   wire       [15:0]   core_mixer_io_sampleOut_payload;
   wire                core_decimator_io_sampleOut_valid;
@@ -87,6 +152,62 @@ module Synth (
     .io_voiceConfig_1_filter_mode      (core_uart_io_voiceConfig_1_filter_mode[1:0]     ), //o
     .io_voiceConfig_1_filter_cutoff    (core_uart_io_voiceConfig_1_filter_cutoff[7:0]   ), //o
     .io_voiceConfig_1_filter_resonance (core_uart_io_voiceConfig_1_filter_resonance[7:0]), //o
+    .io_voiceConfig_2_osc_freqWord     (core_uart_io_voiceConfig_2_osc_freqWord[23:0]   ), //o
+    .io_voiceConfig_2_osc_waveSelect   (core_uart_io_voiceConfig_2_osc_waveSelect[2:0]  ), //o
+    .io_voiceConfig_2_osc_pwmWidth     (core_uart_io_voiceConfig_2_osc_pwmWidth[7:0]    ), //o
+    .io_voiceConfig_2_osc_volume       (core_uart_io_voiceConfig_2_osc_volume[7:0]      ), //o
+    .io_voiceConfig_2_env_ctrl         (core_uart_io_voiceConfig_2_env_ctrl[7:0]        ), //o
+    .io_voiceConfig_2_env_attack       (core_uart_io_voiceConfig_2_env_attack[7:0]      ), //o
+    .io_voiceConfig_2_env_decay        (core_uart_io_voiceConfig_2_env_decay[7:0]       ), //o
+    .io_voiceConfig_2_env_sustain      (core_uart_io_voiceConfig_2_env_sustain[7:0]     ), //o
+    .io_voiceConfig_2_env_release      (core_uart_io_voiceConfig_2_env_release[7:0]     ), //o
+    .io_voiceConfig_2_env_gate         (core_uart_io_voiceConfig_2_env_gate[7:0]        ), //o
+    .io_voiceConfig_2_filter_ctrl      (core_uart_io_voiceConfig_2_filter_ctrl[7:0]     ), //o
+    .io_voiceConfig_2_filter_mode      (core_uart_io_voiceConfig_2_filter_mode[1:0]     ), //o
+    .io_voiceConfig_2_filter_cutoff    (core_uart_io_voiceConfig_2_filter_cutoff[7:0]   ), //o
+    .io_voiceConfig_2_filter_resonance (core_uart_io_voiceConfig_2_filter_resonance[7:0]), //o
+    .io_voiceConfig_3_osc_freqWord     (core_uart_io_voiceConfig_3_osc_freqWord[23:0]   ), //o
+    .io_voiceConfig_3_osc_waveSelect   (core_uart_io_voiceConfig_3_osc_waveSelect[2:0]  ), //o
+    .io_voiceConfig_3_osc_pwmWidth     (core_uart_io_voiceConfig_3_osc_pwmWidth[7:0]    ), //o
+    .io_voiceConfig_3_osc_volume       (core_uart_io_voiceConfig_3_osc_volume[7:0]      ), //o
+    .io_voiceConfig_3_env_ctrl         (core_uart_io_voiceConfig_3_env_ctrl[7:0]        ), //o
+    .io_voiceConfig_3_env_attack       (core_uart_io_voiceConfig_3_env_attack[7:0]      ), //o
+    .io_voiceConfig_3_env_decay        (core_uart_io_voiceConfig_3_env_decay[7:0]       ), //o
+    .io_voiceConfig_3_env_sustain      (core_uart_io_voiceConfig_3_env_sustain[7:0]     ), //o
+    .io_voiceConfig_3_env_release      (core_uart_io_voiceConfig_3_env_release[7:0]     ), //o
+    .io_voiceConfig_3_env_gate         (core_uart_io_voiceConfig_3_env_gate[7:0]        ), //o
+    .io_voiceConfig_3_filter_ctrl      (core_uart_io_voiceConfig_3_filter_ctrl[7:0]     ), //o
+    .io_voiceConfig_3_filter_mode      (core_uart_io_voiceConfig_3_filter_mode[1:0]     ), //o
+    .io_voiceConfig_3_filter_cutoff    (core_uart_io_voiceConfig_3_filter_cutoff[7:0]   ), //o
+    .io_voiceConfig_3_filter_resonance (core_uart_io_voiceConfig_3_filter_resonance[7:0]), //o
+    .io_voiceConfig_4_osc_freqWord     (core_uart_io_voiceConfig_4_osc_freqWord[23:0]   ), //o
+    .io_voiceConfig_4_osc_waveSelect   (core_uart_io_voiceConfig_4_osc_waveSelect[2:0]  ), //o
+    .io_voiceConfig_4_osc_pwmWidth     (core_uart_io_voiceConfig_4_osc_pwmWidth[7:0]    ), //o
+    .io_voiceConfig_4_osc_volume       (core_uart_io_voiceConfig_4_osc_volume[7:0]      ), //o
+    .io_voiceConfig_4_env_ctrl         (core_uart_io_voiceConfig_4_env_ctrl[7:0]        ), //o
+    .io_voiceConfig_4_env_attack       (core_uart_io_voiceConfig_4_env_attack[7:0]      ), //o
+    .io_voiceConfig_4_env_decay        (core_uart_io_voiceConfig_4_env_decay[7:0]       ), //o
+    .io_voiceConfig_4_env_sustain      (core_uart_io_voiceConfig_4_env_sustain[7:0]     ), //o
+    .io_voiceConfig_4_env_release      (core_uart_io_voiceConfig_4_env_release[7:0]     ), //o
+    .io_voiceConfig_4_env_gate         (core_uart_io_voiceConfig_4_env_gate[7:0]        ), //o
+    .io_voiceConfig_4_filter_ctrl      (core_uart_io_voiceConfig_4_filter_ctrl[7:0]     ), //o
+    .io_voiceConfig_4_filter_mode      (core_uart_io_voiceConfig_4_filter_mode[1:0]     ), //o
+    .io_voiceConfig_4_filter_cutoff    (core_uart_io_voiceConfig_4_filter_cutoff[7:0]   ), //o
+    .io_voiceConfig_4_filter_resonance (core_uart_io_voiceConfig_4_filter_resonance[7:0]), //o
+    .io_voiceConfig_5_osc_freqWord     (core_uart_io_voiceConfig_5_osc_freqWord[23:0]   ), //o
+    .io_voiceConfig_5_osc_waveSelect   (core_uart_io_voiceConfig_5_osc_waveSelect[2:0]  ), //o
+    .io_voiceConfig_5_osc_pwmWidth     (core_uart_io_voiceConfig_5_osc_pwmWidth[7:0]    ), //o
+    .io_voiceConfig_5_osc_volume       (core_uart_io_voiceConfig_5_osc_volume[7:0]      ), //o
+    .io_voiceConfig_5_env_ctrl         (core_uart_io_voiceConfig_5_env_ctrl[7:0]        ), //o
+    .io_voiceConfig_5_env_attack       (core_uart_io_voiceConfig_5_env_attack[7:0]      ), //o
+    .io_voiceConfig_5_env_decay        (core_uart_io_voiceConfig_5_env_decay[7:0]       ), //o
+    .io_voiceConfig_5_env_sustain      (core_uart_io_voiceConfig_5_env_sustain[7:0]     ), //o
+    .io_voiceConfig_5_env_release      (core_uart_io_voiceConfig_5_env_release[7:0]     ), //o
+    .io_voiceConfig_5_env_gate         (core_uart_io_voiceConfig_5_env_gate[7:0]        ), //o
+    .io_voiceConfig_5_filter_ctrl      (core_uart_io_voiceConfig_5_filter_ctrl[7:0]     ), //o
+    .io_voiceConfig_5_filter_mode      (core_uart_io_voiceConfig_5_filter_mode[1:0]     ), //o
+    .io_voiceConfig_5_filter_cutoff    (core_uart_io_voiceConfig_5_filter_cutoff[7:0]   ), //o
+    .io_voiceConfig_5_filter_resonance (core_uart_io_voiceConfig_5_filter_resonance[7:0]), //o
     .io_clk24MHz                       (io_clk24MHz                                     ), //i
     .io_reset                          (io_reset                                        )  //i
   );
@@ -98,7 +219,7 @@ module Synth (
   );
   Voice core_voices_0 (
     .io_phaseTick               (core_timingGen_io_phaseTick                     ), //i
-    .io_syncIn                  (1'b0                                            ), //i
+    .io_syncIn                  (io_syncIn                                       ), //i
     .io_config_osc_freqWord     (core_uart_io_voiceConfig_0_osc_freqWord[23:0]   ), //i
     .io_config_osc_waveSelect   (core_uart_io_voiceConfig_0_osc_waveSelect[2:0]  ), //i
     .io_config_osc_pwmWidth     (core_uart_io_voiceConfig_0_osc_pwmWidth[7:0]    ), //i
@@ -120,7 +241,7 @@ module Synth (
   );
   Voice_1 core_voices_1 (
     .io_phaseTick               (core_timingGen_io_phaseTick                     ), //i
-    .io_syncIn                  (1'b0                                            ), //i
+    .io_syncIn                  (io_syncIn                                       ), //i
     .io_config_osc_freqWord     (core_uart_io_voiceConfig_1_osc_freqWord[23:0]   ), //i
     .io_config_osc_waveSelect   (core_uart_io_voiceConfig_1_osc_waveSelect[2:0]  ), //i
     .io_config_osc_pwmWidth     (core_uart_io_voiceConfig_1_osc_pwmWidth[7:0]    ), //i
@@ -140,11 +261,107 @@ module Synth (
     .io_reset                   (io_reset                                        ), //i
     .io_clk24MHz                (io_clk24MHz                                     )  //i
   );
+  Voice_2 core_voices_2 (
+    .io_phaseTick               (core_timingGen_io_phaseTick                     ), //i
+    .io_syncIn                  (io_syncIn                                       ), //i
+    .io_config_osc_freqWord     (core_uart_io_voiceConfig_2_osc_freqWord[23:0]   ), //i
+    .io_config_osc_waveSelect   (core_uart_io_voiceConfig_2_osc_waveSelect[2:0]  ), //i
+    .io_config_osc_pwmWidth     (core_uart_io_voiceConfig_2_osc_pwmWidth[7:0]    ), //i
+    .io_config_osc_volume       (core_uart_io_voiceConfig_2_osc_volume[7:0]      ), //i
+    .io_config_env_ctrl         (core_uart_io_voiceConfig_2_env_ctrl[7:0]        ), //i
+    .io_config_env_attack       (core_uart_io_voiceConfig_2_env_attack[7:0]      ), //i
+    .io_config_env_decay        (core_uart_io_voiceConfig_2_env_decay[7:0]       ), //i
+    .io_config_env_sustain      (core_uart_io_voiceConfig_2_env_sustain[7:0]     ), //i
+    .io_config_env_release      (core_uart_io_voiceConfig_2_env_release[7:0]     ), //i
+    .io_config_env_gate         (core_uart_io_voiceConfig_2_env_gate[7:0]        ), //i
+    .io_config_filter_ctrl      (core_uart_io_voiceConfig_2_filter_ctrl[7:0]     ), //i
+    .io_config_filter_mode      (core_uart_io_voiceConfig_2_filter_mode[1:0]     ), //i
+    .io_config_filter_cutoff    (core_uart_io_voiceConfig_2_filter_cutoff[7:0]   ), //i
+    .io_config_filter_resonance (core_uart_io_voiceConfig_2_filter_resonance[7:0]), //i
+    .io_sampleOut_valid         (core_voices_2_io_sampleOut_valid                ), //o
+    .io_sampleOut_payload       (core_voices_2_io_sampleOut_payload[15:0]        ), //o
+    .io_reset                   (io_reset                                        ), //i
+    .io_clk24MHz                (io_clk24MHz                                     )  //i
+  );
+  Voice_3 core_voices_3 (
+    .io_phaseTick               (core_timingGen_io_phaseTick                     ), //i
+    .io_syncIn                  (io_syncIn                                       ), //i
+    .io_config_osc_freqWord     (core_uart_io_voiceConfig_3_osc_freqWord[23:0]   ), //i
+    .io_config_osc_waveSelect   (core_uart_io_voiceConfig_3_osc_waveSelect[2:0]  ), //i
+    .io_config_osc_pwmWidth     (core_uart_io_voiceConfig_3_osc_pwmWidth[7:0]    ), //i
+    .io_config_osc_volume       (core_uart_io_voiceConfig_3_osc_volume[7:0]      ), //i
+    .io_config_env_ctrl         (core_uart_io_voiceConfig_3_env_ctrl[7:0]        ), //i
+    .io_config_env_attack       (core_uart_io_voiceConfig_3_env_attack[7:0]      ), //i
+    .io_config_env_decay        (core_uart_io_voiceConfig_3_env_decay[7:0]       ), //i
+    .io_config_env_sustain      (core_uart_io_voiceConfig_3_env_sustain[7:0]     ), //i
+    .io_config_env_release      (core_uart_io_voiceConfig_3_env_release[7:0]     ), //i
+    .io_config_env_gate         (core_uart_io_voiceConfig_3_env_gate[7:0]        ), //i
+    .io_config_filter_ctrl      (core_uart_io_voiceConfig_3_filter_ctrl[7:0]     ), //i
+    .io_config_filter_mode      (core_uart_io_voiceConfig_3_filter_mode[1:0]     ), //i
+    .io_config_filter_cutoff    (core_uart_io_voiceConfig_3_filter_cutoff[7:0]   ), //i
+    .io_config_filter_resonance (core_uart_io_voiceConfig_3_filter_resonance[7:0]), //i
+    .io_sampleOut_valid         (core_voices_3_io_sampleOut_valid                ), //o
+    .io_sampleOut_payload       (core_voices_3_io_sampleOut_payload[15:0]        ), //o
+    .io_reset                   (io_reset                                        ), //i
+    .io_clk24MHz                (io_clk24MHz                                     )  //i
+  );
+  Voice_4 core_voices_4 (
+    .io_phaseTick               (core_timingGen_io_phaseTick                     ), //i
+    .io_syncIn                  (io_syncIn                                       ), //i
+    .io_config_osc_freqWord     (core_uart_io_voiceConfig_4_osc_freqWord[23:0]   ), //i
+    .io_config_osc_waveSelect   (core_uart_io_voiceConfig_4_osc_waveSelect[2:0]  ), //i
+    .io_config_osc_pwmWidth     (core_uart_io_voiceConfig_4_osc_pwmWidth[7:0]    ), //i
+    .io_config_osc_volume       (core_uart_io_voiceConfig_4_osc_volume[7:0]      ), //i
+    .io_config_env_ctrl         (core_uart_io_voiceConfig_4_env_ctrl[7:0]        ), //i
+    .io_config_env_attack       (core_uart_io_voiceConfig_4_env_attack[7:0]      ), //i
+    .io_config_env_decay        (core_uart_io_voiceConfig_4_env_decay[7:0]       ), //i
+    .io_config_env_sustain      (core_uart_io_voiceConfig_4_env_sustain[7:0]     ), //i
+    .io_config_env_release      (core_uart_io_voiceConfig_4_env_release[7:0]     ), //i
+    .io_config_env_gate         (core_uart_io_voiceConfig_4_env_gate[7:0]        ), //i
+    .io_config_filter_ctrl      (core_uart_io_voiceConfig_4_filter_ctrl[7:0]     ), //i
+    .io_config_filter_mode      (core_uart_io_voiceConfig_4_filter_mode[1:0]     ), //i
+    .io_config_filter_cutoff    (core_uart_io_voiceConfig_4_filter_cutoff[7:0]   ), //i
+    .io_config_filter_resonance (core_uart_io_voiceConfig_4_filter_resonance[7:0]), //i
+    .io_sampleOut_valid         (core_voices_4_io_sampleOut_valid                ), //o
+    .io_sampleOut_payload       (core_voices_4_io_sampleOut_payload[15:0]        ), //o
+    .io_reset                   (io_reset                                        ), //i
+    .io_clk24MHz                (io_clk24MHz                                     )  //i
+  );
+  Voice_5 core_voices_5 (
+    .io_phaseTick               (core_timingGen_io_phaseTick                     ), //i
+    .io_syncIn                  (io_syncIn                                       ), //i
+    .io_config_osc_freqWord     (core_uart_io_voiceConfig_5_osc_freqWord[23:0]   ), //i
+    .io_config_osc_waveSelect   (core_uart_io_voiceConfig_5_osc_waveSelect[2:0]  ), //i
+    .io_config_osc_pwmWidth     (core_uart_io_voiceConfig_5_osc_pwmWidth[7:0]    ), //i
+    .io_config_osc_volume       (core_uart_io_voiceConfig_5_osc_volume[7:0]      ), //i
+    .io_config_env_ctrl         (core_uart_io_voiceConfig_5_env_ctrl[7:0]        ), //i
+    .io_config_env_attack       (core_uart_io_voiceConfig_5_env_attack[7:0]      ), //i
+    .io_config_env_decay        (core_uart_io_voiceConfig_5_env_decay[7:0]       ), //i
+    .io_config_env_sustain      (core_uart_io_voiceConfig_5_env_sustain[7:0]     ), //i
+    .io_config_env_release      (core_uart_io_voiceConfig_5_env_release[7:0]     ), //i
+    .io_config_env_gate         (core_uart_io_voiceConfig_5_env_gate[7:0]        ), //i
+    .io_config_filter_ctrl      (core_uart_io_voiceConfig_5_filter_ctrl[7:0]     ), //i
+    .io_config_filter_mode      (core_uart_io_voiceConfig_5_filter_mode[1:0]     ), //i
+    .io_config_filter_cutoff    (core_uart_io_voiceConfig_5_filter_cutoff[7:0]   ), //i
+    .io_config_filter_resonance (core_uart_io_voiceConfig_5_filter_resonance[7:0]), //i
+    .io_sampleOut_valid         (core_voices_5_io_sampleOut_valid                ), //o
+    .io_sampleOut_payload       (core_voices_5_io_sampleOut_payload[15:0]        ), //o
+    .io_reset                   (io_reset                                        ), //i
+    .io_clk24MHz                (io_clk24MHz                                     )  //i
+  );
   Mixer core_mixer (
     .io_inputs_0_valid    (core_voices_0_io_sampleOut_valid        ), //i
     .io_inputs_0_payload  (core_voices_0_io_sampleOut_payload[15:0]), //i
     .io_inputs_1_valid    (core_voices_1_io_sampleOut_valid        ), //i
     .io_inputs_1_payload  (core_voices_1_io_sampleOut_payload[15:0]), //i
+    .io_inputs_2_valid    (core_voices_2_io_sampleOut_valid        ), //i
+    .io_inputs_2_payload  (core_voices_2_io_sampleOut_payload[15:0]), //i
+    .io_inputs_3_valid    (core_voices_3_io_sampleOut_valid        ), //i
+    .io_inputs_3_payload  (core_voices_3_io_sampleOut_payload[15:0]), //i
+    .io_inputs_4_valid    (core_voices_4_io_sampleOut_valid        ), //i
+    .io_inputs_4_payload  (core_voices_4_io_sampleOut_payload[15:0]), //i
+    .io_inputs_5_valid    (core_voices_5_io_sampleOut_valid        ), //i
+    .io_inputs_5_payload  (core_voices_5_io_sampleOut_payload[15:0]), //i
     .io_mixerCtrl         (core_uart_io_synthConfig_mixerCtrl[7:0] ), //i
     .io_phaseTick         (core_timingGen_io_phaseTick             ), //i
     .io_sampleOut_valid   (core_mixer_io_sampleOut_valid           ), //o
@@ -311,6 +528,14 @@ module Mixer (
   input  wire [15:0]   io_inputs_0_payload,
   input  wire          io_inputs_1_valid,
   input  wire [15:0]   io_inputs_1_payload,
+  input  wire          io_inputs_2_valid,
+  input  wire [15:0]   io_inputs_2_payload,
+  input  wire          io_inputs_3_valid,
+  input  wire [15:0]   io_inputs_3_payload,
+  input  wire          io_inputs_4_valid,
+  input  wire [15:0]   io_inputs_4_payload,
+  input  wire          io_inputs_5_valid,
+  input  wire [15:0]   io_inputs_5_payload,
   input  wire [7:0]    io_mixerCtrl,
   input  wire          io_phaseTick,
   output wire          io_sampleOut_valid,
@@ -319,21 +544,45 @@ module Mixer (
   input  wire          io_clk24MHz
 );
 
-  wire       [16:0]   _zz_acc;
-  wire       [16:0]   _zz_acc_1;
+  wire       [18:0]   _zz_acc;
+  wire       [18:0]   _zz_acc_1;
+  wire       [18:0]   _zz_acc_2;
+  wire       [18:0]   _zz_acc_3;
+  wire       [18:0]   _zz_acc_4;
+  wire       [18:0]   _zz_acc_5;
+  wire       [18:0]   _zz_acc_6;
+  wire       [18:0]   _zz_acc_7;
+  wire       [18:0]   _zz_acc_8;
+  wire       [18:0]   _zz_acc_9;
   reg        [15:0]   activeInputs_0;
   reg        [15:0]   activeInputs_1;
+  reg        [15:0]   activeInputs_2;
+  reg        [15:0]   activeInputs_3;
+  reg        [15:0]   activeInputs_4;
+  reg        [15:0]   activeInputs_5;
   wire                when_Mixer_l21;
   wire                when_Mixer_l21_1;
-  wire       [16:0]   acc;
+  wire                when_Mixer_l21_2;
+  wire                when_Mixer_l21_3;
+  wire                when_Mixer_l21_4;
+  wire                when_Mixer_l21_5;
+  wire       [18:0]   acc;
   reg        [15:0]   saturated;
   wire                when_Mixer_l33;
   wire                when_Mixer_l35;
   reg        [15:0]   outReg;
   reg                 validReg;
 
-  assign _zz_acc = {{1{activeInputs_0[15]}}, activeInputs_0};
-  assign _zz_acc_1 = {{1{activeInputs_1[15]}}, activeInputs_1};
+  assign _zz_acc = ($signed(_zz_acc_1) + $signed(_zz_acc_8));
+  assign _zz_acc_1 = ($signed(_zz_acc_2) + $signed(_zz_acc_7));
+  assign _zz_acc_2 = ($signed(_zz_acc_3) + $signed(_zz_acc_6));
+  assign _zz_acc_3 = ($signed(_zz_acc_4) + $signed(_zz_acc_5));
+  assign _zz_acc_4 = {{3{activeInputs_0[15]}}, activeInputs_0};
+  assign _zz_acc_5 = {{3{activeInputs_1[15]}}, activeInputs_1};
+  assign _zz_acc_6 = {{3{activeInputs_2[15]}}, activeInputs_2};
+  assign _zz_acc_7 = {{3{activeInputs_3[15]}}, activeInputs_3};
+  assign _zz_acc_8 = {{3{activeInputs_4[15]}}, activeInputs_4};
+  assign _zz_acc_9 = {{3{activeInputs_5[15]}}, activeInputs_5};
   always @(*) begin
     activeInputs_0 = io_inputs_0_payload;
     if(when_Mixer_l21) begin
@@ -350,8 +599,40 @@ module Mixer (
   end
 
   assign when_Mixer_l21_1 = io_mixerCtrl[1];
-  assign acc = ($signed(_zz_acc) + $signed(_zz_acc_1));
-  assign when_Mixer_l33 = ($signed(17'h07fff) < $signed(acc));
+  always @(*) begin
+    activeInputs_2 = io_inputs_2_payload;
+    if(when_Mixer_l21_2) begin
+      activeInputs_2 = 16'h0;
+    end
+  end
+
+  assign when_Mixer_l21_2 = io_mixerCtrl[2];
+  always @(*) begin
+    activeInputs_3 = io_inputs_3_payload;
+    if(when_Mixer_l21_3) begin
+      activeInputs_3 = 16'h0;
+    end
+  end
+
+  assign when_Mixer_l21_3 = io_mixerCtrl[3];
+  always @(*) begin
+    activeInputs_4 = io_inputs_4_payload;
+    if(when_Mixer_l21_4) begin
+      activeInputs_4 = 16'h0;
+    end
+  end
+
+  assign when_Mixer_l21_4 = io_mixerCtrl[4];
+  always @(*) begin
+    activeInputs_5 = io_inputs_5_payload;
+    if(when_Mixer_l21_5) begin
+      activeInputs_5 = 16'h0;
+    end
+  end
+
+  assign when_Mixer_l21_5 = io_mixerCtrl[5];
+  assign acc = ($signed(_zz_acc) + $signed(_zz_acc_9));
+  assign when_Mixer_l33 = ($signed(19'h07fff) < $signed(acc));
   always @(*) begin
     if(when_Mixer_l33) begin
       saturated = 16'h7fff;
@@ -364,7 +645,7 @@ module Mixer (
     end
   end
 
-  assign when_Mixer_l35 = ($signed(acc) < $signed(17'h18000));
+  assign when_Mixer_l35 = ($signed(acc) < $signed(19'h78000));
   assign io_sampleOut_payload = outReg;
   assign io_sampleOut_valid = ((io_phaseTick && validReg) && (! io_reset));
   always @(posedge io_clk24MHz or posedge io_reset) begin
@@ -381,6 +662,434 @@ module Mixer (
     end
   end
 
+
+endmodule
+
+module Voice_5 (
+  input  wire          io_phaseTick,
+  input  wire          io_syncIn,
+  input  wire [23:0]   io_config_osc_freqWord,
+  input  wire [2:0]    io_config_osc_waveSelect,
+  input  wire [7:0]    io_config_osc_pwmWidth,
+  input  wire [7:0]    io_config_osc_volume,
+  input  wire [7:0]    io_config_env_ctrl,
+  input  wire [7:0]    io_config_env_attack,
+  input  wire [7:0]    io_config_env_decay,
+  input  wire [7:0]    io_config_env_sustain,
+  input  wire [7:0]    io_config_env_release,
+  input  wire [7:0]    io_config_env_gate,
+  input  wire [7:0]    io_config_filter_ctrl,
+  input  wire [1:0]    io_config_filter_mode,
+  input  wire [7:0]    io_config_filter_cutoff,
+  input  wire [7:0]    io_config_filter_resonance,
+  output wire          io_sampleOut_valid,
+  output wire [15:0]   io_sampleOut_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [9:0]    envAttenuator_io_volume;
+  wire                osc_io_sample_valid;
+  wire       [15:0]   osc_io_sample_payload;
+  wire                envGen_io_envelopeOut_valid;
+  wire       [9:0]    envGen_io_envelopeOut_payload;
+  wire                envGen_io_envelopeOutSigned_valid;
+  wire       [9:0]    envGen_io_envelopeOutSigned_payload;
+  wire                envAttenuator_io_sampleOut_valid;
+  wire       [15:0]   envAttenuator_io_sampleOut_payload;
+  wire                attenuator_12_io_sampleOut_valid;
+  wire       [15:0]   attenuator_12_io_sampleOut_payload;
+  wire                svf_6_io_sampleOut_valid;
+  wire       [15:0]   svf_6_io_sampleOut_payload;
+  wire                envBypassed;
+  wire                filterBypassed;
+
+  Oscillator osc (
+    .io_phaseTick         (io_phaseTick                 ), //i
+    .io_config_freqWord   (io_config_osc_freqWord[23:0] ), //i
+    .io_config_waveSelect (io_config_osc_waveSelect[2:0]), //i
+    .io_config_pwmWidth   (io_config_osc_pwmWidth[7:0]  ), //i
+    .io_config_volume     (io_config_osc_volume[7:0]    ), //i
+    .io_sample_valid      (osc_io_sample_valid          ), //o
+    .io_sample_payload    (osc_io_sample_payload[15:0]  ), //o
+    .io_clk24MHz          (io_clk24MHz                  ), //i
+    .io_reset             (io_reset                     )  //i
+  );
+  EnvelopeGenerator_5 envGen (
+    .io_phaseTick                 (io_phaseTick                            ), //i
+    .io_syncIn                    (io_syncIn                               ), //i
+    .io_config_ctrl               (io_config_env_ctrl[7:0]                 ), //i
+    .io_config_attack             (io_config_env_attack[7:0]               ), //i
+    .io_config_decay              (io_config_env_decay[7:0]                ), //i
+    .io_config_sustain            (io_config_env_sustain[7:0]              ), //i
+    .io_config_release            (io_config_env_release[7:0]              ), //i
+    .io_config_gate               (io_config_env_gate[7:0]                 ), //i
+    .io_envelopeOut_valid         (envGen_io_envelopeOut_valid             ), //o
+    .io_envelopeOut_payload       (envGen_io_envelopeOut_payload[9:0]      ), //o
+    .io_envelopeOutSigned_valid   (envGen_io_envelopeOutSigned_valid       ), //o
+    .io_envelopeOutSigned_payload (envGen_io_envelopeOutSigned_payload[9:0]), //o
+    .io_reset                     (io_reset                                ), //i
+    .io_clk24MHz                  (io_clk24MHz                             )  //i
+  );
+  Attenuator envAttenuator (
+    .io_sampleIn_valid    (osc_io_sample_valid                     ), //i
+    .io_sampleIn_payload  (osc_io_sample_payload[15:0]             ), //i
+    .io_volume            (envAttenuator_io_volume[9:0]            ), //i
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_sampleOut_valid   (envAttenuator_io_sampleOut_valid        ), //o
+    .io_sampleOut_payload (envAttenuator_io_sampleOut_payload[15:0]), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  Attenuator_1 attenuator_12 (
+    .io_sampleIn_valid    (envAttenuator_io_sampleOut_valid        ), //i
+    .io_sampleIn_payload  (envAttenuator_io_sampleOut_payload[15:0]), //i
+    .io_volume            (io_config_osc_volume[7:0]               ), //i
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_sampleOut_valid   (attenuator_12_io_sampleOut_valid        ), //o
+    .io_sampleOut_payload (attenuator_12_io_sampleOut_payload[15:0]), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  SVF_5 svf_6 (
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_config_ctrl       (io_config_filter_ctrl[7:0]              ), //i
+    .io_config_mode       (io_config_filter_mode[1:0]              ), //i
+    .io_config_cutoff     (io_config_filter_cutoff[7:0]            ), //i
+    .io_config_resonance  (io_config_filter_resonance[7:0]         ), //i
+    .io_sampleIn_valid    (attenuator_12_io_sampleOut_valid        ), //i
+    .io_sampleIn_payload  (attenuator_12_io_sampleOut_payload[15:0]), //i
+    .io_sampleOut_valid   (svf_6_io_sampleOut_valid                ), //o
+    .io_sampleOut_payload (svf_6_io_sampleOut_payload[15:0]        ), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  assign envBypassed = io_config_env_ctrl[1];
+  assign envAttenuator_io_volume = (envBypassed ? 10'h3ff : envGen_io_envelopeOut_payload);
+  assign filterBypassed = io_config_filter_ctrl[1];
+  assign io_sampleOut_valid = (filterBypassed ? attenuator_12_io_sampleOut_valid : svf_6_io_sampleOut_valid);
+  assign io_sampleOut_payload = (filterBypassed ? attenuator_12_io_sampleOut_payload : svf_6_io_sampleOut_payload);
+
+endmodule
+
+module Voice_4 (
+  input  wire          io_phaseTick,
+  input  wire          io_syncIn,
+  input  wire [23:0]   io_config_osc_freqWord,
+  input  wire [2:0]    io_config_osc_waveSelect,
+  input  wire [7:0]    io_config_osc_pwmWidth,
+  input  wire [7:0]    io_config_osc_volume,
+  input  wire [7:0]    io_config_env_ctrl,
+  input  wire [7:0]    io_config_env_attack,
+  input  wire [7:0]    io_config_env_decay,
+  input  wire [7:0]    io_config_env_sustain,
+  input  wire [7:0]    io_config_env_release,
+  input  wire [7:0]    io_config_env_gate,
+  input  wire [7:0]    io_config_filter_ctrl,
+  input  wire [1:0]    io_config_filter_mode,
+  input  wire [7:0]    io_config_filter_cutoff,
+  input  wire [7:0]    io_config_filter_resonance,
+  output wire          io_sampleOut_valid,
+  output wire [15:0]   io_sampleOut_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [9:0]    envAttenuator_io_volume;
+  wire                osc_io_sample_valid;
+  wire       [15:0]   osc_io_sample_payload;
+  wire                envGen_io_envelopeOut_valid;
+  wire       [9:0]    envGen_io_envelopeOut_payload;
+  wire                envGen_io_envelopeOutSigned_valid;
+  wire       [9:0]    envGen_io_envelopeOutSigned_payload;
+  wire                envAttenuator_io_sampleOut_valid;
+  wire       [15:0]   envAttenuator_io_sampleOut_payload;
+  wire                attenuator_12_io_sampleOut_valid;
+  wire       [15:0]   attenuator_12_io_sampleOut_payload;
+  wire                svf_6_io_sampleOut_valid;
+  wire       [15:0]   svf_6_io_sampleOut_payload;
+  wire                envBypassed;
+  wire                filterBypassed;
+
+  Oscillator osc (
+    .io_phaseTick         (io_phaseTick                 ), //i
+    .io_config_freqWord   (io_config_osc_freqWord[23:0] ), //i
+    .io_config_waveSelect (io_config_osc_waveSelect[2:0]), //i
+    .io_config_pwmWidth   (io_config_osc_pwmWidth[7:0]  ), //i
+    .io_config_volume     (io_config_osc_volume[7:0]    ), //i
+    .io_sample_valid      (osc_io_sample_valid          ), //o
+    .io_sample_payload    (osc_io_sample_payload[15:0]  ), //o
+    .io_clk24MHz          (io_clk24MHz                  ), //i
+    .io_reset             (io_reset                     )  //i
+  );
+  EnvelopeGenerator_4 envGen (
+    .io_phaseTick                 (io_phaseTick                            ), //i
+    .io_syncIn                    (io_syncIn                               ), //i
+    .io_config_ctrl               (io_config_env_ctrl[7:0]                 ), //i
+    .io_config_attack             (io_config_env_attack[7:0]               ), //i
+    .io_config_decay              (io_config_env_decay[7:0]                ), //i
+    .io_config_sustain            (io_config_env_sustain[7:0]              ), //i
+    .io_config_release            (io_config_env_release[7:0]              ), //i
+    .io_config_gate               (io_config_env_gate[7:0]                 ), //i
+    .io_envelopeOut_valid         (envGen_io_envelopeOut_valid             ), //o
+    .io_envelopeOut_payload       (envGen_io_envelopeOut_payload[9:0]      ), //o
+    .io_envelopeOutSigned_valid   (envGen_io_envelopeOutSigned_valid       ), //o
+    .io_envelopeOutSigned_payload (envGen_io_envelopeOutSigned_payload[9:0]), //o
+    .io_reset                     (io_reset                                ), //i
+    .io_clk24MHz                  (io_clk24MHz                             )  //i
+  );
+  Attenuator envAttenuator (
+    .io_sampleIn_valid    (osc_io_sample_valid                     ), //i
+    .io_sampleIn_payload  (osc_io_sample_payload[15:0]             ), //i
+    .io_volume            (envAttenuator_io_volume[9:0]            ), //i
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_sampleOut_valid   (envAttenuator_io_sampleOut_valid        ), //o
+    .io_sampleOut_payload (envAttenuator_io_sampleOut_payload[15:0]), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  Attenuator_1 attenuator_12 (
+    .io_sampleIn_valid    (envAttenuator_io_sampleOut_valid        ), //i
+    .io_sampleIn_payload  (envAttenuator_io_sampleOut_payload[15:0]), //i
+    .io_volume            (io_config_osc_volume[7:0]               ), //i
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_sampleOut_valid   (attenuator_12_io_sampleOut_valid        ), //o
+    .io_sampleOut_payload (attenuator_12_io_sampleOut_payload[15:0]), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  SVF_4 svf_6 (
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_config_ctrl       (io_config_filter_ctrl[7:0]              ), //i
+    .io_config_mode       (io_config_filter_mode[1:0]              ), //i
+    .io_config_cutoff     (io_config_filter_cutoff[7:0]            ), //i
+    .io_config_resonance  (io_config_filter_resonance[7:0]         ), //i
+    .io_sampleIn_valid    (attenuator_12_io_sampleOut_valid        ), //i
+    .io_sampleIn_payload  (attenuator_12_io_sampleOut_payload[15:0]), //i
+    .io_sampleOut_valid   (svf_6_io_sampleOut_valid                ), //o
+    .io_sampleOut_payload (svf_6_io_sampleOut_payload[15:0]        ), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  assign envBypassed = io_config_env_ctrl[1];
+  assign envAttenuator_io_volume = (envBypassed ? 10'h3ff : envGen_io_envelopeOut_payload);
+  assign filterBypassed = io_config_filter_ctrl[1];
+  assign io_sampleOut_valid = (filterBypassed ? attenuator_12_io_sampleOut_valid : svf_6_io_sampleOut_valid);
+  assign io_sampleOut_payload = (filterBypassed ? attenuator_12_io_sampleOut_payload : svf_6_io_sampleOut_payload);
+
+endmodule
+
+module Voice_3 (
+  input  wire          io_phaseTick,
+  input  wire          io_syncIn,
+  input  wire [23:0]   io_config_osc_freqWord,
+  input  wire [2:0]    io_config_osc_waveSelect,
+  input  wire [7:0]    io_config_osc_pwmWidth,
+  input  wire [7:0]    io_config_osc_volume,
+  input  wire [7:0]    io_config_env_ctrl,
+  input  wire [7:0]    io_config_env_attack,
+  input  wire [7:0]    io_config_env_decay,
+  input  wire [7:0]    io_config_env_sustain,
+  input  wire [7:0]    io_config_env_release,
+  input  wire [7:0]    io_config_env_gate,
+  input  wire [7:0]    io_config_filter_ctrl,
+  input  wire [1:0]    io_config_filter_mode,
+  input  wire [7:0]    io_config_filter_cutoff,
+  input  wire [7:0]    io_config_filter_resonance,
+  output wire          io_sampleOut_valid,
+  output wire [15:0]   io_sampleOut_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [9:0]    envAttenuator_io_volume;
+  wire                osc_io_sample_valid;
+  wire       [15:0]   osc_io_sample_payload;
+  wire                envGen_io_envelopeOut_valid;
+  wire       [9:0]    envGen_io_envelopeOut_payload;
+  wire                envGen_io_envelopeOutSigned_valid;
+  wire       [9:0]    envGen_io_envelopeOutSigned_payload;
+  wire                envAttenuator_io_sampleOut_valid;
+  wire       [15:0]   envAttenuator_io_sampleOut_payload;
+  wire                attenuator_12_io_sampleOut_valid;
+  wire       [15:0]   attenuator_12_io_sampleOut_payload;
+  wire                svf_6_io_sampleOut_valid;
+  wire       [15:0]   svf_6_io_sampleOut_payload;
+  wire                envBypassed;
+  wire                filterBypassed;
+
+  Oscillator osc (
+    .io_phaseTick         (io_phaseTick                 ), //i
+    .io_config_freqWord   (io_config_osc_freqWord[23:0] ), //i
+    .io_config_waveSelect (io_config_osc_waveSelect[2:0]), //i
+    .io_config_pwmWidth   (io_config_osc_pwmWidth[7:0]  ), //i
+    .io_config_volume     (io_config_osc_volume[7:0]    ), //i
+    .io_sample_valid      (osc_io_sample_valid          ), //o
+    .io_sample_payload    (osc_io_sample_payload[15:0]  ), //o
+    .io_clk24MHz          (io_clk24MHz                  ), //i
+    .io_reset             (io_reset                     )  //i
+  );
+  EnvelopeGenerator_3 envGen (
+    .io_phaseTick                 (io_phaseTick                            ), //i
+    .io_syncIn                    (io_syncIn                               ), //i
+    .io_config_ctrl               (io_config_env_ctrl[7:0]                 ), //i
+    .io_config_attack             (io_config_env_attack[7:0]               ), //i
+    .io_config_decay              (io_config_env_decay[7:0]                ), //i
+    .io_config_sustain            (io_config_env_sustain[7:0]              ), //i
+    .io_config_release            (io_config_env_release[7:0]              ), //i
+    .io_config_gate               (io_config_env_gate[7:0]                 ), //i
+    .io_envelopeOut_valid         (envGen_io_envelopeOut_valid             ), //o
+    .io_envelopeOut_payload       (envGen_io_envelopeOut_payload[9:0]      ), //o
+    .io_envelopeOutSigned_valid   (envGen_io_envelopeOutSigned_valid       ), //o
+    .io_envelopeOutSigned_payload (envGen_io_envelopeOutSigned_payload[9:0]), //o
+    .io_reset                     (io_reset                                ), //i
+    .io_clk24MHz                  (io_clk24MHz                             )  //i
+  );
+  Attenuator envAttenuator (
+    .io_sampleIn_valid    (osc_io_sample_valid                     ), //i
+    .io_sampleIn_payload  (osc_io_sample_payload[15:0]             ), //i
+    .io_volume            (envAttenuator_io_volume[9:0]            ), //i
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_sampleOut_valid   (envAttenuator_io_sampleOut_valid        ), //o
+    .io_sampleOut_payload (envAttenuator_io_sampleOut_payload[15:0]), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  Attenuator_1 attenuator_12 (
+    .io_sampleIn_valid    (envAttenuator_io_sampleOut_valid        ), //i
+    .io_sampleIn_payload  (envAttenuator_io_sampleOut_payload[15:0]), //i
+    .io_volume            (io_config_osc_volume[7:0]               ), //i
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_sampleOut_valid   (attenuator_12_io_sampleOut_valid        ), //o
+    .io_sampleOut_payload (attenuator_12_io_sampleOut_payload[15:0]), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  SVF_3 svf_6 (
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_config_ctrl       (io_config_filter_ctrl[7:0]              ), //i
+    .io_config_mode       (io_config_filter_mode[1:0]              ), //i
+    .io_config_cutoff     (io_config_filter_cutoff[7:0]            ), //i
+    .io_config_resonance  (io_config_filter_resonance[7:0]         ), //i
+    .io_sampleIn_valid    (attenuator_12_io_sampleOut_valid        ), //i
+    .io_sampleIn_payload  (attenuator_12_io_sampleOut_payload[15:0]), //i
+    .io_sampleOut_valid   (svf_6_io_sampleOut_valid                ), //o
+    .io_sampleOut_payload (svf_6_io_sampleOut_payload[15:0]        ), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  assign envBypassed = io_config_env_ctrl[1];
+  assign envAttenuator_io_volume = (envBypassed ? 10'h3ff : envGen_io_envelopeOut_payload);
+  assign filterBypassed = io_config_filter_ctrl[1];
+  assign io_sampleOut_valid = (filterBypassed ? attenuator_12_io_sampleOut_valid : svf_6_io_sampleOut_valid);
+  assign io_sampleOut_payload = (filterBypassed ? attenuator_12_io_sampleOut_payload : svf_6_io_sampleOut_payload);
+
+endmodule
+
+module Voice_2 (
+  input  wire          io_phaseTick,
+  input  wire          io_syncIn,
+  input  wire [23:0]   io_config_osc_freqWord,
+  input  wire [2:0]    io_config_osc_waveSelect,
+  input  wire [7:0]    io_config_osc_pwmWidth,
+  input  wire [7:0]    io_config_osc_volume,
+  input  wire [7:0]    io_config_env_ctrl,
+  input  wire [7:0]    io_config_env_attack,
+  input  wire [7:0]    io_config_env_decay,
+  input  wire [7:0]    io_config_env_sustain,
+  input  wire [7:0]    io_config_env_release,
+  input  wire [7:0]    io_config_env_gate,
+  input  wire [7:0]    io_config_filter_ctrl,
+  input  wire [1:0]    io_config_filter_mode,
+  input  wire [7:0]    io_config_filter_cutoff,
+  input  wire [7:0]    io_config_filter_resonance,
+  output wire          io_sampleOut_valid,
+  output wire [15:0]   io_sampleOut_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [9:0]    envAttenuator_io_volume;
+  wire                osc_io_sample_valid;
+  wire       [15:0]   osc_io_sample_payload;
+  wire                envGen_io_envelopeOut_valid;
+  wire       [9:0]    envGen_io_envelopeOut_payload;
+  wire                envGen_io_envelopeOutSigned_valid;
+  wire       [9:0]    envGen_io_envelopeOutSigned_payload;
+  wire                envAttenuator_io_sampleOut_valid;
+  wire       [15:0]   envAttenuator_io_sampleOut_payload;
+  wire                attenuator_12_io_sampleOut_valid;
+  wire       [15:0]   attenuator_12_io_sampleOut_payload;
+  wire                svf_6_io_sampleOut_valid;
+  wire       [15:0]   svf_6_io_sampleOut_payload;
+  wire                envBypassed;
+  wire                filterBypassed;
+
+  Oscillator osc (
+    .io_phaseTick         (io_phaseTick                 ), //i
+    .io_config_freqWord   (io_config_osc_freqWord[23:0] ), //i
+    .io_config_waveSelect (io_config_osc_waveSelect[2:0]), //i
+    .io_config_pwmWidth   (io_config_osc_pwmWidth[7:0]  ), //i
+    .io_config_volume     (io_config_osc_volume[7:0]    ), //i
+    .io_sample_valid      (osc_io_sample_valid          ), //o
+    .io_sample_payload    (osc_io_sample_payload[15:0]  ), //o
+    .io_clk24MHz          (io_clk24MHz                  ), //i
+    .io_reset             (io_reset                     )  //i
+  );
+  EnvelopeGenerator_2 envGen (
+    .io_phaseTick                 (io_phaseTick                            ), //i
+    .io_syncIn                    (io_syncIn                               ), //i
+    .io_config_ctrl               (io_config_env_ctrl[7:0]                 ), //i
+    .io_config_attack             (io_config_env_attack[7:0]               ), //i
+    .io_config_decay              (io_config_env_decay[7:0]                ), //i
+    .io_config_sustain            (io_config_env_sustain[7:0]              ), //i
+    .io_config_release            (io_config_env_release[7:0]              ), //i
+    .io_config_gate               (io_config_env_gate[7:0]                 ), //i
+    .io_envelopeOut_valid         (envGen_io_envelopeOut_valid             ), //o
+    .io_envelopeOut_payload       (envGen_io_envelopeOut_payload[9:0]      ), //o
+    .io_envelopeOutSigned_valid   (envGen_io_envelopeOutSigned_valid       ), //o
+    .io_envelopeOutSigned_payload (envGen_io_envelopeOutSigned_payload[9:0]), //o
+    .io_reset                     (io_reset                                ), //i
+    .io_clk24MHz                  (io_clk24MHz                             )  //i
+  );
+  Attenuator envAttenuator (
+    .io_sampleIn_valid    (osc_io_sample_valid                     ), //i
+    .io_sampleIn_payload  (osc_io_sample_payload[15:0]             ), //i
+    .io_volume            (envAttenuator_io_volume[9:0]            ), //i
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_sampleOut_valid   (envAttenuator_io_sampleOut_valid        ), //o
+    .io_sampleOut_payload (envAttenuator_io_sampleOut_payload[15:0]), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  Attenuator_1 attenuator_12 (
+    .io_sampleIn_valid    (envAttenuator_io_sampleOut_valid        ), //i
+    .io_sampleIn_payload  (envAttenuator_io_sampleOut_payload[15:0]), //i
+    .io_volume            (io_config_osc_volume[7:0]               ), //i
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_sampleOut_valid   (attenuator_12_io_sampleOut_valid        ), //o
+    .io_sampleOut_payload (attenuator_12_io_sampleOut_payload[15:0]), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  SVF_2 svf_6 (
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_config_ctrl       (io_config_filter_ctrl[7:0]              ), //i
+    .io_config_mode       (io_config_filter_mode[1:0]              ), //i
+    .io_config_cutoff     (io_config_filter_cutoff[7:0]            ), //i
+    .io_config_resonance  (io_config_filter_resonance[7:0]         ), //i
+    .io_sampleIn_valid    (attenuator_12_io_sampleOut_valid        ), //i
+    .io_sampleIn_payload  (attenuator_12_io_sampleOut_payload[15:0]), //i
+    .io_sampleOut_valid   (svf_6_io_sampleOut_valid                ), //o
+    .io_sampleOut_payload (svf_6_io_sampleOut_payload[15:0]        ), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
+  );
+  assign envBypassed = io_config_env_ctrl[1];
+  assign envAttenuator_io_volume = (envBypassed ? 10'h3ff : envGen_io_envelopeOut_payload);
+  assign filterBypassed = io_config_filter_ctrl[1];
+  assign io_sampleOut_valid = (filterBypassed ? attenuator_12_io_sampleOut_valid : svf_6_io_sampleOut_valid);
+  assign io_sampleOut_payload = (filterBypassed ? attenuator_12_io_sampleOut_payload : svf_6_io_sampleOut_payload);
 
 endmodule
 
@@ -416,10 +1125,10 @@ module Voice_1 (
   wire       [9:0]    envGen_io_envelopeOutSigned_payload;
   wire                envAttenuator_io_sampleOut_valid;
   wire       [15:0]   envAttenuator_io_sampleOut_payload;
-  wire                attenuator_4_io_sampleOut_valid;
-  wire       [15:0]   attenuator_4_io_sampleOut_payload;
-  wire                svf_2_io_sampleOut_valid;
-  wire       [15:0]   svf_2_io_sampleOut_payload;
+  wire                attenuator_12_io_sampleOut_valid;
+  wire       [15:0]   attenuator_12_io_sampleOut_payload;
+  wire                svf_6_io_sampleOut_valid;
+  wire       [15:0]   svf_6_io_sampleOut_payload;
   wire                envBypassed;
   wire                filterBypassed;
 
@@ -460,34 +1169,34 @@ module Voice_1 (
     .io_reset             (io_reset                                ), //i
     .io_clk24MHz          (io_clk24MHz                             )  //i
   );
-  Attenuator_1 attenuator_4 (
+  Attenuator_1 attenuator_12 (
     .io_sampleIn_valid    (envAttenuator_io_sampleOut_valid        ), //i
     .io_sampleIn_payload  (envAttenuator_io_sampleOut_payload[15:0]), //i
     .io_volume            (io_config_osc_volume[7:0]               ), //i
     .io_phaseTick         (io_phaseTick                            ), //i
-    .io_sampleOut_valid   (attenuator_4_io_sampleOut_valid         ), //o
-    .io_sampleOut_payload (attenuator_4_io_sampleOut_payload[15:0] ), //o
+    .io_sampleOut_valid   (attenuator_12_io_sampleOut_valid        ), //o
+    .io_sampleOut_payload (attenuator_12_io_sampleOut_payload[15:0]), //o
     .io_reset             (io_reset                                ), //i
     .io_clk24MHz          (io_clk24MHz                             )  //i
   );
-  SVF_1 svf_2 (
-    .io_phaseTick         (io_phaseTick                           ), //i
-    .io_config_ctrl       (io_config_filter_ctrl[7:0]             ), //i
-    .io_config_mode       (io_config_filter_mode[1:0]             ), //i
-    .io_config_cutoff     (io_config_filter_cutoff[7:0]           ), //i
-    .io_config_resonance  (io_config_filter_resonance[7:0]        ), //i
-    .io_sampleIn_valid    (attenuator_4_io_sampleOut_valid        ), //i
-    .io_sampleIn_payload  (attenuator_4_io_sampleOut_payload[15:0]), //i
-    .io_sampleOut_valid   (svf_2_io_sampleOut_valid               ), //o
-    .io_sampleOut_payload (svf_2_io_sampleOut_payload[15:0]       ), //o
-    .io_reset             (io_reset                               ), //i
-    .io_clk24MHz          (io_clk24MHz                            )  //i
+  SVF_1 svf_6 (
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_config_ctrl       (io_config_filter_ctrl[7:0]              ), //i
+    .io_config_mode       (io_config_filter_mode[1:0]              ), //i
+    .io_config_cutoff     (io_config_filter_cutoff[7:0]            ), //i
+    .io_config_resonance  (io_config_filter_resonance[7:0]         ), //i
+    .io_sampleIn_valid    (attenuator_12_io_sampleOut_valid        ), //i
+    .io_sampleIn_payload  (attenuator_12_io_sampleOut_payload[15:0]), //i
+    .io_sampleOut_valid   (svf_6_io_sampleOut_valid                ), //o
+    .io_sampleOut_payload (svf_6_io_sampleOut_payload[15:0]        ), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
   );
   assign envBypassed = io_config_env_ctrl[1];
   assign envAttenuator_io_volume = (envBypassed ? 10'h3ff : envGen_io_envelopeOut_payload);
   assign filterBypassed = io_config_filter_ctrl[1];
-  assign io_sampleOut_valid = (filterBypassed ? attenuator_4_io_sampleOut_valid : svf_2_io_sampleOut_valid);
-  assign io_sampleOut_payload = (filterBypassed ? attenuator_4_io_sampleOut_payload : svf_2_io_sampleOut_payload);
+  assign io_sampleOut_valid = (filterBypassed ? attenuator_12_io_sampleOut_valid : svf_6_io_sampleOut_valid);
+  assign io_sampleOut_payload = (filterBypassed ? attenuator_12_io_sampleOut_payload : svf_6_io_sampleOut_payload);
 
 endmodule
 
@@ -523,10 +1232,10 @@ module Voice (
   wire       [9:0]    envGen_io_envelopeOutSigned_payload;
   wire                envAttenuator_io_sampleOut_valid;
   wire       [15:0]   envAttenuator_io_sampleOut_payload;
-  wire                attenuator_4_io_sampleOut_valid;
-  wire       [15:0]   attenuator_4_io_sampleOut_payload;
-  wire                svf_2_io_sampleOut_valid;
-  wire       [15:0]   svf_2_io_sampleOut_payload;
+  wire                attenuator_12_io_sampleOut_valid;
+  wire       [15:0]   attenuator_12_io_sampleOut_payload;
+  wire                svf_6_io_sampleOut_valid;
+  wire       [15:0]   svf_6_io_sampleOut_payload;
   wire                envBypassed;
   wire                filterBypassed;
 
@@ -567,34 +1276,34 @@ module Voice (
     .io_reset             (io_reset                                ), //i
     .io_clk24MHz          (io_clk24MHz                             )  //i
   );
-  Attenuator_1 attenuator_4 (
+  Attenuator_1 attenuator_12 (
     .io_sampleIn_valid    (envAttenuator_io_sampleOut_valid        ), //i
     .io_sampleIn_payload  (envAttenuator_io_sampleOut_payload[15:0]), //i
     .io_volume            (io_config_osc_volume[7:0]               ), //i
     .io_phaseTick         (io_phaseTick                            ), //i
-    .io_sampleOut_valid   (attenuator_4_io_sampleOut_valid         ), //o
-    .io_sampleOut_payload (attenuator_4_io_sampleOut_payload[15:0] ), //o
+    .io_sampleOut_valid   (attenuator_12_io_sampleOut_valid        ), //o
+    .io_sampleOut_payload (attenuator_12_io_sampleOut_payload[15:0]), //o
     .io_reset             (io_reset                                ), //i
     .io_clk24MHz          (io_clk24MHz                             )  //i
   );
-  SVF svf_2 (
-    .io_phaseTick         (io_phaseTick                           ), //i
-    .io_config_ctrl       (io_config_filter_ctrl[7:0]             ), //i
-    .io_config_mode       (io_config_filter_mode[1:0]             ), //i
-    .io_config_cutoff     (io_config_filter_cutoff[7:0]           ), //i
-    .io_config_resonance  (io_config_filter_resonance[7:0]        ), //i
-    .io_sampleIn_valid    (attenuator_4_io_sampleOut_valid        ), //i
-    .io_sampleIn_payload  (attenuator_4_io_sampleOut_payload[15:0]), //i
-    .io_sampleOut_valid   (svf_2_io_sampleOut_valid               ), //o
-    .io_sampleOut_payload (svf_2_io_sampleOut_payload[15:0]       ), //o
-    .io_reset             (io_reset                               ), //i
-    .io_clk24MHz          (io_clk24MHz                            )  //i
+  SVF svf_6 (
+    .io_phaseTick         (io_phaseTick                            ), //i
+    .io_config_ctrl       (io_config_filter_ctrl[7:0]              ), //i
+    .io_config_mode       (io_config_filter_mode[1:0]              ), //i
+    .io_config_cutoff     (io_config_filter_cutoff[7:0]            ), //i
+    .io_config_resonance  (io_config_filter_resonance[7:0]         ), //i
+    .io_sampleIn_valid    (attenuator_12_io_sampleOut_valid        ), //i
+    .io_sampleIn_payload  (attenuator_12_io_sampleOut_payload[15:0]), //i
+    .io_sampleOut_valid   (svf_6_io_sampleOut_valid                ), //o
+    .io_sampleOut_payload (svf_6_io_sampleOut_payload[15:0]        ), //o
+    .io_reset             (io_reset                                ), //i
+    .io_clk24MHz          (io_clk24MHz                             )  //i
   );
   assign envBypassed = io_config_env_ctrl[1];
   assign envAttenuator_io_volume = (envBypassed ? 10'h3ff : envGen_io_envelopeOut_payload);
   assign filterBypassed = io_config_filter_ctrl[1];
-  assign io_sampleOut_valid = (filterBypassed ? attenuator_4_io_sampleOut_valid : svf_2_io_sampleOut_valid);
-  assign io_sampleOut_payload = (filterBypassed ? attenuator_4_io_sampleOut_payload : svf_2_io_sampleOut_payload);
+  assign io_sampleOut_valid = (filterBypassed ? attenuator_12_io_sampleOut_valid : svf_6_io_sampleOut_valid);
+  assign io_sampleOut_payload = (filterBypassed ? attenuator_12_io_sampleOut_payload : svf_6_io_sampleOut_payload);
 
 endmodule
 
@@ -724,6 +1433,62 @@ module Uart (
   output wire [1:0]    io_voiceConfig_1_filter_mode,
   output wire [7:0]    io_voiceConfig_1_filter_cutoff,
   output wire [7:0]    io_voiceConfig_1_filter_resonance,
+  output wire [23:0]   io_voiceConfig_2_osc_freqWord,
+  output wire [2:0]    io_voiceConfig_2_osc_waveSelect,
+  output wire [7:0]    io_voiceConfig_2_osc_pwmWidth,
+  output wire [7:0]    io_voiceConfig_2_osc_volume,
+  output wire [7:0]    io_voiceConfig_2_env_ctrl,
+  output wire [7:0]    io_voiceConfig_2_env_attack,
+  output wire [7:0]    io_voiceConfig_2_env_decay,
+  output wire [7:0]    io_voiceConfig_2_env_sustain,
+  output wire [7:0]    io_voiceConfig_2_env_release,
+  output wire [7:0]    io_voiceConfig_2_env_gate,
+  output wire [7:0]    io_voiceConfig_2_filter_ctrl,
+  output wire [1:0]    io_voiceConfig_2_filter_mode,
+  output wire [7:0]    io_voiceConfig_2_filter_cutoff,
+  output wire [7:0]    io_voiceConfig_2_filter_resonance,
+  output wire [23:0]   io_voiceConfig_3_osc_freqWord,
+  output wire [2:0]    io_voiceConfig_3_osc_waveSelect,
+  output wire [7:0]    io_voiceConfig_3_osc_pwmWidth,
+  output wire [7:0]    io_voiceConfig_3_osc_volume,
+  output wire [7:0]    io_voiceConfig_3_env_ctrl,
+  output wire [7:0]    io_voiceConfig_3_env_attack,
+  output wire [7:0]    io_voiceConfig_3_env_decay,
+  output wire [7:0]    io_voiceConfig_3_env_sustain,
+  output wire [7:0]    io_voiceConfig_3_env_release,
+  output wire [7:0]    io_voiceConfig_3_env_gate,
+  output wire [7:0]    io_voiceConfig_3_filter_ctrl,
+  output wire [1:0]    io_voiceConfig_3_filter_mode,
+  output wire [7:0]    io_voiceConfig_3_filter_cutoff,
+  output wire [7:0]    io_voiceConfig_3_filter_resonance,
+  output wire [23:0]   io_voiceConfig_4_osc_freqWord,
+  output wire [2:0]    io_voiceConfig_4_osc_waveSelect,
+  output wire [7:0]    io_voiceConfig_4_osc_pwmWidth,
+  output wire [7:0]    io_voiceConfig_4_osc_volume,
+  output wire [7:0]    io_voiceConfig_4_env_ctrl,
+  output wire [7:0]    io_voiceConfig_4_env_attack,
+  output wire [7:0]    io_voiceConfig_4_env_decay,
+  output wire [7:0]    io_voiceConfig_4_env_sustain,
+  output wire [7:0]    io_voiceConfig_4_env_release,
+  output wire [7:0]    io_voiceConfig_4_env_gate,
+  output wire [7:0]    io_voiceConfig_4_filter_ctrl,
+  output wire [1:0]    io_voiceConfig_4_filter_mode,
+  output wire [7:0]    io_voiceConfig_4_filter_cutoff,
+  output wire [7:0]    io_voiceConfig_4_filter_resonance,
+  output wire [23:0]   io_voiceConfig_5_osc_freqWord,
+  output wire [2:0]    io_voiceConfig_5_osc_waveSelect,
+  output wire [7:0]    io_voiceConfig_5_osc_pwmWidth,
+  output wire [7:0]    io_voiceConfig_5_osc_volume,
+  output wire [7:0]    io_voiceConfig_5_env_ctrl,
+  output wire [7:0]    io_voiceConfig_5_env_attack,
+  output wire [7:0]    io_voiceConfig_5_env_decay,
+  output wire [7:0]    io_voiceConfig_5_env_sustain,
+  output wire [7:0]    io_voiceConfig_5_env_release,
+  output wire [7:0]    io_voiceConfig_5_env_gate,
+  output wire [7:0]    io_voiceConfig_5_filter_ctrl,
+  output wire [1:0]    io_voiceConfig_5_filter_mode,
+  output wire [7:0]    io_voiceConfig_5_filter_cutoff,
+  output wire [7:0]    io_voiceConfig_5_filter_resonance,
   input  wire          io_clk24MHz,
   input  wire          io_reset
 );
@@ -762,6 +1527,62 @@ module Uart (
   wire       [1:0]    registerBank_1_io_voiceConfig_1_filter_mode;
   wire       [7:0]    registerBank_1_io_voiceConfig_1_filter_cutoff;
   wire       [7:0]    registerBank_1_io_voiceConfig_1_filter_resonance;
+  wire       [23:0]   registerBank_1_io_voiceConfig_2_osc_freqWord;
+  wire       [2:0]    registerBank_1_io_voiceConfig_2_osc_waveSelect;
+  wire       [7:0]    registerBank_1_io_voiceConfig_2_osc_pwmWidth;
+  wire       [7:0]    registerBank_1_io_voiceConfig_2_osc_volume;
+  wire       [7:0]    registerBank_1_io_voiceConfig_2_env_ctrl;
+  wire       [7:0]    registerBank_1_io_voiceConfig_2_env_attack;
+  wire       [7:0]    registerBank_1_io_voiceConfig_2_env_decay;
+  wire       [7:0]    registerBank_1_io_voiceConfig_2_env_sustain;
+  wire       [7:0]    registerBank_1_io_voiceConfig_2_env_release;
+  wire       [7:0]    registerBank_1_io_voiceConfig_2_env_gate;
+  wire       [7:0]    registerBank_1_io_voiceConfig_2_filter_ctrl;
+  wire       [1:0]    registerBank_1_io_voiceConfig_2_filter_mode;
+  wire       [7:0]    registerBank_1_io_voiceConfig_2_filter_cutoff;
+  wire       [7:0]    registerBank_1_io_voiceConfig_2_filter_resonance;
+  wire       [23:0]   registerBank_1_io_voiceConfig_3_osc_freqWord;
+  wire       [2:0]    registerBank_1_io_voiceConfig_3_osc_waveSelect;
+  wire       [7:0]    registerBank_1_io_voiceConfig_3_osc_pwmWidth;
+  wire       [7:0]    registerBank_1_io_voiceConfig_3_osc_volume;
+  wire       [7:0]    registerBank_1_io_voiceConfig_3_env_ctrl;
+  wire       [7:0]    registerBank_1_io_voiceConfig_3_env_attack;
+  wire       [7:0]    registerBank_1_io_voiceConfig_3_env_decay;
+  wire       [7:0]    registerBank_1_io_voiceConfig_3_env_sustain;
+  wire       [7:0]    registerBank_1_io_voiceConfig_3_env_release;
+  wire       [7:0]    registerBank_1_io_voiceConfig_3_env_gate;
+  wire       [7:0]    registerBank_1_io_voiceConfig_3_filter_ctrl;
+  wire       [1:0]    registerBank_1_io_voiceConfig_3_filter_mode;
+  wire       [7:0]    registerBank_1_io_voiceConfig_3_filter_cutoff;
+  wire       [7:0]    registerBank_1_io_voiceConfig_3_filter_resonance;
+  wire       [23:0]   registerBank_1_io_voiceConfig_4_osc_freqWord;
+  wire       [2:0]    registerBank_1_io_voiceConfig_4_osc_waveSelect;
+  wire       [7:0]    registerBank_1_io_voiceConfig_4_osc_pwmWidth;
+  wire       [7:0]    registerBank_1_io_voiceConfig_4_osc_volume;
+  wire       [7:0]    registerBank_1_io_voiceConfig_4_env_ctrl;
+  wire       [7:0]    registerBank_1_io_voiceConfig_4_env_attack;
+  wire       [7:0]    registerBank_1_io_voiceConfig_4_env_decay;
+  wire       [7:0]    registerBank_1_io_voiceConfig_4_env_sustain;
+  wire       [7:0]    registerBank_1_io_voiceConfig_4_env_release;
+  wire       [7:0]    registerBank_1_io_voiceConfig_4_env_gate;
+  wire       [7:0]    registerBank_1_io_voiceConfig_4_filter_ctrl;
+  wire       [1:0]    registerBank_1_io_voiceConfig_4_filter_mode;
+  wire       [7:0]    registerBank_1_io_voiceConfig_4_filter_cutoff;
+  wire       [7:0]    registerBank_1_io_voiceConfig_4_filter_resonance;
+  wire       [23:0]   registerBank_1_io_voiceConfig_5_osc_freqWord;
+  wire       [2:0]    registerBank_1_io_voiceConfig_5_osc_waveSelect;
+  wire       [7:0]    registerBank_1_io_voiceConfig_5_osc_pwmWidth;
+  wire       [7:0]    registerBank_1_io_voiceConfig_5_osc_volume;
+  wire       [7:0]    registerBank_1_io_voiceConfig_5_env_ctrl;
+  wire       [7:0]    registerBank_1_io_voiceConfig_5_env_attack;
+  wire       [7:0]    registerBank_1_io_voiceConfig_5_env_decay;
+  wire       [7:0]    registerBank_1_io_voiceConfig_5_env_sustain;
+  wire       [7:0]    registerBank_1_io_voiceConfig_5_env_release;
+  wire       [7:0]    registerBank_1_io_voiceConfig_5_env_gate;
+  wire       [7:0]    registerBank_1_io_voiceConfig_5_filter_ctrl;
+  wire       [1:0]    registerBank_1_io_voiceConfig_5_filter_mode;
+  wire       [7:0]    registerBank_1_io_voiceConfig_5_filter_cutoff;
+  wire       [7:0]    registerBank_1_io_voiceConfig_5_filter_resonance;
 
   UartRx rxModule (
     .io_rx              (io_rx                           ), //i
@@ -812,6 +1633,62 @@ module Uart (
     .io_voiceConfig_1_filter_mode      (registerBank_1_io_voiceConfig_1_filter_mode[1:0]     ), //o
     .io_voiceConfig_1_filter_cutoff    (registerBank_1_io_voiceConfig_1_filter_cutoff[7:0]   ), //o
     .io_voiceConfig_1_filter_resonance (registerBank_1_io_voiceConfig_1_filter_resonance[7:0]), //o
+    .io_voiceConfig_2_osc_freqWord     (registerBank_1_io_voiceConfig_2_osc_freqWord[23:0]   ), //o
+    .io_voiceConfig_2_osc_waveSelect   (registerBank_1_io_voiceConfig_2_osc_waveSelect[2:0]  ), //o
+    .io_voiceConfig_2_osc_pwmWidth     (registerBank_1_io_voiceConfig_2_osc_pwmWidth[7:0]    ), //o
+    .io_voiceConfig_2_osc_volume       (registerBank_1_io_voiceConfig_2_osc_volume[7:0]      ), //o
+    .io_voiceConfig_2_env_ctrl         (registerBank_1_io_voiceConfig_2_env_ctrl[7:0]        ), //o
+    .io_voiceConfig_2_env_attack       (registerBank_1_io_voiceConfig_2_env_attack[7:0]      ), //o
+    .io_voiceConfig_2_env_decay        (registerBank_1_io_voiceConfig_2_env_decay[7:0]       ), //o
+    .io_voiceConfig_2_env_sustain      (registerBank_1_io_voiceConfig_2_env_sustain[7:0]     ), //o
+    .io_voiceConfig_2_env_release      (registerBank_1_io_voiceConfig_2_env_release[7:0]     ), //o
+    .io_voiceConfig_2_env_gate         (registerBank_1_io_voiceConfig_2_env_gate[7:0]        ), //o
+    .io_voiceConfig_2_filter_ctrl      (registerBank_1_io_voiceConfig_2_filter_ctrl[7:0]     ), //o
+    .io_voiceConfig_2_filter_mode      (registerBank_1_io_voiceConfig_2_filter_mode[1:0]     ), //o
+    .io_voiceConfig_2_filter_cutoff    (registerBank_1_io_voiceConfig_2_filter_cutoff[7:0]   ), //o
+    .io_voiceConfig_2_filter_resonance (registerBank_1_io_voiceConfig_2_filter_resonance[7:0]), //o
+    .io_voiceConfig_3_osc_freqWord     (registerBank_1_io_voiceConfig_3_osc_freqWord[23:0]   ), //o
+    .io_voiceConfig_3_osc_waveSelect   (registerBank_1_io_voiceConfig_3_osc_waveSelect[2:0]  ), //o
+    .io_voiceConfig_3_osc_pwmWidth     (registerBank_1_io_voiceConfig_3_osc_pwmWidth[7:0]    ), //o
+    .io_voiceConfig_3_osc_volume       (registerBank_1_io_voiceConfig_3_osc_volume[7:0]      ), //o
+    .io_voiceConfig_3_env_ctrl         (registerBank_1_io_voiceConfig_3_env_ctrl[7:0]        ), //o
+    .io_voiceConfig_3_env_attack       (registerBank_1_io_voiceConfig_3_env_attack[7:0]      ), //o
+    .io_voiceConfig_3_env_decay        (registerBank_1_io_voiceConfig_3_env_decay[7:0]       ), //o
+    .io_voiceConfig_3_env_sustain      (registerBank_1_io_voiceConfig_3_env_sustain[7:0]     ), //o
+    .io_voiceConfig_3_env_release      (registerBank_1_io_voiceConfig_3_env_release[7:0]     ), //o
+    .io_voiceConfig_3_env_gate         (registerBank_1_io_voiceConfig_3_env_gate[7:0]        ), //o
+    .io_voiceConfig_3_filter_ctrl      (registerBank_1_io_voiceConfig_3_filter_ctrl[7:0]     ), //o
+    .io_voiceConfig_3_filter_mode      (registerBank_1_io_voiceConfig_3_filter_mode[1:0]     ), //o
+    .io_voiceConfig_3_filter_cutoff    (registerBank_1_io_voiceConfig_3_filter_cutoff[7:0]   ), //o
+    .io_voiceConfig_3_filter_resonance (registerBank_1_io_voiceConfig_3_filter_resonance[7:0]), //o
+    .io_voiceConfig_4_osc_freqWord     (registerBank_1_io_voiceConfig_4_osc_freqWord[23:0]   ), //o
+    .io_voiceConfig_4_osc_waveSelect   (registerBank_1_io_voiceConfig_4_osc_waveSelect[2:0]  ), //o
+    .io_voiceConfig_4_osc_pwmWidth     (registerBank_1_io_voiceConfig_4_osc_pwmWidth[7:0]    ), //o
+    .io_voiceConfig_4_osc_volume       (registerBank_1_io_voiceConfig_4_osc_volume[7:0]      ), //o
+    .io_voiceConfig_4_env_ctrl         (registerBank_1_io_voiceConfig_4_env_ctrl[7:0]        ), //o
+    .io_voiceConfig_4_env_attack       (registerBank_1_io_voiceConfig_4_env_attack[7:0]      ), //o
+    .io_voiceConfig_4_env_decay        (registerBank_1_io_voiceConfig_4_env_decay[7:0]       ), //o
+    .io_voiceConfig_4_env_sustain      (registerBank_1_io_voiceConfig_4_env_sustain[7:0]     ), //o
+    .io_voiceConfig_4_env_release      (registerBank_1_io_voiceConfig_4_env_release[7:0]     ), //o
+    .io_voiceConfig_4_env_gate         (registerBank_1_io_voiceConfig_4_env_gate[7:0]        ), //o
+    .io_voiceConfig_4_filter_ctrl      (registerBank_1_io_voiceConfig_4_filter_ctrl[7:0]     ), //o
+    .io_voiceConfig_4_filter_mode      (registerBank_1_io_voiceConfig_4_filter_mode[1:0]     ), //o
+    .io_voiceConfig_4_filter_cutoff    (registerBank_1_io_voiceConfig_4_filter_cutoff[7:0]   ), //o
+    .io_voiceConfig_4_filter_resonance (registerBank_1_io_voiceConfig_4_filter_resonance[7:0]), //o
+    .io_voiceConfig_5_osc_freqWord     (registerBank_1_io_voiceConfig_5_osc_freqWord[23:0]   ), //o
+    .io_voiceConfig_5_osc_waveSelect   (registerBank_1_io_voiceConfig_5_osc_waveSelect[2:0]  ), //o
+    .io_voiceConfig_5_osc_pwmWidth     (registerBank_1_io_voiceConfig_5_osc_pwmWidth[7:0]    ), //o
+    .io_voiceConfig_5_osc_volume       (registerBank_1_io_voiceConfig_5_osc_volume[7:0]      ), //o
+    .io_voiceConfig_5_env_ctrl         (registerBank_1_io_voiceConfig_5_env_ctrl[7:0]        ), //o
+    .io_voiceConfig_5_env_attack       (registerBank_1_io_voiceConfig_5_env_attack[7:0]      ), //o
+    .io_voiceConfig_5_env_decay        (registerBank_1_io_voiceConfig_5_env_decay[7:0]       ), //o
+    .io_voiceConfig_5_env_sustain      (registerBank_1_io_voiceConfig_5_env_sustain[7:0]     ), //o
+    .io_voiceConfig_5_env_release      (registerBank_1_io_voiceConfig_5_env_release[7:0]     ), //o
+    .io_voiceConfig_5_env_gate         (registerBank_1_io_voiceConfig_5_env_gate[7:0]        ), //o
+    .io_voiceConfig_5_filter_ctrl      (registerBank_1_io_voiceConfig_5_filter_ctrl[7:0]     ), //o
+    .io_voiceConfig_5_filter_mode      (registerBank_1_io_voiceConfig_5_filter_mode[1:0]     ), //o
+    .io_voiceConfig_5_filter_cutoff    (registerBank_1_io_voiceConfig_5_filter_cutoff[7:0]   ), //o
+    .io_voiceConfig_5_filter_resonance (registerBank_1_io_voiceConfig_5_filter_resonance[7:0]), //o
     .io_clk24MHz                       (io_clk24MHz                                          ), //i
     .io_reset                          (io_reset                                             )  //i
   );
@@ -844,8 +1721,704 @@ module Uart (
   assign io_voiceConfig_1_filter_mode = registerBank_1_io_voiceConfig_1_filter_mode;
   assign io_voiceConfig_1_filter_cutoff = registerBank_1_io_voiceConfig_1_filter_cutoff;
   assign io_voiceConfig_1_filter_resonance = registerBank_1_io_voiceConfig_1_filter_resonance;
+  assign io_voiceConfig_2_osc_freqWord = registerBank_1_io_voiceConfig_2_osc_freqWord;
+  assign io_voiceConfig_2_osc_waveSelect = registerBank_1_io_voiceConfig_2_osc_waveSelect;
+  assign io_voiceConfig_2_osc_pwmWidth = registerBank_1_io_voiceConfig_2_osc_pwmWidth;
+  assign io_voiceConfig_2_osc_volume = registerBank_1_io_voiceConfig_2_osc_volume;
+  assign io_voiceConfig_2_env_ctrl = registerBank_1_io_voiceConfig_2_env_ctrl;
+  assign io_voiceConfig_2_env_attack = registerBank_1_io_voiceConfig_2_env_attack;
+  assign io_voiceConfig_2_env_decay = registerBank_1_io_voiceConfig_2_env_decay;
+  assign io_voiceConfig_2_env_sustain = registerBank_1_io_voiceConfig_2_env_sustain;
+  assign io_voiceConfig_2_env_release = registerBank_1_io_voiceConfig_2_env_release;
+  assign io_voiceConfig_2_env_gate = registerBank_1_io_voiceConfig_2_env_gate;
+  assign io_voiceConfig_2_filter_ctrl = registerBank_1_io_voiceConfig_2_filter_ctrl;
+  assign io_voiceConfig_2_filter_mode = registerBank_1_io_voiceConfig_2_filter_mode;
+  assign io_voiceConfig_2_filter_cutoff = registerBank_1_io_voiceConfig_2_filter_cutoff;
+  assign io_voiceConfig_2_filter_resonance = registerBank_1_io_voiceConfig_2_filter_resonance;
+  assign io_voiceConfig_3_osc_freqWord = registerBank_1_io_voiceConfig_3_osc_freqWord;
+  assign io_voiceConfig_3_osc_waveSelect = registerBank_1_io_voiceConfig_3_osc_waveSelect;
+  assign io_voiceConfig_3_osc_pwmWidth = registerBank_1_io_voiceConfig_3_osc_pwmWidth;
+  assign io_voiceConfig_3_osc_volume = registerBank_1_io_voiceConfig_3_osc_volume;
+  assign io_voiceConfig_3_env_ctrl = registerBank_1_io_voiceConfig_3_env_ctrl;
+  assign io_voiceConfig_3_env_attack = registerBank_1_io_voiceConfig_3_env_attack;
+  assign io_voiceConfig_3_env_decay = registerBank_1_io_voiceConfig_3_env_decay;
+  assign io_voiceConfig_3_env_sustain = registerBank_1_io_voiceConfig_3_env_sustain;
+  assign io_voiceConfig_3_env_release = registerBank_1_io_voiceConfig_3_env_release;
+  assign io_voiceConfig_3_env_gate = registerBank_1_io_voiceConfig_3_env_gate;
+  assign io_voiceConfig_3_filter_ctrl = registerBank_1_io_voiceConfig_3_filter_ctrl;
+  assign io_voiceConfig_3_filter_mode = registerBank_1_io_voiceConfig_3_filter_mode;
+  assign io_voiceConfig_3_filter_cutoff = registerBank_1_io_voiceConfig_3_filter_cutoff;
+  assign io_voiceConfig_3_filter_resonance = registerBank_1_io_voiceConfig_3_filter_resonance;
+  assign io_voiceConfig_4_osc_freqWord = registerBank_1_io_voiceConfig_4_osc_freqWord;
+  assign io_voiceConfig_4_osc_waveSelect = registerBank_1_io_voiceConfig_4_osc_waveSelect;
+  assign io_voiceConfig_4_osc_pwmWidth = registerBank_1_io_voiceConfig_4_osc_pwmWidth;
+  assign io_voiceConfig_4_osc_volume = registerBank_1_io_voiceConfig_4_osc_volume;
+  assign io_voiceConfig_4_env_ctrl = registerBank_1_io_voiceConfig_4_env_ctrl;
+  assign io_voiceConfig_4_env_attack = registerBank_1_io_voiceConfig_4_env_attack;
+  assign io_voiceConfig_4_env_decay = registerBank_1_io_voiceConfig_4_env_decay;
+  assign io_voiceConfig_4_env_sustain = registerBank_1_io_voiceConfig_4_env_sustain;
+  assign io_voiceConfig_4_env_release = registerBank_1_io_voiceConfig_4_env_release;
+  assign io_voiceConfig_4_env_gate = registerBank_1_io_voiceConfig_4_env_gate;
+  assign io_voiceConfig_4_filter_ctrl = registerBank_1_io_voiceConfig_4_filter_ctrl;
+  assign io_voiceConfig_4_filter_mode = registerBank_1_io_voiceConfig_4_filter_mode;
+  assign io_voiceConfig_4_filter_cutoff = registerBank_1_io_voiceConfig_4_filter_cutoff;
+  assign io_voiceConfig_4_filter_resonance = registerBank_1_io_voiceConfig_4_filter_resonance;
+  assign io_voiceConfig_5_osc_freqWord = registerBank_1_io_voiceConfig_5_osc_freqWord;
+  assign io_voiceConfig_5_osc_waveSelect = registerBank_1_io_voiceConfig_5_osc_waveSelect;
+  assign io_voiceConfig_5_osc_pwmWidth = registerBank_1_io_voiceConfig_5_osc_pwmWidth;
+  assign io_voiceConfig_5_osc_volume = registerBank_1_io_voiceConfig_5_osc_volume;
+  assign io_voiceConfig_5_env_ctrl = registerBank_1_io_voiceConfig_5_env_ctrl;
+  assign io_voiceConfig_5_env_attack = registerBank_1_io_voiceConfig_5_env_attack;
+  assign io_voiceConfig_5_env_decay = registerBank_1_io_voiceConfig_5_env_decay;
+  assign io_voiceConfig_5_env_sustain = registerBank_1_io_voiceConfig_5_env_sustain;
+  assign io_voiceConfig_5_env_release = registerBank_1_io_voiceConfig_5_env_release;
+  assign io_voiceConfig_5_env_gate = registerBank_1_io_voiceConfig_5_env_gate;
+  assign io_voiceConfig_5_filter_ctrl = registerBank_1_io_voiceConfig_5_filter_ctrl;
+  assign io_voiceConfig_5_filter_mode = registerBank_1_io_voiceConfig_5_filter_mode;
+  assign io_voiceConfig_5_filter_cutoff = registerBank_1_io_voiceConfig_5_filter_cutoff;
+  assign io_voiceConfig_5_filter_resonance = registerBank_1_io_voiceConfig_5_filter_resonance;
 
 endmodule
+
+module SVF_5 (
+  input  wire          io_phaseTick,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [1:0]    io_config_mode,
+  input  wire [7:0]    io_config_cutoff,
+  input  wire [7:0]    io_config_resonance,
+  input  wire          io_sampleIn_valid,
+  input  wire [15:0]   io_sampleIn_payload,
+  output wire          io_sampleOut_valid,
+  output wire [15:0]   io_sampleOut_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [11:0]   mapper_io_cutoffCoeff;
+  wire       [7:0]    mapper_io_resonanceCoeff;
+  wire       [23:0]   core_io_lp;
+  wire       [23:0]   core_io_bp;
+  wire       [23:0]   core_io_hp;
+  wire                core_io_done;
+  wire       [15:0]   mux_io_sampleOut;
+  wire                disable_1;
+  wire                bypass;
+  reg        [15:0]   outReg;
+
+  ParameterMapper_5 mapper (
+    .io_cutoff         (io_config_cutoff[7:0]        ), //i
+    .io_resonance      (io_config_resonance[7:0]     ), //i
+    .io_cutoffCoeff    (mapper_io_cutoffCoeff[11:0]  ), //o
+    .io_resonanceCoeff (mapper_io_resonanceCoeff[7:0])  //o
+  );
+  FilterCore core (
+    .io_phaseTick      (io_phaseTick                 ), //i
+    .io_clear          (disable_1                    ), //i
+    .io_sampleIn       (io_sampleIn_payload[15:0]    ), //i
+    .io_cutoffCoeff    (mapper_io_cutoffCoeff[11:0]  ), //i
+    .io_resonanceCoeff (mapper_io_resonanceCoeff[7:0]), //i
+    .io_lp             (core_io_lp[23:0]             ), //o
+    .io_bp             (core_io_bp[23:0]             ), //o
+    .io_hp             (core_io_hp[23:0]             ), //o
+    .io_done           (core_io_done                 ), //o
+    .io_clk24MHz       (io_clk24MHz                  ), //i
+    .io_reset          (io_reset                     )  //i
+  );
+  FilterMux mux (
+    .io_mode      (io_config_mode[1:0]   ), //i
+    .io_lp        (core_io_lp[23:0]      ), //i
+    .io_bp        (core_io_bp[23:0]      ), //i
+    .io_hp        (core_io_hp[23:0]      ), //i
+    .io_sampleOut (mux_io_sampleOut[15:0])  //o
+  );
+  assign disable_1 = io_config_ctrl[0];
+  assign bypass = io_config_ctrl[1];
+  assign io_sampleOut_payload = ((! disable_1) ? outReg : 16'h0);
+  assign io_sampleOut_valid = (io_phaseTick && (! io_reset));
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      outReg <= 16'h0;
+    end else begin
+      if(core_io_done) begin
+        outReg <= mux_io_sampleOut;
+      end
+    end
+  end
+
+
+endmodule
+
+//Attenuator_11 replaced by Attenuator_1
+
+//Attenuator_10 replaced by Attenuator
+
+module EnvelopeGenerator_5 (
+  input  wire          io_phaseTick,
+  input  wire          io_syncIn,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [7:0]    io_config_attack,
+  input  wire [7:0]    io_config_decay,
+  input  wire [7:0]    io_config_sustain,
+  input  wire [7:0]    io_config_release,
+  input  wire [7:0]    io_config_gate,
+  output wire          io_envelopeOut_valid,
+  output wire [9:0]    io_envelopeOut_payload,
+  output wire          io_envelopeOutSigned_valid,
+  output wire [9:0]    io_envelopeOutSigned_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire                shaper_io_disable;
+  wire                ctrl_io_resetAccum;
+  wire                ctrl_io_runAccum;
+  wire                ctrl_io_accumDir;
+  wire       [21:0]   ctrl_io_phaseInc;
+  wire       [1:0]    ctrl_io_curveSelect;
+  wire       [2:0]    ctrl_io_activeStage;
+  wire                accumulator_io_segmentDone;
+  wire       [7:0]    accumulator_io_baseIndex;
+  wire       [1:0]    accumulator_io_fraction;
+  wire                shaper_io_envelopeOut_valid;
+  wire       [9:0]    shaper_io_envelopeOut_payload;
+  wire                shaper_io_envelopeOutSigned_valid;
+  wire       [9:0]    shaper_io_envelopeOutSigned_payload;
+
+  EnvelopeCtrl_5 ctrl (
+    .io_syncIn         (io_syncIn                 ), //i
+    .io_config_ctrl    (io_config_ctrl[7:0]       ), //i
+    .io_config_attack  (io_config_attack[7:0]     ), //i
+    .io_config_decay   (io_config_decay[7:0]      ), //i
+    .io_config_sustain (io_config_sustain[7:0]    ), //i
+    .io_config_release (io_config_release[7:0]    ), //i
+    .io_config_gate    (io_config_gate[7:0]       ), //i
+    .io_segmentDone    (accumulator_io_segmentDone), //i
+    .io_resetAccum     (ctrl_io_resetAccum        ), //o
+    .io_runAccum       (ctrl_io_runAccum          ), //o
+    .io_accumDir       (ctrl_io_accumDir          ), //o
+    .io_phaseInc       (ctrl_io_phaseInc[21:0]    ), //o
+    .io_curveSelect    (ctrl_io_curveSelect[1:0]  ), //o
+    .io_activeStage    (ctrl_io_activeStage[2:0]  ), //o
+    .io_reset          (io_reset                  ), //i
+    .io_clk24MHz       (io_clk24MHz               )  //i
+  );
+  EnvelopeAccumulator accumulator (
+    .io_resetAccum   (ctrl_io_resetAccum           ), //i
+    .io_runAccum     (ctrl_io_runAccum             ), //i
+    .io_accumDir     (ctrl_io_accumDir             ), //i
+    .io_phaseInc     (ctrl_io_phaseInc[21:0]       ), //i
+    .io_sustainLevel (io_config_sustain[7:0]       ), //i
+    .io_activeStage  (ctrl_io_activeStage[2:0]     ), //i
+    .io_segmentDone  (accumulator_io_segmentDone   ), //o
+    .io_baseIndex    (accumulator_io_baseIndex[7:0]), //o
+    .io_fraction     (accumulator_io_fraction[1:0] ), //o
+    .io_reset        (io_reset                     ), //i
+    .io_clk24MHz     (io_clk24MHz                  )  //i
+  );
+  EnvelopeShaper_5 shaper (
+    .io_phaseTick                 (io_phaseTick                            ), //i
+    .io_baseIndex                 (accumulator_io_baseIndex[7:0]           ), //i
+    .io_fraction                  (accumulator_io_fraction[1:0]            ), //i
+    .io_curveSelect               (ctrl_io_curveSelect[1:0]                ), //i
+    .io_activeStage               (ctrl_io_activeStage[2:0]                ), //i
+    .io_accumDir                  (ctrl_io_accumDir                        ), //i
+    .io_disable                   (shaper_io_disable                       ), //i
+    .io_envelopeOut_valid         (shaper_io_envelopeOut_valid             ), //o
+    .io_envelopeOut_payload       (shaper_io_envelopeOut_payload[9:0]      ), //o
+    .io_envelopeOutSigned_valid   (shaper_io_envelopeOutSigned_valid       ), //o
+    .io_envelopeOutSigned_payload (shaper_io_envelopeOutSigned_payload[9:0]), //o
+    .io_reset                     (io_reset                                ), //i
+    .io_clk24MHz                  (io_clk24MHz                             )  //i
+  );
+  assign shaper_io_disable = io_config_ctrl[0];
+  assign io_envelopeOut_valid = shaper_io_envelopeOut_valid;
+  assign io_envelopeOut_payload = shaper_io_envelopeOut_payload;
+  assign io_envelopeOutSigned_valid = shaper_io_envelopeOutSigned_valid;
+  assign io_envelopeOutSigned_payload = shaper_io_envelopeOutSigned_payload;
+
+endmodule
+
+//Oscillator_5 replaced by Oscillator
+
+module SVF_4 (
+  input  wire          io_phaseTick,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [1:0]    io_config_mode,
+  input  wire [7:0]    io_config_cutoff,
+  input  wire [7:0]    io_config_resonance,
+  input  wire          io_sampleIn_valid,
+  input  wire [15:0]   io_sampleIn_payload,
+  output wire          io_sampleOut_valid,
+  output wire [15:0]   io_sampleOut_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [11:0]   mapper_io_cutoffCoeff;
+  wire       [7:0]    mapper_io_resonanceCoeff;
+  wire       [23:0]   core_io_lp;
+  wire       [23:0]   core_io_bp;
+  wire       [23:0]   core_io_hp;
+  wire                core_io_done;
+  wire       [15:0]   mux_io_sampleOut;
+  wire                disable_1;
+  wire                bypass;
+  reg        [15:0]   outReg;
+
+  ParameterMapper_4 mapper (
+    .io_cutoff         (io_config_cutoff[7:0]        ), //i
+    .io_resonance      (io_config_resonance[7:0]     ), //i
+    .io_cutoffCoeff    (mapper_io_cutoffCoeff[11:0]  ), //o
+    .io_resonanceCoeff (mapper_io_resonanceCoeff[7:0])  //o
+  );
+  FilterCore core (
+    .io_phaseTick      (io_phaseTick                 ), //i
+    .io_clear          (disable_1                    ), //i
+    .io_sampleIn       (io_sampleIn_payload[15:0]    ), //i
+    .io_cutoffCoeff    (mapper_io_cutoffCoeff[11:0]  ), //i
+    .io_resonanceCoeff (mapper_io_resonanceCoeff[7:0]), //i
+    .io_lp             (core_io_lp[23:0]             ), //o
+    .io_bp             (core_io_bp[23:0]             ), //o
+    .io_hp             (core_io_hp[23:0]             ), //o
+    .io_done           (core_io_done                 ), //o
+    .io_clk24MHz       (io_clk24MHz                  ), //i
+    .io_reset          (io_reset                     )  //i
+  );
+  FilterMux mux (
+    .io_mode      (io_config_mode[1:0]   ), //i
+    .io_lp        (core_io_lp[23:0]      ), //i
+    .io_bp        (core_io_bp[23:0]      ), //i
+    .io_hp        (core_io_hp[23:0]      ), //i
+    .io_sampleOut (mux_io_sampleOut[15:0])  //o
+  );
+  assign disable_1 = io_config_ctrl[0];
+  assign bypass = io_config_ctrl[1];
+  assign io_sampleOut_payload = ((! disable_1) ? outReg : 16'h0);
+  assign io_sampleOut_valid = (io_phaseTick && (! io_reset));
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      outReg <= 16'h0;
+    end else begin
+      if(core_io_done) begin
+        outReg <= mux_io_sampleOut;
+      end
+    end
+  end
+
+
+endmodule
+
+//Attenuator_9 replaced by Attenuator_1
+
+//Attenuator_8 replaced by Attenuator
+
+module EnvelopeGenerator_4 (
+  input  wire          io_phaseTick,
+  input  wire          io_syncIn,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [7:0]    io_config_attack,
+  input  wire [7:0]    io_config_decay,
+  input  wire [7:0]    io_config_sustain,
+  input  wire [7:0]    io_config_release,
+  input  wire [7:0]    io_config_gate,
+  output wire          io_envelopeOut_valid,
+  output wire [9:0]    io_envelopeOut_payload,
+  output wire          io_envelopeOutSigned_valid,
+  output wire [9:0]    io_envelopeOutSigned_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire                shaper_io_disable;
+  wire                ctrl_io_resetAccum;
+  wire                ctrl_io_runAccum;
+  wire                ctrl_io_accumDir;
+  wire       [21:0]   ctrl_io_phaseInc;
+  wire       [1:0]    ctrl_io_curveSelect;
+  wire       [2:0]    ctrl_io_activeStage;
+  wire                accumulator_io_segmentDone;
+  wire       [7:0]    accumulator_io_baseIndex;
+  wire       [1:0]    accumulator_io_fraction;
+  wire                shaper_io_envelopeOut_valid;
+  wire       [9:0]    shaper_io_envelopeOut_payload;
+  wire                shaper_io_envelopeOutSigned_valid;
+  wire       [9:0]    shaper_io_envelopeOutSigned_payload;
+
+  EnvelopeCtrl_4 ctrl (
+    .io_syncIn         (io_syncIn                 ), //i
+    .io_config_ctrl    (io_config_ctrl[7:0]       ), //i
+    .io_config_attack  (io_config_attack[7:0]     ), //i
+    .io_config_decay   (io_config_decay[7:0]      ), //i
+    .io_config_sustain (io_config_sustain[7:0]    ), //i
+    .io_config_release (io_config_release[7:0]    ), //i
+    .io_config_gate    (io_config_gate[7:0]       ), //i
+    .io_segmentDone    (accumulator_io_segmentDone), //i
+    .io_resetAccum     (ctrl_io_resetAccum        ), //o
+    .io_runAccum       (ctrl_io_runAccum          ), //o
+    .io_accumDir       (ctrl_io_accumDir          ), //o
+    .io_phaseInc       (ctrl_io_phaseInc[21:0]    ), //o
+    .io_curveSelect    (ctrl_io_curveSelect[1:0]  ), //o
+    .io_activeStage    (ctrl_io_activeStage[2:0]  ), //o
+    .io_reset          (io_reset                  ), //i
+    .io_clk24MHz       (io_clk24MHz               )  //i
+  );
+  EnvelopeAccumulator accumulator (
+    .io_resetAccum   (ctrl_io_resetAccum           ), //i
+    .io_runAccum     (ctrl_io_runAccum             ), //i
+    .io_accumDir     (ctrl_io_accumDir             ), //i
+    .io_phaseInc     (ctrl_io_phaseInc[21:0]       ), //i
+    .io_sustainLevel (io_config_sustain[7:0]       ), //i
+    .io_activeStage  (ctrl_io_activeStage[2:0]     ), //i
+    .io_segmentDone  (accumulator_io_segmentDone   ), //o
+    .io_baseIndex    (accumulator_io_baseIndex[7:0]), //o
+    .io_fraction     (accumulator_io_fraction[1:0] ), //o
+    .io_reset        (io_reset                     ), //i
+    .io_clk24MHz     (io_clk24MHz                  )  //i
+  );
+  EnvelopeShaper_4 shaper (
+    .io_phaseTick                 (io_phaseTick                            ), //i
+    .io_baseIndex                 (accumulator_io_baseIndex[7:0]           ), //i
+    .io_fraction                  (accumulator_io_fraction[1:0]            ), //i
+    .io_curveSelect               (ctrl_io_curveSelect[1:0]                ), //i
+    .io_activeStage               (ctrl_io_activeStage[2:0]                ), //i
+    .io_accumDir                  (ctrl_io_accumDir                        ), //i
+    .io_disable                   (shaper_io_disable                       ), //i
+    .io_envelopeOut_valid         (shaper_io_envelopeOut_valid             ), //o
+    .io_envelopeOut_payload       (shaper_io_envelopeOut_payload[9:0]      ), //o
+    .io_envelopeOutSigned_valid   (shaper_io_envelopeOutSigned_valid       ), //o
+    .io_envelopeOutSigned_payload (shaper_io_envelopeOutSigned_payload[9:0]), //o
+    .io_reset                     (io_reset                                ), //i
+    .io_clk24MHz                  (io_clk24MHz                             )  //i
+  );
+  assign shaper_io_disable = io_config_ctrl[0];
+  assign io_envelopeOut_valid = shaper_io_envelopeOut_valid;
+  assign io_envelopeOut_payload = shaper_io_envelopeOut_payload;
+  assign io_envelopeOutSigned_valid = shaper_io_envelopeOutSigned_valid;
+  assign io_envelopeOutSigned_payload = shaper_io_envelopeOutSigned_payload;
+
+endmodule
+
+//Oscillator_4 replaced by Oscillator
+
+module SVF_3 (
+  input  wire          io_phaseTick,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [1:0]    io_config_mode,
+  input  wire [7:0]    io_config_cutoff,
+  input  wire [7:0]    io_config_resonance,
+  input  wire          io_sampleIn_valid,
+  input  wire [15:0]   io_sampleIn_payload,
+  output wire          io_sampleOut_valid,
+  output wire [15:0]   io_sampleOut_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [11:0]   mapper_io_cutoffCoeff;
+  wire       [7:0]    mapper_io_resonanceCoeff;
+  wire       [23:0]   core_io_lp;
+  wire       [23:0]   core_io_bp;
+  wire       [23:0]   core_io_hp;
+  wire                core_io_done;
+  wire       [15:0]   mux_io_sampleOut;
+  wire                disable_1;
+  wire                bypass;
+  reg        [15:0]   outReg;
+
+  ParameterMapper_3 mapper (
+    .io_cutoff         (io_config_cutoff[7:0]        ), //i
+    .io_resonance      (io_config_resonance[7:0]     ), //i
+    .io_cutoffCoeff    (mapper_io_cutoffCoeff[11:0]  ), //o
+    .io_resonanceCoeff (mapper_io_resonanceCoeff[7:0])  //o
+  );
+  FilterCore core (
+    .io_phaseTick      (io_phaseTick                 ), //i
+    .io_clear          (disable_1                    ), //i
+    .io_sampleIn       (io_sampleIn_payload[15:0]    ), //i
+    .io_cutoffCoeff    (mapper_io_cutoffCoeff[11:0]  ), //i
+    .io_resonanceCoeff (mapper_io_resonanceCoeff[7:0]), //i
+    .io_lp             (core_io_lp[23:0]             ), //o
+    .io_bp             (core_io_bp[23:0]             ), //o
+    .io_hp             (core_io_hp[23:0]             ), //o
+    .io_done           (core_io_done                 ), //o
+    .io_clk24MHz       (io_clk24MHz                  ), //i
+    .io_reset          (io_reset                     )  //i
+  );
+  FilterMux mux (
+    .io_mode      (io_config_mode[1:0]   ), //i
+    .io_lp        (core_io_lp[23:0]      ), //i
+    .io_bp        (core_io_bp[23:0]      ), //i
+    .io_hp        (core_io_hp[23:0]      ), //i
+    .io_sampleOut (mux_io_sampleOut[15:0])  //o
+  );
+  assign disable_1 = io_config_ctrl[0];
+  assign bypass = io_config_ctrl[1];
+  assign io_sampleOut_payload = ((! disable_1) ? outReg : 16'h0);
+  assign io_sampleOut_valid = (io_phaseTick && (! io_reset));
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      outReg <= 16'h0;
+    end else begin
+      if(core_io_done) begin
+        outReg <= mux_io_sampleOut;
+      end
+    end
+  end
+
+
+endmodule
+
+//Attenuator_7 replaced by Attenuator_1
+
+//Attenuator_6 replaced by Attenuator
+
+module EnvelopeGenerator_3 (
+  input  wire          io_phaseTick,
+  input  wire          io_syncIn,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [7:0]    io_config_attack,
+  input  wire [7:0]    io_config_decay,
+  input  wire [7:0]    io_config_sustain,
+  input  wire [7:0]    io_config_release,
+  input  wire [7:0]    io_config_gate,
+  output wire          io_envelopeOut_valid,
+  output wire [9:0]    io_envelopeOut_payload,
+  output wire          io_envelopeOutSigned_valid,
+  output wire [9:0]    io_envelopeOutSigned_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire                shaper_io_disable;
+  wire                ctrl_io_resetAccum;
+  wire                ctrl_io_runAccum;
+  wire                ctrl_io_accumDir;
+  wire       [21:0]   ctrl_io_phaseInc;
+  wire       [1:0]    ctrl_io_curveSelect;
+  wire       [2:0]    ctrl_io_activeStage;
+  wire                accumulator_io_segmentDone;
+  wire       [7:0]    accumulator_io_baseIndex;
+  wire       [1:0]    accumulator_io_fraction;
+  wire                shaper_io_envelopeOut_valid;
+  wire       [9:0]    shaper_io_envelopeOut_payload;
+  wire                shaper_io_envelopeOutSigned_valid;
+  wire       [9:0]    shaper_io_envelopeOutSigned_payload;
+
+  EnvelopeCtrl_3 ctrl (
+    .io_syncIn         (io_syncIn                 ), //i
+    .io_config_ctrl    (io_config_ctrl[7:0]       ), //i
+    .io_config_attack  (io_config_attack[7:0]     ), //i
+    .io_config_decay   (io_config_decay[7:0]      ), //i
+    .io_config_sustain (io_config_sustain[7:0]    ), //i
+    .io_config_release (io_config_release[7:0]    ), //i
+    .io_config_gate    (io_config_gate[7:0]       ), //i
+    .io_segmentDone    (accumulator_io_segmentDone), //i
+    .io_resetAccum     (ctrl_io_resetAccum        ), //o
+    .io_runAccum       (ctrl_io_runAccum          ), //o
+    .io_accumDir       (ctrl_io_accumDir          ), //o
+    .io_phaseInc       (ctrl_io_phaseInc[21:0]    ), //o
+    .io_curveSelect    (ctrl_io_curveSelect[1:0]  ), //o
+    .io_activeStage    (ctrl_io_activeStage[2:0]  ), //o
+    .io_reset          (io_reset                  ), //i
+    .io_clk24MHz       (io_clk24MHz               )  //i
+  );
+  EnvelopeAccumulator accumulator (
+    .io_resetAccum   (ctrl_io_resetAccum           ), //i
+    .io_runAccum     (ctrl_io_runAccum             ), //i
+    .io_accumDir     (ctrl_io_accumDir             ), //i
+    .io_phaseInc     (ctrl_io_phaseInc[21:0]       ), //i
+    .io_sustainLevel (io_config_sustain[7:0]       ), //i
+    .io_activeStage  (ctrl_io_activeStage[2:0]     ), //i
+    .io_segmentDone  (accumulator_io_segmentDone   ), //o
+    .io_baseIndex    (accumulator_io_baseIndex[7:0]), //o
+    .io_fraction     (accumulator_io_fraction[1:0] ), //o
+    .io_reset        (io_reset                     ), //i
+    .io_clk24MHz     (io_clk24MHz                  )  //i
+  );
+  EnvelopeShaper_3 shaper (
+    .io_phaseTick                 (io_phaseTick                            ), //i
+    .io_baseIndex                 (accumulator_io_baseIndex[7:0]           ), //i
+    .io_fraction                  (accumulator_io_fraction[1:0]            ), //i
+    .io_curveSelect               (ctrl_io_curveSelect[1:0]                ), //i
+    .io_activeStage               (ctrl_io_activeStage[2:0]                ), //i
+    .io_accumDir                  (ctrl_io_accumDir                        ), //i
+    .io_disable                   (shaper_io_disable                       ), //i
+    .io_envelopeOut_valid         (shaper_io_envelopeOut_valid             ), //o
+    .io_envelopeOut_payload       (shaper_io_envelopeOut_payload[9:0]      ), //o
+    .io_envelopeOutSigned_valid   (shaper_io_envelopeOutSigned_valid       ), //o
+    .io_envelopeOutSigned_payload (shaper_io_envelopeOutSigned_payload[9:0]), //o
+    .io_reset                     (io_reset                                ), //i
+    .io_clk24MHz                  (io_clk24MHz                             )  //i
+  );
+  assign shaper_io_disable = io_config_ctrl[0];
+  assign io_envelopeOut_valid = shaper_io_envelopeOut_valid;
+  assign io_envelopeOut_payload = shaper_io_envelopeOut_payload;
+  assign io_envelopeOutSigned_valid = shaper_io_envelopeOutSigned_valid;
+  assign io_envelopeOutSigned_payload = shaper_io_envelopeOutSigned_payload;
+
+endmodule
+
+//Oscillator_3 replaced by Oscillator
+
+module SVF_2 (
+  input  wire          io_phaseTick,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [1:0]    io_config_mode,
+  input  wire [7:0]    io_config_cutoff,
+  input  wire [7:0]    io_config_resonance,
+  input  wire          io_sampleIn_valid,
+  input  wire [15:0]   io_sampleIn_payload,
+  output wire          io_sampleOut_valid,
+  output wire [15:0]   io_sampleOut_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [11:0]   mapper_io_cutoffCoeff;
+  wire       [7:0]    mapper_io_resonanceCoeff;
+  wire       [23:0]   core_io_lp;
+  wire       [23:0]   core_io_bp;
+  wire       [23:0]   core_io_hp;
+  wire                core_io_done;
+  wire       [15:0]   mux_io_sampleOut;
+  wire                disable_1;
+  wire                bypass;
+  reg        [15:0]   outReg;
+
+  ParameterMapper_2 mapper (
+    .io_cutoff         (io_config_cutoff[7:0]        ), //i
+    .io_resonance      (io_config_resonance[7:0]     ), //i
+    .io_cutoffCoeff    (mapper_io_cutoffCoeff[11:0]  ), //o
+    .io_resonanceCoeff (mapper_io_resonanceCoeff[7:0])  //o
+  );
+  FilterCore core (
+    .io_phaseTick      (io_phaseTick                 ), //i
+    .io_clear          (disable_1                    ), //i
+    .io_sampleIn       (io_sampleIn_payload[15:0]    ), //i
+    .io_cutoffCoeff    (mapper_io_cutoffCoeff[11:0]  ), //i
+    .io_resonanceCoeff (mapper_io_resonanceCoeff[7:0]), //i
+    .io_lp             (core_io_lp[23:0]             ), //o
+    .io_bp             (core_io_bp[23:0]             ), //o
+    .io_hp             (core_io_hp[23:0]             ), //o
+    .io_done           (core_io_done                 ), //o
+    .io_clk24MHz       (io_clk24MHz                  ), //i
+    .io_reset          (io_reset                     )  //i
+  );
+  FilterMux mux (
+    .io_mode      (io_config_mode[1:0]   ), //i
+    .io_lp        (core_io_lp[23:0]      ), //i
+    .io_bp        (core_io_bp[23:0]      ), //i
+    .io_hp        (core_io_hp[23:0]      ), //i
+    .io_sampleOut (mux_io_sampleOut[15:0])  //o
+  );
+  assign disable_1 = io_config_ctrl[0];
+  assign bypass = io_config_ctrl[1];
+  assign io_sampleOut_payload = ((! disable_1) ? outReg : 16'h0);
+  assign io_sampleOut_valid = (io_phaseTick && (! io_reset));
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      outReg <= 16'h0;
+    end else begin
+      if(core_io_done) begin
+        outReg <= mux_io_sampleOut;
+      end
+    end
+  end
+
+
+endmodule
+
+//Attenuator_5 replaced by Attenuator_1
+
+//Attenuator_4 replaced by Attenuator
+
+module EnvelopeGenerator_2 (
+  input  wire          io_phaseTick,
+  input  wire          io_syncIn,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [7:0]    io_config_attack,
+  input  wire [7:0]    io_config_decay,
+  input  wire [7:0]    io_config_sustain,
+  input  wire [7:0]    io_config_release,
+  input  wire [7:0]    io_config_gate,
+  output wire          io_envelopeOut_valid,
+  output wire [9:0]    io_envelopeOut_payload,
+  output wire          io_envelopeOutSigned_valid,
+  output wire [9:0]    io_envelopeOutSigned_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire                shaper_io_disable;
+  wire                ctrl_io_resetAccum;
+  wire                ctrl_io_runAccum;
+  wire                ctrl_io_accumDir;
+  wire       [21:0]   ctrl_io_phaseInc;
+  wire       [1:0]    ctrl_io_curveSelect;
+  wire       [2:0]    ctrl_io_activeStage;
+  wire                accumulator_io_segmentDone;
+  wire       [7:0]    accumulator_io_baseIndex;
+  wire       [1:0]    accumulator_io_fraction;
+  wire                shaper_io_envelopeOut_valid;
+  wire       [9:0]    shaper_io_envelopeOut_payload;
+  wire                shaper_io_envelopeOutSigned_valid;
+  wire       [9:0]    shaper_io_envelopeOutSigned_payload;
+
+  EnvelopeCtrl_2 ctrl (
+    .io_syncIn         (io_syncIn                 ), //i
+    .io_config_ctrl    (io_config_ctrl[7:0]       ), //i
+    .io_config_attack  (io_config_attack[7:0]     ), //i
+    .io_config_decay   (io_config_decay[7:0]      ), //i
+    .io_config_sustain (io_config_sustain[7:0]    ), //i
+    .io_config_release (io_config_release[7:0]    ), //i
+    .io_config_gate    (io_config_gate[7:0]       ), //i
+    .io_segmentDone    (accumulator_io_segmentDone), //i
+    .io_resetAccum     (ctrl_io_resetAccum        ), //o
+    .io_runAccum       (ctrl_io_runAccum          ), //o
+    .io_accumDir       (ctrl_io_accumDir          ), //o
+    .io_phaseInc       (ctrl_io_phaseInc[21:0]    ), //o
+    .io_curveSelect    (ctrl_io_curveSelect[1:0]  ), //o
+    .io_activeStage    (ctrl_io_activeStage[2:0]  ), //o
+    .io_reset          (io_reset                  ), //i
+    .io_clk24MHz       (io_clk24MHz               )  //i
+  );
+  EnvelopeAccumulator accumulator (
+    .io_resetAccum   (ctrl_io_resetAccum           ), //i
+    .io_runAccum     (ctrl_io_runAccum             ), //i
+    .io_accumDir     (ctrl_io_accumDir             ), //i
+    .io_phaseInc     (ctrl_io_phaseInc[21:0]       ), //i
+    .io_sustainLevel (io_config_sustain[7:0]       ), //i
+    .io_activeStage  (ctrl_io_activeStage[2:0]     ), //i
+    .io_segmentDone  (accumulator_io_segmentDone   ), //o
+    .io_baseIndex    (accumulator_io_baseIndex[7:0]), //o
+    .io_fraction     (accumulator_io_fraction[1:0] ), //o
+    .io_reset        (io_reset                     ), //i
+    .io_clk24MHz     (io_clk24MHz                  )  //i
+  );
+  EnvelopeShaper_2 shaper (
+    .io_phaseTick                 (io_phaseTick                            ), //i
+    .io_baseIndex                 (accumulator_io_baseIndex[7:0]           ), //i
+    .io_fraction                  (accumulator_io_fraction[1:0]            ), //i
+    .io_curveSelect               (ctrl_io_curveSelect[1:0]                ), //i
+    .io_activeStage               (ctrl_io_activeStage[2:0]                ), //i
+    .io_accumDir                  (ctrl_io_accumDir                        ), //i
+    .io_disable                   (shaper_io_disable                       ), //i
+    .io_envelopeOut_valid         (shaper_io_envelopeOut_valid             ), //o
+    .io_envelopeOut_payload       (shaper_io_envelopeOut_payload[9:0]      ), //o
+    .io_envelopeOutSigned_valid   (shaper_io_envelopeOutSigned_valid       ), //o
+    .io_envelopeOutSigned_payload (shaper_io_envelopeOutSigned_payload[9:0]), //o
+    .io_reset                     (io_reset                                ), //i
+    .io_clk24MHz                  (io_clk24MHz                             )  //i
+  );
+  assign shaper_io_disable = io_config_ctrl[0];
+  assign io_envelopeOut_valid = shaper_io_envelopeOut_valid;
+  assign io_envelopeOut_payload = shaper_io_envelopeOut_payload;
+  assign io_envelopeOutSigned_valid = shaper_io_envelopeOutSigned_valid;
+  assign io_envelopeOutSigned_payload = shaper_io_envelopeOutSigned_payload;
+
+endmodule
+
+//Oscillator_2 replaced by Oscillator
 
 module SVF_1 (
   input  wire          io_phaseTick,
@@ -1331,6 +2904,62 @@ module RegisterBank (
   output wire [1:0]    io_voiceConfig_1_filter_mode,
   output wire [7:0]    io_voiceConfig_1_filter_cutoff,
   output wire [7:0]    io_voiceConfig_1_filter_resonance,
+  output wire [23:0]   io_voiceConfig_2_osc_freqWord,
+  output wire [2:0]    io_voiceConfig_2_osc_waveSelect,
+  output wire [7:0]    io_voiceConfig_2_osc_pwmWidth,
+  output wire [7:0]    io_voiceConfig_2_osc_volume,
+  output wire [7:0]    io_voiceConfig_2_env_ctrl,
+  output wire [7:0]    io_voiceConfig_2_env_attack,
+  output wire [7:0]    io_voiceConfig_2_env_decay,
+  output wire [7:0]    io_voiceConfig_2_env_sustain,
+  output wire [7:0]    io_voiceConfig_2_env_release,
+  output wire [7:0]    io_voiceConfig_2_env_gate,
+  output wire [7:0]    io_voiceConfig_2_filter_ctrl,
+  output wire [1:0]    io_voiceConfig_2_filter_mode,
+  output wire [7:0]    io_voiceConfig_2_filter_cutoff,
+  output wire [7:0]    io_voiceConfig_2_filter_resonance,
+  output wire [23:0]   io_voiceConfig_3_osc_freqWord,
+  output wire [2:0]    io_voiceConfig_3_osc_waveSelect,
+  output wire [7:0]    io_voiceConfig_3_osc_pwmWidth,
+  output wire [7:0]    io_voiceConfig_3_osc_volume,
+  output wire [7:0]    io_voiceConfig_3_env_ctrl,
+  output wire [7:0]    io_voiceConfig_3_env_attack,
+  output wire [7:0]    io_voiceConfig_3_env_decay,
+  output wire [7:0]    io_voiceConfig_3_env_sustain,
+  output wire [7:0]    io_voiceConfig_3_env_release,
+  output wire [7:0]    io_voiceConfig_3_env_gate,
+  output wire [7:0]    io_voiceConfig_3_filter_ctrl,
+  output wire [1:0]    io_voiceConfig_3_filter_mode,
+  output wire [7:0]    io_voiceConfig_3_filter_cutoff,
+  output wire [7:0]    io_voiceConfig_3_filter_resonance,
+  output wire [23:0]   io_voiceConfig_4_osc_freqWord,
+  output wire [2:0]    io_voiceConfig_4_osc_waveSelect,
+  output wire [7:0]    io_voiceConfig_4_osc_pwmWidth,
+  output wire [7:0]    io_voiceConfig_4_osc_volume,
+  output wire [7:0]    io_voiceConfig_4_env_ctrl,
+  output wire [7:0]    io_voiceConfig_4_env_attack,
+  output wire [7:0]    io_voiceConfig_4_env_decay,
+  output wire [7:0]    io_voiceConfig_4_env_sustain,
+  output wire [7:0]    io_voiceConfig_4_env_release,
+  output wire [7:0]    io_voiceConfig_4_env_gate,
+  output wire [7:0]    io_voiceConfig_4_filter_ctrl,
+  output wire [1:0]    io_voiceConfig_4_filter_mode,
+  output wire [7:0]    io_voiceConfig_4_filter_cutoff,
+  output wire [7:0]    io_voiceConfig_4_filter_resonance,
+  output wire [23:0]   io_voiceConfig_5_osc_freqWord,
+  output wire [2:0]    io_voiceConfig_5_osc_waveSelect,
+  output wire [7:0]    io_voiceConfig_5_osc_pwmWidth,
+  output wire [7:0]    io_voiceConfig_5_osc_volume,
+  output wire [7:0]    io_voiceConfig_5_env_ctrl,
+  output wire [7:0]    io_voiceConfig_5_env_attack,
+  output wire [7:0]    io_voiceConfig_5_env_decay,
+  output wire [7:0]    io_voiceConfig_5_env_sustain,
+  output wire [7:0]    io_voiceConfig_5_env_release,
+  output wire [7:0]    io_voiceConfig_5_env_gate,
+  output wire [7:0]    io_voiceConfig_5_filter_ctrl,
+  output wire [1:0]    io_voiceConfig_5_filter_mode,
+  output wire [7:0]    io_voiceConfig_5_filter_cutoff,
+  output wire [7:0]    io_voiceConfig_5_filter_resonance,
   input  wire          io_clk24MHz,
   input  wire          io_reset
 );
@@ -1339,6 +2968,14 @@ module RegisterBank (
   wire       [7:0]    _zz__zz_io_voiceConfig_0_filter_mode;
   wire       [7:0]    _zz__zz_io_voiceConfig_1_osc_waveSelect;
   wire       [7:0]    _zz__zz_io_voiceConfig_1_filter_mode;
+  wire       [7:0]    _zz__zz_io_voiceConfig_2_osc_waveSelect;
+  wire       [7:0]    _zz__zz_io_voiceConfig_2_filter_mode;
+  wire       [7:0]    _zz__zz_io_voiceConfig_3_osc_waveSelect;
+  wire       [7:0]    _zz__zz_io_voiceConfig_3_filter_mode;
+  wire       [7:0]    _zz__zz_io_voiceConfig_4_osc_waveSelect;
+  wire       [7:0]    _zz__zz_io_voiceConfig_4_filter_mode;
+  wire       [7:0]    _zz__zz_io_voiceConfig_5_osc_waveSelect;
+  wire       [7:0]    _zz__zz_io_voiceConfig_5_filter_mode;
   reg        [7:0]    mixerCtrlReg;
   reg        [7:0]    voices_0_oscFreqLow;
   reg        [7:0]    voices_0_oscFreqMid;
@@ -1376,6 +3013,78 @@ module RegisterBank (
   reg        [7:0]    voices_1_filterMode;
   reg        [7:0]    voices_1_filterCutoff;
   reg        [7:0]    voices_1_filterRes;
+  reg        [7:0]    voices_2_oscFreqLow;
+  reg        [7:0]    voices_2_oscFreqMid;
+  reg        [7:0]    voices_2_oscFreqHigh;
+  reg        [7:0]    voices_2_oscWaveform;
+  reg        [7:0]    voices_2_oscPulseWidth;
+  reg        [7:0]    voices_2_oscVolume;
+  reg        [7:0]    voices_2_freqLowShadow;
+  reg        [7:0]    voices_2_freqMidShadow;
+  reg        [7:0]    voices_2_envCtrl;
+  reg        [7:0]    voices_2_envAttack;
+  reg        [7:0]    voices_2_envDecay;
+  reg        [7:0]    voices_2_envSustain;
+  reg        [7:0]    voices_2_envRelease;
+  reg        [7:0]    voices_2_envGate;
+  reg        [7:0]    voices_2_filterCtrl;
+  reg        [7:0]    voices_2_filterMode;
+  reg        [7:0]    voices_2_filterCutoff;
+  reg        [7:0]    voices_2_filterRes;
+  reg        [7:0]    voices_3_oscFreqLow;
+  reg        [7:0]    voices_3_oscFreqMid;
+  reg        [7:0]    voices_3_oscFreqHigh;
+  reg        [7:0]    voices_3_oscWaveform;
+  reg        [7:0]    voices_3_oscPulseWidth;
+  reg        [7:0]    voices_3_oscVolume;
+  reg        [7:0]    voices_3_freqLowShadow;
+  reg        [7:0]    voices_3_freqMidShadow;
+  reg        [7:0]    voices_3_envCtrl;
+  reg        [7:0]    voices_3_envAttack;
+  reg        [7:0]    voices_3_envDecay;
+  reg        [7:0]    voices_3_envSustain;
+  reg        [7:0]    voices_3_envRelease;
+  reg        [7:0]    voices_3_envGate;
+  reg        [7:0]    voices_3_filterCtrl;
+  reg        [7:0]    voices_3_filterMode;
+  reg        [7:0]    voices_3_filterCutoff;
+  reg        [7:0]    voices_3_filterRes;
+  reg        [7:0]    voices_4_oscFreqLow;
+  reg        [7:0]    voices_4_oscFreqMid;
+  reg        [7:0]    voices_4_oscFreqHigh;
+  reg        [7:0]    voices_4_oscWaveform;
+  reg        [7:0]    voices_4_oscPulseWidth;
+  reg        [7:0]    voices_4_oscVolume;
+  reg        [7:0]    voices_4_freqLowShadow;
+  reg        [7:0]    voices_4_freqMidShadow;
+  reg        [7:0]    voices_4_envCtrl;
+  reg        [7:0]    voices_4_envAttack;
+  reg        [7:0]    voices_4_envDecay;
+  reg        [7:0]    voices_4_envSustain;
+  reg        [7:0]    voices_4_envRelease;
+  reg        [7:0]    voices_4_envGate;
+  reg        [7:0]    voices_4_filterCtrl;
+  reg        [7:0]    voices_4_filterMode;
+  reg        [7:0]    voices_4_filterCutoff;
+  reg        [7:0]    voices_4_filterRes;
+  reg        [7:0]    voices_5_oscFreqLow;
+  reg        [7:0]    voices_5_oscFreqMid;
+  reg        [7:0]    voices_5_oscFreqHigh;
+  reg        [7:0]    voices_5_oscWaveform;
+  reg        [7:0]    voices_5_oscPulseWidth;
+  reg        [7:0]    voices_5_oscVolume;
+  reg        [7:0]    voices_5_freqLowShadow;
+  reg        [7:0]    voices_5_freqMidShadow;
+  reg        [7:0]    voices_5_envCtrl;
+  reg        [7:0]    voices_5_envAttack;
+  reg        [7:0]    voices_5_envDecay;
+  reg        [7:0]    voices_5_envSustain;
+  reg        [7:0]    voices_5_envRelease;
+  reg        [7:0]    voices_5_envGate;
+  reg        [7:0]    voices_5_filterCtrl;
+  reg        [7:0]    voices_5_filterMode;
+  reg        [7:0]    voices_5_filterCutoff;
+  reg        [7:0]    voices_5_filterRes;
   wire                when_RegisterBank_l59;
   wire                when_RegisterBank_l64;
   wire                when_RegisterBank_l75;
@@ -1414,6 +3123,78 @@ module RegisterBank (
   wire                when_RegisterBank_l97_28;
   wire                when_RegisterBank_l97_29;
   wire                when_RegisterBank_l103_1;
+  wire                when_RegisterBank_l75_2;
+  wire       [7:0]    _zz_when_RegisterBank_l97_2;
+  wire                when_RegisterBank_l97_30;
+  wire                when_RegisterBank_l97_31;
+  wire                when_RegisterBank_l97_32;
+  wire                when_RegisterBank_l97_33;
+  wire                when_RegisterBank_l97_34;
+  wire                when_RegisterBank_l97_35;
+  wire                when_RegisterBank_l97_36;
+  wire                when_RegisterBank_l97_37;
+  wire                when_RegisterBank_l97_38;
+  wire                when_RegisterBank_l97_39;
+  wire                when_RegisterBank_l97_40;
+  wire                when_RegisterBank_l97_41;
+  wire                when_RegisterBank_l97_42;
+  wire                when_RegisterBank_l97_43;
+  wire                when_RegisterBank_l97_44;
+  wire                when_RegisterBank_l103_2;
+  wire                when_RegisterBank_l75_3;
+  wire       [7:0]    _zz_when_RegisterBank_l97_3;
+  wire                when_RegisterBank_l97_45;
+  wire                when_RegisterBank_l97_46;
+  wire                when_RegisterBank_l97_47;
+  wire                when_RegisterBank_l97_48;
+  wire                when_RegisterBank_l97_49;
+  wire                when_RegisterBank_l97_50;
+  wire                when_RegisterBank_l97_51;
+  wire                when_RegisterBank_l97_52;
+  wire                when_RegisterBank_l97_53;
+  wire                when_RegisterBank_l97_54;
+  wire                when_RegisterBank_l97_55;
+  wire                when_RegisterBank_l97_56;
+  wire                when_RegisterBank_l97_57;
+  wire                when_RegisterBank_l97_58;
+  wire                when_RegisterBank_l97_59;
+  wire                when_RegisterBank_l103_3;
+  wire                when_RegisterBank_l75_4;
+  wire       [7:0]    _zz_when_RegisterBank_l97_4;
+  wire                when_RegisterBank_l97_60;
+  wire                when_RegisterBank_l97_61;
+  wire                when_RegisterBank_l97_62;
+  wire                when_RegisterBank_l97_63;
+  wire                when_RegisterBank_l97_64;
+  wire                when_RegisterBank_l97_65;
+  wire                when_RegisterBank_l97_66;
+  wire                when_RegisterBank_l97_67;
+  wire                when_RegisterBank_l97_68;
+  wire                when_RegisterBank_l97_69;
+  wire                when_RegisterBank_l97_70;
+  wire                when_RegisterBank_l97_71;
+  wire                when_RegisterBank_l97_72;
+  wire                when_RegisterBank_l97_73;
+  wire                when_RegisterBank_l97_74;
+  wire                when_RegisterBank_l103_4;
+  wire                when_RegisterBank_l75_5;
+  wire       [7:0]    _zz_when_RegisterBank_l97_5;
+  wire                when_RegisterBank_l97_75;
+  wire                when_RegisterBank_l97_76;
+  wire                when_RegisterBank_l97_77;
+  wire                when_RegisterBank_l97_78;
+  wire                when_RegisterBank_l97_79;
+  wire                when_RegisterBank_l97_80;
+  wire                when_RegisterBank_l97_81;
+  wire                when_RegisterBank_l97_82;
+  wire                when_RegisterBank_l97_83;
+  wire                when_RegisterBank_l97_84;
+  wire                when_RegisterBank_l97_85;
+  wire                when_RegisterBank_l97_86;
+  wire                when_RegisterBank_l97_87;
+  wire                when_RegisterBank_l97_88;
+  wire                when_RegisterBank_l97_89;
+  wire                when_RegisterBank_l103_5;
   reg        [7:0]    mixerCtrlReg_regNext;
   reg        [23:0]   _zz_io_voiceConfig_0_osc_freqWord;
   reg        [2:0]    _zz_io_voiceConfig_0_osc_waveSelect;
@@ -1443,11 +3224,75 @@ module RegisterBank (
   reg        [1:0]    _zz_io_voiceConfig_1_filter_mode;
   reg        [7:0]    _zz_io_voiceConfig_1_filter_cutoff;
   reg        [7:0]    _zz_io_voiceConfig_1_filter_resonance;
+  reg        [23:0]   _zz_io_voiceConfig_2_osc_freqWord;
+  reg        [2:0]    _zz_io_voiceConfig_2_osc_waveSelect;
+  reg        [7:0]    _zz_io_voiceConfig_2_osc_pwmWidth;
+  reg        [7:0]    _zz_io_voiceConfig_2_osc_volume;
+  reg        [7:0]    voices_2_envCtrl_regNext;
+  reg        [7:0]    _zz_io_voiceConfig_2_env_attack;
+  reg        [7:0]    _zz_io_voiceConfig_2_env_decay;
+  reg        [7:0]    _zz_io_voiceConfig_2_env_sustain;
+  reg        [7:0]    _zz_io_voiceConfig_2_env_release;
+  reg        [7:0]    voices_2_envGate_regNext;
+  reg        [7:0]    voices_2_filterCtrl_regNext;
+  reg        [1:0]    _zz_io_voiceConfig_2_filter_mode;
+  reg        [7:0]    _zz_io_voiceConfig_2_filter_cutoff;
+  reg        [7:0]    _zz_io_voiceConfig_2_filter_resonance;
+  reg        [23:0]   _zz_io_voiceConfig_3_osc_freqWord;
+  reg        [2:0]    _zz_io_voiceConfig_3_osc_waveSelect;
+  reg        [7:0]    _zz_io_voiceConfig_3_osc_pwmWidth;
+  reg        [7:0]    _zz_io_voiceConfig_3_osc_volume;
+  reg        [7:0]    voices_3_envCtrl_regNext;
+  reg        [7:0]    _zz_io_voiceConfig_3_env_attack;
+  reg        [7:0]    _zz_io_voiceConfig_3_env_decay;
+  reg        [7:0]    _zz_io_voiceConfig_3_env_sustain;
+  reg        [7:0]    _zz_io_voiceConfig_3_env_release;
+  reg        [7:0]    voices_3_envGate_regNext;
+  reg        [7:0]    voices_3_filterCtrl_regNext;
+  reg        [1:0]    _zz_io_voiceConfig_3_filter_mode;
+  reg        [7:0]    _zz_io_voiceConfig_3_filter_cutoff;
+  reg        [7:0]    _zz_io_voiceConfig_3_filter_resonance;
+  reg        [23:0]   _zz_io_voiceConfig_4_osc_freqWord;
+  reg        [2:0]    _zz_io_voiceConfig_4_osc_waveSelect;
+  reg        [7:0]    _zz_io_voiceConfig_4_osc_pwmWidth;
+  reg        [7:0]    _zz_io_voiceConfig_4_osc_volume;
+  reg        [7:0]    voices_4_envCtrl_regNext;
+  reg        [7:0]    _zz_io_voiceConfig_4_env_attack;
+  reg        [7:0]    _zz_io_voiceConfig_4_env_decay;
+  reg        [7:0]    _zz_io_voiceConfig_4_env_sustain;
+  reg        [7:0]    _zz_io_voiceConfig_4_env_release;
+  reg        [7:0]    voices_4_envGate_regNext;
+  reg        [7:0]    voices_4_filterCtrl_regNext;
+  reg        [1:0]    _zz_io_voiceConfig_4_filter_mode;
+  reg        [7:0]    _zz_io_voiceConfig_4_filter_cutoff;
+  reg        [7:0]    _zz_io_voiceConfig_4_filter_resonance;
+  reg        [23:0]   _zz_io_voiceConfig_5_osc_freqWord;
+  reg        [2:0]    _zz_io_voiceConfig_5_osc_waveSelect;
+  reg        [7:0]    _zz_io_voiceConfig_5_osc_pwmWidth;
+  reg        [7:0]    _zz_io_voiceConfig_5_osc_volume;
+  reg        [7:0]    voices_5_envCtrl_regNext;
+  reg        [7:0]    _zz_io_voiceConfig_5_env_attack;
+  reg        [7:0]    _zz_io_voiceConfig_5_env_decay;
+  reg        [7:0]    _zz_io_voiceConfig_5_env_sustain;
+  reg        [7:0]    _zz_io_voiceConfig_5_env_release;
+  reg        [7:0]    voices_5_envGate_regNext;
+  reg        [7:0]    voices_5_filterCtrl_regNext;
+  reg        [1:0]    _zz_io_voiceConfig_5_filter_mode;
+  reg        [7:0]    _zz_io_voiceConfig_5_filter_cutoff;
+  reg        [7:0]    _zz_io_voiceConfig_5_filter_resonance;
 
   assign _zz__zz_io_voiceConfig_0_osc_waveSelect = voices_0_oscWaveform;
   assign _zz__zz_io_voiceConfig_0_filter_mode = voices_0_filterMode;
   assign _zz__zz_io_voiceConfig_1_osc_waveSelect = voices_1_oscWaveform;
   assign _zz__zz_io_voiceConfig_1_filter_mode = voices_1_filterMode;
+  assign _zz__zz_io_voiceConfig_2_osc_waveSelect = voices_2_oscWaveform;
+  assign _zz__zz_io_voiceConfig_2_filter_mode = voices_2_filterMode;
+  assign _zz__zz_io_voiceConfig_3_osc_waveSelect = voices_3_oscWaveform;
+  assign _zz__zz_io_voiceConfig_3_filter_mode = voices_3_filterMode;
+  assign _zz__zz_io_voiceConfig_4_osc_waveSelect = voices_4_oscWaveform;
+  assign _zz__zz_io_voiceConfig_4_filter_mode = voices_4_filterMode;
+  assign _zz__zz_io_voiceConfig_5_osc_waveSelect = voices_5_oscWaveform;
+  assign _zz__zz_io_voiceConfig_5_filter_mode = voices_5_filterMode;
   assign when_RegisterBank_l59 = (io_regWrite_payload_address < 8'h10);
   assign when_RegisterBank_l64 = (io_regWrite_payload_address == 8'h0);
   assign when_RegisterBank_l75 = ((8'h10 <= io_regWrite_payload_address) && (io_regWrite_payload_address <= 8'h28));
@@ -1486,6 +3331,78 @@ module RegisterBank (
   assign when_RegisterBank_l97_28 = (_zz_when_RegisterBank_l97_1 == 8'h17);
   assign when_RegisterBank_l97_29 = (_zz_when_RegisterBank_l97_1 == 8'h18);
   assign when_RegisterBank_l103_1 = (_zz_when_RegisterBank_l97_1 == 8'h07);
+  assign when_RegisterBank_l75_2 = ((8'h50 <= io_regWrite_payload_address) && (io_regWrite_payload_address <= 8'h68));
+  assign _zz_when_RegisterBank_l97_2 = (io_regWrite_payload_address - 8'h50);
+  assign when_RegisterBank_l97_30 = (_zz_when_RegisterBank_l97_2 == 8'h05);
+  assign when_RegisterBank_l97_31 = (_zz_when_RegisterBank_l97_2 == 8'h06);
+  assign when_RegisterBank_l97_32 = (_zz_when_RegisterBank_l97_2 == 8'h08);
+  assign when_RegisterBank_l97_33 = (_zz_when_RegisterBank_l97_2 == 8'h09);
+  assign when_RegisterBank_l97_34 = (_zz_when_RegisterBank_l97_2 == 8'h0a);
+  assign when_RegisterBank_l97_35 = (_zz_when_RegisterBank_l97_2 == 8'h0d);
+  assign when_RegisterBank_l97_36 = (_zz_when_RegisterBank_l97_2 == 8'h0e);
+  assign when_RegisterBank_l97_37 = (_zz_when_RegisterBank_l97_2 == 8'h0f);
+  assign when_RegisterBank_l97_38 = (_zz_when_RegisterBank_l97_2 == 8'h10);
+  assign when_RegisterBank_l97_39 = (_zz_when_RegisterBank_l97_2 == 8'h11);
+  assign when_RegisterBank_l97_40 = (_zz_when_RegisterBank_l97_2 == 8'h12);
+  assign when_RegisterBank_l97_41 = (_zz_when_RegisterBank_l97_2 == 8'h15);
+  assign when_RegisterBank_l97_42 = (_zz_when_RegisterBank_l97_2 == 8'h16);
+  assign when_RegisterBank_l97_43 = (_zz_when_RegisterBank_l97_2 == 8'h17);
+  assign when_RegisterBank_l97_44 = (_zz_when_RegisterBank_l97_2 == 8'h18);
+  assign when_RegisterBank_l103_2 = (_zz_when_RegisterBank_l97_2 == 8'h07);
+  assign when_RegisterBank_l75_3 = ((8'h70 <= io_regWrite_payload_address) && (io_regWrite_payload_address <= 8'h88));
+  assign _zz_when_RegisterBank_l97_3 = (io_regWrite_payload_address - 8'h70);
+  assign when_RegisterBank_l97_45 = (_zz_when_RegisterBank_l97_3 == 8'h05);
+  assign when_RegisterBank_l97_46 = (_zz_when_RegisterBank_l97_3 == 8'h06);
+  assign when_RegisterBank_l97_47 = (_zz_when_RegisterBank_l97_3 == 8'h08);
+  assign when_RegisterBank_l97_48 = (_zz_when_RegisterBank_l97_3 == 8'h09);
+  assign when_RegisterBank_l97_49 = (_zz_when_RegisterBank_l97_3 == 8'h0a);
+  assign when_RegisterBank_l97_50 = (_zz_when_RegisterBank_l97_3 == 8'h0d);
+  assign when_RegisterBank_l97_51 = (_zz_when_RegisterBank_l97_3 == 8'h0e);
+  assign when_RegisterBank_l97_52 = (_zz_when_RegisterBank_l97_3 == 8'h0f);
+  assign when_RegisterBank_l97_53 = (_zz_when_RegisterBank_l97_3 == 8'h10);
+  assign when_RegisterBank_l97_54 = (_zz_when_RegisterBank_l97_3 == 8'h11);
+  assign when_RegisterBank_l97_55 = (_zz_when_RegisterBank_l97_3 == 8'h12);
+  assign when_RegisterBank_l97_56 = (_zz_when_RegisterBank_l97_3 == 8'h15);
+  assign when_RegisterBank_l97_57 = (_zz_when_RegisterBank_l97_3 == 8'h16);
+  assign when_RegisterBank_l97_58 = (_zz_when_RegisterBank_l97_3 == 8'h17);
+  assign when_RegisterBank_l97_59 = (_zz_when_RegisterBank_l97_3 == 8'h18);
+  assign when_RegisterBank_l103_3 = (_zz_when_RegisterBank_l97_3 == 8'h07);
+  assign when_RegisterBank_l75_4 = ((8'h90 <= io_regWrite_payload_address) && (io_regWrite_payload_address <= 8'ha8));
+  assign _zz_when_RegisterBank_l97_4 = (io_regWrite_payload_address - 8'h90);
+  assign when_RegisterBank_l97_60 = (_zz_when_RegisterBank_l97_4 == 8'h05);
+  assign when_RegisterBank_l97_61 = (_zz_when_RegisterBank_l97_4 == 8'h06);
+  assign when_RegisterBank_l97_62 = (_zz_when_RegisterBank_l97_4 == 8'h08);
+  assign when_RegisterBank_l97_63 = (_zz_when_RegisterBank_l97_4 == 8'h09);
+  assign when_RegisterBank_l97_64 = (_zz_when_RegisterBank_l97_4 == 8'h0a);
+  assign when_RegisterBank_l97_65 = (_zz_when_RegisterBank_l97_4 == 8'h0d);
+  assign when_RegisterBank_l97_66 = (_zz_when_RegisterBank_l97_4 == 8'h0e);
+  assign when_RegisterBank_l97_67 = (_zz_when_RegisterBank_l97_4 == 8'h0f);
+  assign when_RegisterBank_l97_68 = (_zz_when_RegisterBank_l97_4 == 8'h10);
+  assign when_RegisterBank_l97_69 = (_zz_when_RegisterBank_l97_4 == 8'h11);
+  assign when_RegisterBank_l97_70 = (_zz_when_RegisterBank_l97_4 == 8'h12);
+  assign when_RegisterBank_l97_71 = (_zz_when_RegisterBank_l97_4 == 8'h15);
+  assign when_RegisterBank_l97_72 = (_zz_when_RegisterBank_l97_4 == 8'h16);
+  assign when_RegisterBank_l97_73 = (_zz_when_RegisterBank_l97_4 == 8'h17);
+  assign when_RegisterBank_l97_74 = (_zz_when_RegisterBank_l97_4 == 8'h18);
+  assign when_RegisterBank_l103_4 = (_zz_when_RegisterBank_l97_4 == 8'h07);
+  assign when_RegisterBank_l75_5 = ((8'hb0 <= io_regWrite_payload_address) && (io_regWrite_payload_address <= 8'hc8));
+  assign _zz_when_RegisterBank_l97_5 = (io_regWrite_payload_address - 8'hb0);
+  assign when_RegisterBank_l97_75 = (_zz_when_RegisterBank_l97_5 == 8'h05);
+  assign when_RegisterBank_l97_76 = (_zz_when_RegisterBank_l97_5 == 8'h06);
+  assign when_RegisterBank_l97_77 = (_zz_when_RegisterBank_l97_5 == 8'h08);
+  assign when_RegisterBank_l97_78 = (_zz_when_RegisterBank_l97_5 == 8'h09);
+  assign when_RegisterBank_l97_79 = (_zz_when_RegisterBank_l97_5 == 8'h0a);
+  assign when_RegisterBank_l97_80 = (_zz_when_RegisterBank_l97_5 == 8'h0d);
+  assign when_RegisterBank_l97_81 = (_zz_when_RegisterBank_l97_5 == 8'h0e);
+  assign when_RegisterBank_l97_82 = (_zz_when_RegisterBank_l97_5 == 8'h0f);
+  assign when_RegisterBank_l97_83 = (_zz_when_RegisterBank_l97_5 == 8'h10);
+  assign when_RegisterBank_l97_84 = (_zz_when_RegisterBank_l97_5 == 8'h11);
+  assign when_RegisterBank_l97_85 = (_zz_when_RegisterBank_l97_5 == 8'h12);
+  assign when_RegisterBank_l97_86 = (_zz_when_RegisterBank_l97_5 == 8'h15);
+  assign when_RegisterBank_l97_87 = (_zz_when_RegisterBank_l97_5 == 8'h16);
+  assign when_RegisterBank_l97_88 = (_zz_when_RegisterBank_l97_5 == 8'h17);
+  assign when_RegisterBank_l97_89 = (_zz_when_RegisterBank_l97_5 == 8'h18);
+  assign when_RegisterBank_l103_5 = (_zz_when_RegisterBank_l97_5 == 8'h07);
   assign io_synthConfig_mixerCtrl = mixerCtrlReg_regNext;
   assign io_voiceConfig_0_osc_freqWord = _zz_io_voiceConfig_0_osc_freqWord;
   assign io_voiceConfig_0_osc_waveSelect = _zz_io_voiceConfig_0_osc_waveSelect;
@@ -1515,6 +3432,62 @@ module RegisterBank (
   assign io_voiceConfig_1_filter_mode = _zz_io_voiceConfig_1_filter_mode;
   assign io_voiceConfig_1_filter_cutoff = _zz_io_voiceConfig_1_filter_cutoff;
   assign io_voiceConfig_1_filter_resonance = _zz_io_voiceConfig_1_filter_resonance;
+  assign io_voiceConfig_2_osc_freqWord = _zz_io_voiceConfig_2_osc_freqWord;
+  assign io_voiceConfig_2_osc_waveSelect = _zz_io_voiceConfig_2_osc_waveSelect;
+  assign io_voiceConfig_2_osc_pwmWidth = _zz_io_voiceConfig_2_osc_pwmWidth;
+  assign io_voiceConfig_2_osc_volume = _zz_io_voiceConfig_2_osc_volume;
+  assign io_voiceConfig_2_env_ctrl = voices_2_envCtrl_regNext;
+  assign io_voiceConfig_2_env_attack = _zz_io_voiceConfig_2_env_attack;
+  assign io_voiceConfig_2_env_decay = _zz_io_voiceConfig_2_env_decay;
+  assign io_voiceConfig_2_env_sustain = _zz_io_voiceConfig_2_env_sustain;
+  assign io_voiceConfig_2_env_release = _zz_io_voiceConfig_2_env_release;
+  assign io_voiceConfig_2_env_gate = voices_2_envGate_regNext;
+  assign io_voiceConfig_2_filter_ctrl = voices_2_filterCtrl_regNext;
+  assign io_voiceConfig_2_filter_mode = _zz_io_voiceConfig_2_filter_mode;
+  assign io_voiceConfig_2_filter_cutoff = _zz_io_voiceConfig_2_filter_cutoff;
+  assign io_voiceConfig_2_filter_resonance = _zz_io_voiceConfig_2_filter_resonance;
+  assign io_voiceConfig_3_osc_freqWord = _zz_io_voiceConfig_3_osc_freqWord;
+  assign io_voiceConfig_3_osc_waveSelect = _zz_io_voiceConfig_3_osc_waveSelect;
+  assign io_voiceConfig_3_osc_pwmWidth = _zz_io_voiceConfig_3_osc_pwmWidth;
+  assign io_voiceConfig_3_osc_volume = _zz_io_voiceConfig_3_osc_volume;
+  assign io_voiceConfig_3_env_ctrl = voices_3_envCtrl_regNext;
+  assign io_voiceConfig_3_env_attack = _zz_io_voiceConfig_3_env_attack;
+  assign io_voiceConfig_3_env_decay = _zz_io_voiceConfig_3_env_decay;
+  assign io_voiceConfig_3_env_sustain = _zz_io_voiceConfig_3_env_sustain;
+  assign io_voiceConfig_3_env_release = _zz_io_voiceConfig_3_env_release;
+  assign io_voiceConfig_3_env_gate = voices_3_envGate_regNext;
+  assign io_voiceConfig_3_filter_ctrl = voices_3_filterCtrl_regNext;
+  assign io_voiceConfig_3_filter_mode = _zz_io_voiceConfig_3_filter_mode;
+  assign io_voiceConfig_3_filter_cutoff = _zz_io_voiceConfig_3_filter_cutoff;
+  assign io_voiceConfig_3_filter_resonance = _zz_io_voiceConfig_3_filter_resonance;
+  assign io_voiceConfig_4_osc_freqWord = _zz_io_voiceConfig_4_osc_freqWord;
+  assign io_voiceConfig_4_osc_waveSelect = _zz_io_voiceConfig_4_osc_waveSelect;
+  assign io_voiceConfig_4_osc_pwmWidth = _zz_io_voiceConfig_4_osc_pwmWidth;
+  assign io_voiceConfig_4_osc_volume = _zz_io_voiceConfig_4_osc_volume;
+  assign io_voiceConfig_4_env_ctrl = voices_4_envCtrl_regNext;
+  assign io_voiceConfig_4_env_attack = _zz_io_voiceConfig_4_env_attack;
+  assign io_voiceConfig_4_env_decay = _zz_io_voiceConfig_4_env_decay;
+  assign io_voiceConfig_4_env_sustain = _zz_io_voiceConfig_4_env_sustain;
+  assign io_voiceConfig_4_env_release = _zz_io_voiceConfig_4_env_release;
+  assign io_voiceConfig_4_env_gate = voices_4_envGate_regNext;
+  assign io_voiceConfig_4_filter_ctrl = voices_4_filterCtrl_regNext;
+  assign io_voiceConfig_4_filter_mode = _zz_io_voiceConfig_4_filter_mode;
+  assign io_voiceConfig_4_filter_cutoff = _zz_io_voiceConfig_4_filter_cutoff;
+  assign io_voiceConfig_4_filter_resonance = _zz_io_voiceConfig_4_filter_resonance;
+  assign io_voiceConfig_5_osc_freqWord = _zz_io_voiceConfig_5_osc_freqWord;
+  assign io_voiceConfig_5_osc_waveSelect = _zz_io_voiceConfig_5_osc_waveSelect;
+  assign io_voiceConfig_5_osc_pwmWidth = _zz_io_voiceConfig_5_osc_pwmWidth;
+  assign io_voiceConfig_5_osc_volume = _zz_io_voiceConfig_5_osc_volume;
+  assign io_voiceConfig_5_env_ctrl = voices_5_envCtrl_regNext;
+  assign io_voiceConfig_5_env_attack = _zz_io_voiceConfig_5_env_attack;
+  assign io_voiceConfig_5_env_decay = _zz_io_voiceConfig_5_env_decay;
+  assign io_voiceConfig_5_env_sustain = _zz_io_voiceConfig_5_env_sustain;
+  assign io_voiceConfig_5_env_release = _zz_io_voiceConfig_5_env_release;
+  assign io_voiceConfig_5_env_gate = voices_5_envGate_regNext;
+  assign io_voiceConfig_5_filter_ctrl = voices_5_filterCtrl_regNext;
+  assign io_voiceConfig_5_filter_mode = _zz_io_voiceConfig_5_filter_mode;
+  assign io_voiceConfig_5_filter_cutoff = _zz_io_voiceConfig_5_filter_cutoff;
+  assign io_voiceConfig_5_filter_resonance = _zz_io_voiceConfig_5_filter_resonance;
   always @(posedge io_clk24MHz or posedge io_reset) begin
     if(io_reset) begin
       mixerCtrlReg <= 8'h0;
@@ -1554,6 +3527,78 @@ module RegisterBank (
       voices_1_filterMode <= 8'h0;
       voices_1_filterCutoff <= 8'h0;
       voices_1_filterRes <= 8'h0;
+      voices_2_oscFreqLow <= 8'h0;
+      voices_2_oscFreqMid <= 8'h0;
+      voices_2_oscFreqHigh <= 8'h0;
+      voices_2_oscWaveform <= 8'h0;
+      voices_2_oscPulseWidth <= 8'h0;
+      voices_2_oscVolume <= 8'h0;
+      voices_2_freqLowShadow <= 8'h0;
+      voices_2_freqMidShadow <= 8'h0;
+      voices_2_envCtrl <= 8'h0;
+      voices_2_envAttack <= 8'h0;
+      voices_2_envDecay <= 8'h0;
+      voices_2_envSustain <= 8'h0;
+      voices_2_envRelease <= 8'h0;
+      voices_2_envGate <= 8'h0;
+      voices_2_filterCtrl <= 8'h0;
+      voices_2_filterMode <= 8'h0;
+      voices_2_filterCutoff <= 8'h0;
+      voices_2_filterRes <= 8'h0;
+      voices_3_oscFreqLow <= 8'h0;
+      voices_3_oscFreqMid <= 8'h0;
+      voices_3_oscFreqHigh <= 8'h0;
+      voices_3_oscWaveform <= 8'h0;
+      voices_3_oscPulseWidth <= 8'h0;
+      voices_3_oscVolume <= 8'h0;
+      voices_3_freqLowShadow <= 8'h0;
+      voices_3_freqMidShadow <= 8'h0;
+      voices_3_envCtrl <= 8'h0;
+      voices_3_envAttack <= 8'h0;
+      voices_3_envDecay <= 8'h0;
+      voices_3_envSustain <= 8'h0;
+      voices_3_envRelease <= 8'h0;
+      voices_3_envGate <= 8'h0;
+      voices_3_filterCtrl <= 8'h0;
+      voices_3_filterMode <= 8'h0;
+      voices_3_filterCutoff <= 8'h0;
+      voices_3_filterRes <= 8'h0;
+      voices_4_oscFreqLow <= 8'h0;
+      voices_4_oscFreqMid <= 8'h0;
+      voices_4_oscFreqHigh <= 8'h0;
+      voices_4_oscWaveform <= 8'h0;
+      voices_4_oscPulseWidth <= 8'h0;
+      voices_4_oscVolume <= 8'h0;
+      voices_4_freqLowShadow <= 8'h0;
+      voices_4_freqMidShadow <= 8'h0;
+      voices_4_envCtrl <= 8'h0;
+      voices_4_envAttack <= 8'h0;
+      voices_4_envDecay <= 8'h0;
+      voices_4_envSustain <= 8'h0;
+      voices_4_envRelease <= 8'h0;
+      voices_4_envGate <= 8'h0;
+      voices_4_filterCtrl <= 8'h0;
+      voices_4_filterMode <= 8'h0;
+      voices_4_filterCutoff <= 8'h0;
+      voices_4_filterRes <= 8'h0;
+      voices_5_oscFreqLow <= 8'h0;
+      voices_5_oscFreqMid <= 8'h0;
+      voices_5_oscFreqHigh <= 8'h0;
+      voices_5_oscWaveform <= 8'h0;
+      voices_5_oscPulseWidth <= 8'h0;
+      voices_5_oscVolume <= 8'h0;
+      voices_5_freqLowShadow <= 8'h0;
+      voices_5_freqMidShadow <= 8'h0;
+      voices_5_envCtrl <= 8'h0;
+      voices_5_envAttack <= 8'h0;
+      voices_5_envDecay <= 8'h0;
+      voices_5_envSustain <= 8'h0;
+      voices_5_envRelease <= 8'h0;
+      voices_5_envGate <= 8'h0;
+      voices_5_filterCtrl <= 8'h0;
+      voices_5_filterMode <= 8'h0;
+      voices_5_filterCutoff <= 8'h0;
+      voices_5_filterRes <= 8'h0;
       mixerCtrlReg_regNext <= 8'h0;
       _zz_io_voiceConfig_0_osc_freqWord <= 24'h0;
       _zz_io_voiceConfig_0_osc_waveSelect <= 3'b000;
@@ -1583,6 +3628,62 @@ module RegisterBank (
       _zz_io_voiceConfig_1_filter_mode <= 2'b00;
       _zz_io_voiceConfig_1_filter_cutoff <= 8'h0;
       _zz_io_voiceConfig_1_filter_resonance <= 8'h0;
+      _zz_io_voiceConfig_2_osc_freqWord <= 24'h0;
+      _zz_io_voiceConfig_2_osc_waveSelect <= 3'b000;
+      _zz_io_voiceConfig_2_osc_pwmWidth <= 8'h0;
+      _zz_io_voiceConfig_2_osc_volume <= 8'h0;
+      voices_2_envCtrl_regNext <= 8'h0;
+      _zz_io_voiceConfig_2_env_attack <= 8'h0;
+      _zz_io_voiceConfig_2_env_decay <= 8'h0;
+      _zz_io_voiceConfig_2_env_sustain <= 8'h0;
+      _zz_io_voiceConfig_2_env_release <= 8'h0;
+      voices_2_envGate_regNext <= 8'h0;
+      voices_2_filterCtrl_regNext <= 8'h0;
+      _zz_io_voiceConfig_2_filter_mode <= 2'b00;
+      _zz_io_voiceConfig_2_filter_cutoff <= 8'h0;
+      _zz_io_voiceConfig_2_filter_resonance <= 8'h0;
+      _zz_io_voiceConfig_3_osc_freqWord <= 24'h0;
+      _zz_io_voiceConfig_3_osc_waveSelect <= 3'b000;
+      _zz_io_voiceConfig_3_osc_pwmWidth <= 8'h0;
+      _zz_io_voiceConfig_3_osc_volume <= 8'h0;
+      voices_3_envCtrl_regNext <= 8'h0;
+      _zz_io_voiceConfig_3_env_attack <= 8'h0;
+      _zz_io_voiceConfig_3_env_decay <= 8'h0;
+      _zz_io_voiceConfig_3_env_sustain <= 8'h0;
+      _zz_io_voiceConfig_3_env_release <= 8'h0;
+      voices_3_envGate_regNext <= 8'h0;
+      voices_3_filterCtrl_regNext <= 8'h0;
+      _zz_io_voiceConfig_3_filter_mode <= 2'b00;
+      _zz_io_voiceConfig_3_filter_cutoff <= 8'h0;
+      _zz_io_voiceConfig_3_filter_resonance <= 8'h0;
+      _zz_io_voiceConfig_4_osc_freqWord <= 24'h0;
+      _zz_io_voiceConfig_4_osc_waveSelect <= 3'b000;
+      _zz_io_voiceConfig_4_osc_pwmWidth <= 8'h0;
+      _zz_io_voiceConfig_4_osc_volume <= 8'h0;
+      voices_4_envCtrl_regNext <= 8'h0;
+      _zz_io_voiceConfig_4_env_attack <= 8'h0;
+      _zz_io_voiceConfig_4_env_decay <= 8'h0;
+      _zz_io_voiceConfig_4_env_sustain <= 8'h0;
+      _zz_io_voiceConfig_4_env_release <= 8'h0;
+      voices_4_envGate_regNext <= 8'h0;
+      voices_4_filterCtrl_regNext <= 8'h0;
+      _zz_io_voiceConfig_4_filter_mode <= 2'b00;
+      _zz_io_voiceConfig_4_filter_cutoff <= 8'h0;
+      _zz_io_voiceConfig_4_filter_resonance <= 8'h0;
+      _zz_io_voiceConfig_5_osc_freqWord <= 24'h0;
+      _zz_io_voiceConfig_5_osc_waveSelect <= 3'b000;
+      _zz_io_voiceConfig_5_osc_pwmWidth <= 8'h0;
+      _zz_io_voiceConfig_5_osc_volume <= 8'h0;
+      voices_5_envCtrl_regNext <= 8'h0;
+      _zz_io_voiceConfig_5_env_attack <= 8'h0;
+      _zz_io_voiceConfig_5_env_decay <= 8'h0;
+      _zz_io_voiceConfig_5_env_sustain <= 8'h0;
+      _zz_io_voiceConfig_5_env_release <= 8'h0;
+      voices_5_envGate_regNext <= 8'h0;
+      voices_5_filterCtrl_regNext <= 8'h0;
+      _zz_io_voiceConfig_5_filter_mode <= 2'b00;
+      _zz_io_voiceConfig_5_filter_cutoff <= 8'h0;
+      _zz_io_voiceConfig_5_filter_resonance <= 8'h0;
     end else begin
       if(io_regWrite_valid) begin
         if(when_RegisterBank_l59) begin
@@ -1694,6 +3795,214 @@ module RegisterBank (
             voices_1_oscFreqLow <= voices_1_freqLowShadow;
           end
         end
+        if(when_RegisterBank_l75_2) begin
+          if(when_RegisterBank_l97_30) begin
+            voices_2_freqLowShadow <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_31) begin
+            voices_2_freqMidShadow <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_32) begin
+            voices_2_oscWaveform <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_33) begin
+            voices_2_oscPulseWidth <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_34) begin
+            voices_2_oscVolume <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_35) begin
+            voices_2_envCtrl <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_36) begin
+            voices_2_envAttack <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_37) begin
+            voices_2_envDecay <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_38) begin
+            voices_2_envSustain <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_39) begin
+            voices_2_envRelease <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_40) begin
+            voices_2_envGate <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_41) begin
+            voices_2_filterCtrl <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_42) begin
+            voices_2_filterMode <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_43) begin
+            voices_2_filterCutoff <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_44) begin
+            voices_2_filterRes <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l103_2) begin
+            voices_2_oscFreqHigh <= io_regWrite_payload_data;
+            voices_2_oscFreqMid <= voices_2_freqMidShadow;
+            voices_2_oscFreqLow <= voices_2_freqLowShadow;
+          end
+        end
+        if(when_RegisterBank_l75_3) begin
+          if(when_RegisterBank_l97_45) begin
+            voices_3_freqLowShadow <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_46) begin
+            voices_3_freqMidShadow <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_47) begin
+            voices_3_oscWaveform <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_48) begin
+            voices_3_oscPulseWidth <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_49) begin
+            voices_3_oscVolume <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_50) begin
+            voices_3_envCtrl <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_51) begin
+            voices_3_envAttack <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_52) begin
+            voices_3_envDecay <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_53) begin
+            voices_3_envSustain <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_54) begin
+            voices_3_envRelease <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_55) begin
+            voices_3_envGate <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_56) begin
+            voices_3_filterCtrl <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_57) begin
+            voices_3_filterMode <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_58) begin
+            voices_3_filterCutoff <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_59) begin
+            voices_3_filterRes <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l103_3) begin
+            voices_3_oscFreqHigh <= io_regWrite_payload_data;
+            voices_3_oscFreqMid <= voices_3_freqMidShadow;
+            voices_3_oscFreqLow <= voices_3_freqLowShadow;
+          end
+        end
+        if(when_RegisterBank_l75_4) begin
+          if(when_RegisterBank_l97_60) begin
+            voices_4_freqLowShadow <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_61) begin
+            voices_4_freqMidShadow <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_62) begin
+            voices_4_oscWaveform <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_63) begin
+            voices_4_oscPulseWidth <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_64) begin
+            voices_4_oscVolume <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_65) begin
+            voices_4_envCtrl <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_66) begin
+            voices_4_envAttack <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_67) begin
+            voices_4_envDecay <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_68) begin
+            voices_4_envSustain <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_69) begin
+            voices_4_envRelease <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_70) begin
+            voices_4_envGate <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_71) begin
+            voices_4_filterCtrl <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_72) begin
+            voices_4_filterMode <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_73) begin
+            voices_4_filterCutoff <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_74) begin
+            voices_4_filterRes <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l103_4) begin
+            voices_4_oscFreqHigh <= io_regWrite_payload_data;
+            voices_4_oscFreqMid <= voices_4_freqMidShadow;
+            voices_4_oscFreqLow <= voices_4_freqLowShadow;
+          end
+        end
+        if(when_RegisterBank_l75_5) begin
+          if(when_RegisterBank_l97_75) begin
+            voices_5_freqLowShadow <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_76) begin
+            voices_5_freqMidShadow <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_77) begin
+            voices_5_oscWaveform <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_78) begin
+            voices_5_oscPulseWidth <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_79) begin
+            voices_5_oscVolume <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_80) begin
+            voices_5_envCtrl <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_81) begin
+            voices_5_envAttack <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_82) begin
+            voices_5_envDecay <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_83) begin
+            voices_5_envSustain <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_84) begin
+            voices_5_envRelease <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_85) begin
+            voices_5_envGate <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_86) begin
+            voices_5_filterCtrl <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_87) begin
+            voices_5_filterMode <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_88) begin
+            voices_5_filterCutoff <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l97_89) begin
+            voices_5_filterRes <= io_regWrite_payload_data;
+          end
+          if(when_RegisterBank_l103_5) begin
+            voices_5_oscFreqHigh <= io_regWrite_payload_data;
+            voices_5_oscFreqMid <= voices_5_freqMidShadow;
+            voices_5_oscFreqLow <= voices_5_freqLowShadow;
+          end
+        end
       end
       mixerCtrlReg_regNext <= mixerCtrlReg;
       _zz_io_voiceConfig_0_osc_freqWord <= {{voices_0_oscFreqHigh,voices_0_oscFreqMid},voices_0_oscFreqLow};
@@ -1724,6 +4033,62 @@ module RegisterBank (
       _zz_io_voiceConfig_1_filter_mode <= _zz__zz_io_voiceConfig_1_filter_mode[1 : 0];
       _zz_io_voiceConfig_1_filter_cutoff <= voices_1_filterCutoff;
       _zz_io_voiceConfig_1_filter_resonance <= voices_1_filterRes;
+      _zz_io_voiceConfig_2_osc_freqWord <= {{voices_2_oscFreqHigh,voices_2_oscFreqMid},voices_2_oscFreqLow};
+      _zz_io_voiceConfig_2_osc_waveSelect <= _zz__zz_io_voiceConfig_2_osc_waveSelect[2 : 0];
+      _zz_io_voiceConfig_2_osc_pwmWidth <= voices_2_oscPulseWidth;
+      _zz_io_voiceConfig_2_osc_volume <= voices_2_oscVolume;
+      voices_2_envCtrl_regNext <= voices_2_envCtrl;
+      _zz_io_voiceConfig_2_env_attack <= voices_2_envAttack;
+      _zz_io_voiceConfig_2_env_decay <= voices_2_envDecay;
+      _zz_io_voiceConfig_2_env_sustain <= voices_2_envSustain;
+      _zz_io_voiceConfig_2_env_release <= voices_2_envRelease;
+      voices_2_envGate_regNext <= voices_2_envGate;
+      voices_2_filterCtrl_regNext <= voices_2_filterCtrl;
+      _zz_io_voiceConfig_2_filter_mode <= _zz__zz_io_voiceConfig_2_filter_mode[1 : 0];
+      _zz_io_voiceConfig_2_filter_cutoff <= voices_2_filterCutoff;
+      _zz_io_voiceConfig_2_filter_resonance <= voices_2_filterRes;
+      _zz_io_voiceConfig_3_osc_freqWord <= {{voices_3_oscFreqHigh,voices_3_oscFreqMid},voices_3_oscFreqLow};
+      _zz_io_voiceConfig_3_osc_waveSelect <= _zz__zz_io_voiceConfig_3_osc_waveSelect[2 : 0];
+      _zz_io_voiceConfig_3_osc_pwmWidth <= voices_3_oscPulseWidth;
+      _zz_io_voiceConfig_3_osc_volume <= voices_3_oscVolume;
+      voices_3_envCtrl_regNext <= voices_3_envCtrl;
+      _zz_io_voiceConfig_3_env_attack <= voices_3_envAttack;
+      _zz_io_voiceConfig_3_env_decay <= voices_3_envDecay;
+      _zz_io_voiceConfig_3_env_sustain <= voices_3_envSustain;
+      _zz_io_voiceConfig_3_env_release <= voices_3_envRelease;
+      voices_3_envGate_regNext <= voices_3_envGate;
+      voices_3_filterCtrl_regNext <= voices_3_filterCtrl;
+      _zz_io_voiceConfig_3_filter_mode <= _zz__zz_io_voiceConfig_3_filter_mode[1 : 0];
+      _zz_io_voiceConfig_3_filter_cutoff <= voices_3_filterCutoff;
+      _zz_io_voiceConfig_3_filter_resonance <= voices_3_filterRes;
+      _zz_io_voiceConfig_4_osc_freqWord <= {{voices_4_oscFreqHigh,voices_4_oscFreqMid},voices_4_oscFreqLow};
+      _zz_io_voiceConfig_4_osc_waveSelect <= _zz__zz_io_voiceConfig_4_osc_waveSelect[2 : 0];
+      _zz_io_voiceConfig_4_osc_pwmWidth <= voices_4_oscPulseWidth;
+      _zz_io_voiceConfig_4_osc_volume <= voices_4_oscVolume;
+      voices_4_envCtrl_regNext <= voices_4_envCtrl;
+      _zz_io_voiceConfig_4_env_attack <= voices_4_envAttack;
+      _zz_io_voiceConfig_4_env_decay <= voices_4_envDecay;
+      _zz_io_voiceConfig_4_env_sustain <= voices_4_envSustain;
+      _zz_io_voiceConfig_4_env_release <= voices_4_envRelease;
+      voices_4_envGate_regNext <= voices_4_envGate;
+      voices_4_filterCtrl_regNext <= voices_4_filterCtrl;
+      _zz_io_voiceConfig_4_filter_mode <= _zz__zz_io_voiceConfig_4_filter_mode[1 : 0];
+      _zz_io_voiceConfig_4_filter_cutoff <= voices_4_filterCutoff;
+      _zz_io_voiceConfig_4_filter_resonance <= voices_4_filterRes;
+      _zz_io_voiceConfig_5_osc_freqWord <= {{voices_5_oscFreqHigh,voices_5_oscFreqMid},voices_5_oscFreqLow};
+      _zz_io_voiceConfig_5_osc_waveSelect <= _zz__zz_io_voiceConfig_5_osc_waveSelect[2 : 0];
+      _zz_io_voiceConfig_5_osc_pwmWidth <= voices_5_oscPulseWidth;
+      _zz_io_voiceConfig_5_osc_volume <= voices_5_oscVolume;
+      voices_5_envCtrl_regNext <= voices_5_envCtrl;
+      _zz_io_voiceConfig_5_env_attack <= voices_5_envAttack;
+      _zz_io_voiceConfig_5_env_decay <= voices_5_envDecay;
+      _zz_io_voiceConfig_5_env_sustain <= voices_5_envSustain;
+      _zz_io_voiceConfig_5_env_release <= voices_5_envRelease;
+      voices_5_envGate_regNext <= voices_5_envGate;
+      voices_5_filterCtrl_regNext <= voices_5_filterCtrl;
+      _zz_io_voiceConfig_5_filter_mode <= _zz__zz_io_voiceConfig_5_filter_mode[1 : 0];
+      _zz_io_voiceConfig_5_filter_cutoff <= voices_5_filterCutoff;
+      _zz_io_voiceConfig_5_filter_resonance <= voices_5_filterRes;
     end
   end
 
@@ -1940,6 +4305,2218 @@ module UartRx (
 
 endmodule
 
+//FilterMux_5 replaced by FilterMux
+
+//FilterCore_5 replaced by FilterCore
+
+module ParameterMapper_5 (
+  input  wire [7:0]    io_cutoff,
+  input  wire [7:0]    io_resonance,
+  output wire [11:0]   io_cutoffCoeff,
+  output wire [7:0]    io_resonanceCoeff
+);
+
+  wire       [11:0]   cutoffRom_spinal_port0;
+  wire       [7:0]    resonanceRom_spinal_port0;
+  reg [11:0] cutoffRom [0:255];
+  reg [7:0] resonanceRom [0:255];
+
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_5_svf_6_mapper_cutoffRom.bin",cutoffRom);
+  end
+  assign cutoffRom_spinal_port0 = cutoffRom[io_cutoff];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_5_svf_6_mapper_resonanceRom.bin",resonanceRom);
+  end
+  assign resonanceRom_spinal_port0 = resonanceRom[io_resonance];
+  assign io_cutoffCoeff = cutoffRom_spinal_port0;
+  assign io_resonanceCoeff = resonanceRom_spinal_port0;
+
+endmodule
+
+module EnvelopeShaper_5 (
+  input  wire          io_phaseTick,
+  input  wire [7:0]    io_baseIndex,
+  input  wire [1:0]    io_fraction,
+  input  wire [1:0]    io_curveSelect,
+  input  wire [2:0]    io_activeStage,
+  input  wire          io_accumDir,
+  input  wire          io_disable,
+  output wire          io_envelopeOut_valid,
+  output wire [9:0]    io_envelopeOut_payload,
+  output wire          io_envelopeOutSigned_valid,
+  output wire [9:0]    io_envelopeOutSigned_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [7:0]    linRom_spinal_port0;
+  wire       [7:0]    linRom_spinal_port1;
+  wire       [7:0]    expRom_spinal_port0;
+  wire       [7:0]    expRom_spinal_port1;
+  wire       [7:0]    logRom_spinal_port0;
+  wire       [7:0]    logRom_spinal_port1;
+  wire       [7:0]    sigRom_spinal_port0;
+  wire       [7:0]    sigRom_spinal_port1;
+  wire       [8:0]    _zz_addr1;
+  wire       [10:0]   _zz_y0Shifted;
+  wire       [9:0]    _zz_deltaShifted;
+  wire       [11:0]   _zz_interp;
+  wire       [11:0]   _zz_finalValUnipolar;
+  wire       [8:0]    addr0;
+  wire       [8:0]    addr1;
+  reg        [7:0]    y0;
+  reg        [7:0]    y1;
+  wire       [8:0]    y0Signed;
+  wire       [8:0]    y1Signed;
+  wire       [8:0]    delta;
+  reg        [11:0]   interp;
+  wire       [11:0]   y0Shifted;
+  wire       [11:0]   deltaShifted;
+  wire       [11:0]   deltaResized;
+  wire       [9:0]    finalValUnipolar;
+  reg        [9:0]    _zz_io_envelopeOut_payload;
+  wire       [9:0]    finalValBipolar;
+  reg        [9:0]    _zz_io_envelopeOutSigned_payload;
+  reg                 outValid;
+  reg [7:0] linRom [0:256];
+  reg [7:0] expRom [0:256];
+  reg [7:0] logRom [0:256];
+  reg [7:0] sigRom [0:256];
+
+  assign _zz_addr1 = {1'd0, io_baseIndex};
+  assign _zz_y0Shifted = ({2'd0,y0Signed} <<< 2'd2);
+  assign _zz_deltaShifted = ({1'd0,delta} <<< 1'd1);
+  assign _zz_interp = ($signed(y0Shifted) + $signed(deltaShifted));
+  assign _zz_finalValUnipolar = interp;
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_5_envGen_shaper_linRom.bin",linRom);
+  end
+  assign linRom_spinal_port0 = linRom[addr0];
+  assign linRom_spinal_port1 = linRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_5_envGen_shaper_expRom.bin",expRom);
+  end
+  assign expRom_spinal_port0 = expRom[addr0];
+  assign expRom_spinal_port1 = expRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_5_envGen_shaper_logRom.bin",logRom);
+  end
+  assign logRom_spinal_port0 = logRom[addr0];
+  assign logRom_spinal_port1 = logRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_5_envGen_shaper_sigRom.bin",sigRom);
+  end
+  assign sigRom_spinal_port0 = sigRom[addr0];
+  assign sigRom_spinal_port1 = sigRom[addr1];
+  assign addr0 = {1'd0, io_baseIndex};
+  assign addr1 = (_zz_addr1 + 9'h001);
+  always @(*) begin
+    y0 = 8'h0;
+    case(io_curveSelect)
+      2'b00 : begin
+        y0 = linRom_spinal_port0;
+      end
+      2'b01 : begin
+        y0 = expRom_spinal_port0;
+      end
+      2'b10 : begin
+        y0 = logRom_spinal_port0;
+      end
+      default : begin
+        y0 = sigRom_spinal_port0;
+      end
+    endcase
+  end
+
+  always @(*) begin
+    y1 = 8'h0;
+    case(io_curveSelect)
+      2'b00 : begin
+        y1 = linRom_spinal_port1;
+      end
+      2'b01 : begin
+        y1 = expRom_spinal_port1;
+      end
+      2'b10 : begin
+        y1 = logRom_spinal_port1;
+      end
+      default : begin
+        y1 = sigRom_spinal_port1;
+      end
+    endcase
+  end
+
+  assign y0Signed = {1'b0,y0};
+  assign y1Signed = {1'b0,y1};
+  assign delta = ($signed(y1Signed) - $signed(y0Signed));
+  assign y0Shifted = {{1{_zz_y0Shifted[10]}}, _zz_y0Shifted};
+  assign deltaShifted = {{2{_zz_deltaShifted[9]}}, _zz_deltaShifted};
+  assign deltaResized = {{3{delta[8]}}, delta};
+  always @(*) begin
+    case(io_fraction)
+      2'b00 : begin
+        interp = y0Shifted;
+      end
+      2'b01 : begin
+        interp = ($signed(y0Shifted) + $signed(deltaResized));
+      end
+      2'b10 : begin
+        interp = ($signed(y0Shifted) + $signed(deltaShifted));
+      end
+      default : begin
+        interp = ($signed(_zz_interp) + $signed(deltaResized));
+      end
+    endcase
+  end
+
+  assign finalValUnipolar = _zz_finalValUnipolar[9:0];
+  assign io_envelopeOut_payload = _zz_io_envelopeOut_payload;
+  assign finalValBipolar = (finalValUnipolar ^ 10'h200);
+  assign io_envelopeOutSigned_payload = _zz_io_envelopeOutSigned_payload;
+  assign io_envelopeOut_valid = outValid;
+  assign io_envelopeOutSigned_valid = outValid;
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      _zz_io_envelopeOut_payload <= 10'h0;
+      _zz_io_envelopeOutSigned_payload <= 10'h0;
+      outValid <= 1'b0;
+    end else begin
+      _zz_io_envelopeOut_payload <= (io_disable ? 10'h0 : finalValUnipolar);
+      _zz_io_envelopeOutSigned_payload <= (io_disable ? 10'h0 : finalValBipolar);
+      outValid <= (io_phaseTick && (! io_reset));
+    end
+  end
+
+
+endmodule
+
+//EnvelopeAccumulator_5 replaced by EnvelopeAccumulator
+
+module EnvelopeCtrl_5 (
+  input  wire          io_syncIn,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [7:0]    io_config_attack,
+  input  wire [7:0]    io_config_decay,
+  input  wire [7:0]    io_config_sustain,
+  input  wire [7:0]    io_config_release,
+  input  wire [7:0]    io_config_gate,
+  input  wire          io_segmentDone,
+  output wire          io_resetAccum,
+  output wire          io_runAccum,
+  output wire          io_accumDir,
+  output wire [21:0]   io_phaseInc,
+  output wire [1:0]    io_curveSelect,
+  output wire [2:0]    io_activeStage,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+  localparam fsm_1_BOOT = 3'd0;
+  localparam fsm_1_IDLE = 3'd1;
+  localparam fsm_1_ATTACK = 3'd2;
+  localparam fsm_1_DECAY = 3'd3;
+  localparam fsm_1_SUSTAIN = 3'd4;
+  localparam fsm_1_RELEASE_1 = 3'd5;
+
+  wire       [21:0]   rom_spinal_port0;
+  wire                gateOn;
+  reg        [7:0]    romAddr;
+  wire                disable_1;
+  reg                 syncInD1;
+  wire                hwSyncPulse;
+  reg                 swSyncD1;
+  wire                swSyncPulse;
+  wire                hardSyncPulse;
+  reg                 fsmResetAccum;
+  reg                 fsmRunAccum;
+  reg        [2:0]    fsmActiveStage;
+  wire                fsm_wantExit;
+  reg                 fsm_wantStart;
+  wire                fsm_wantKill;
+  reg        [2:0]    fsm_stateReg;
+  reg        [2:0]    fsm_stateNext;
+  wire                when_EnvelopeCtrl_l86;
+  wire                when_EnvelopeCtrl_l102;
+  wire                when_EnvelopeCtrl_l123;
+  wire                when_EnvelopeCtrl_l119;
+  wire                when_EnvelopeCtrl_l140;
+  `ifndef SYNTHESIS
+  reg [71:0] fsm_stateReg_string;
+  reg [71:0] fsm_stateNext_string;
+  `endif
+
+  reg [21:0] rom [0:255];
+
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_5_envGen_ctrl_rom.bin",rom);
+  end
+  assign rom_spinal_port0 = rom[romAddr];
+  `ifndef SYNTHESIS
+  always @(*) begin
+    case(fsm_stateReg)
+      fsm_1_BOOT : fsm_stateReg_string = "BOOT     ";
+      fsm_1_IDLE : fsm_stateReg_string = "IDLE     ";
+      fsm_1_ATTACK : fsm_stateReg_string = "ATTACK   ";
+      fsm_1_DECAY : fsm_stateReg_string = "DECAY    ";
+      fsm_1_SUSTAIN : fsm_stateReg_string = "SUSTAIN  ";
+      fsm_1_RELEASE_1 : fsm_stateReg_string = "RELEASE_1";
+      default : fsm_stateReg_string = "?????????";
+    endcase
+  end
+  always @(*) begin
+    case(fsm_stateNext)
+      fsm_1_BOOT : fsm_stateNext_string = "BOOT     ";
+      fsm_1_IDLE : fsm_stateNext_string = "IDLE     ";
+      fsm_1_ATTACK : fsm_stateNext_string = "ATTACK   ";
+      fsm_1_DECAY : fsm_stateNext_string = "DECAY    ";
+      fsm_1_SUSTAIN : fsm_stateNext_string = "SUSTAIN  ";
+      fsm_1_RELEASE_1 : fsm_stateNext_string = "RELEASE_1";
+      default : fsm_stateNext_string = "?????????";
+    endcase
+  end
+  `endif
+
+  assign gateOn = io_config_gate[0];
+  always @(*) begin
+    romAddr = 8'h0;
+    case(io_activeStage)
+      3'b001 : begin
+        romAddr = io_config_attack;
+      end
+      3'b010 : begin
+        romAddr = io_config_decay;
+      end
+      3'b100 : begin
+        romAddr = io_config_release;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign io_phaseInc = rom_spinal_port0;
+  assign io_curveSelect = io_config_ctrl[5 : 4];
+  assign disable_1 = io_config_ctrl[0];
+  assign hwSyncPulse = (io_syncIn && (! syncInD1));
+  assign swSyncPulse = (io_config_gate[1] && (! swSyncD1));
+  assign hardSyncPulse = (((hwSyncPulse || swSyncPulse) && io_config_ctrl[3]) && (! io_reset));
+  assign io_accumDir = ((io_activeStage == 3'b010) || (io_activeStage == 3'b100));
+  assign fsm_wantExit = 1'b0;
+  always @(*) begin
+    fsm_wantStart = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+      end
+      fsm_1_ATTACK : begin
+      end
+      fsm_1_DECAY : begin
+      end
+      fsm_1_SUSTAIN : begin
+      end
+      fsm_1_RELEASE_1 : begin
+      end
+      default : begin
+        fsm_wantStart = 1'b1;
+      end
+    endcase
+  end
+
+  assign fsm_wantKill = 1'b0;
+  always @(*) begin
+    fsmResetAccum = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsmResetAccum = 1'b1;
+        end
+      end
+      fsm_1_ATTACK : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(!when_EnvelopeCtrl_l102) begin
+              if(io_segmentDone) begin
+                fsmResetAccum = 1'b1;
+              end
+            end
+          end
+        end
+      end
+      fsm_1_DECAY : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(!when_EnvelopeCtrl_l119) begin
+              if(io_segmentDone) begin
+                if(when_EnvelopeCtrl_l123) begin
+                  fsmResetAccum = 1'b1;
+                end
+              end
+            end
+          end
+        end
+      end
+      fsm_1_SUSTAIN : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end
+        end
+      end
+      fsm_1_RELEASE_1 : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(gateOn) begin
+              fsmResetAccum = 1'b1;
+            end else begin
+              if(io_segmentDone) begin
+                fsmResetAccum = 1'b1;
+              end
+            end
+          end
+        end
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    fsmRunAccum = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsmRunAccum = 1'b1;
+        end
+      end
+      fsm_1_ATTACK : begin
+        fsmRunAccum = 1'b1;
+      end
+      fsm_1_DECAY : begin
+        fsmRunAccum = 1'b1;
+      end
+      fsm_1_SUSTAIN : begin
+      end
+      fsm_1_RELEASE_1 : begin
+        fsmRunAccum = 1'b1;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    fsmActiveStage = 3'b000;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        fsmActiveStage = 3'b000;
+      end
+      fsm_1_ATTACK : begin
+        fsmActiveStage = 3'b001;
+      end
+      fsm_1_DECAY : begin
+        fsmActiveStage = 3'b010;
+      end
+      fsm_1_SUSTAIN : begin
+        fsmActiveStage = 3'b011;
+      end
+      fsm_1_RELEASE_1 : begin
+        fsmActiveStage = 3'b100;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign io_resetAccum = (fsmResetAccum && (! io_reset));
+  assign io_runAccum = (fsmRunAccum && (! io_reset));
+  assign io_activeStage = (io_reset ? 3'b000 : fsmActiveStage);
+  always @(*) begin
+    fsm_stateNext = fsm_stateReg;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsm_stateNext = fsm_1_ATTACK;
+        end
+      end
+      fsm_1_ATTACK : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l102) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end else begin
+              if(io_segmentDone) begin
+                fsm_stateNext = fsm_1_DECAY;
+              end
+            end
+          end
+        end
+      end
+      fsm_1_DECAY : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l119) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end else begin
+              if(io_segmentDone) begin
+                if(when_EnvelopeCtrl_l123) begin
+                  fsm_stateNext = fsm_1_ATTACK;
+                end else begin
+                  fsm_stateNext = fsm_1_SUSTAIN;
+                end
+              end
+            end
+          end
+        end
+      end
+      fsm_1_SUSTAIN : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l140) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end
+          end
+        end
+      end
+      fsm_1_RELEASE_1 : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(gateOn) begin
+              fsm_stateNext = fsm_1_ATTACK;
+            end else begin
+              if(io_segmentDone) begin
+                fsm_stateNext = fsm_1_IDLE;
+              end
+            end
+          end
+        end
+      end
+      default : begin
+      end
+    endcase
+    if(fsm_wantStart) begin
+      fsm_stateNext = fsm_1_IDLE;
+    end
+    if(fsm_wantKill) begin
+      fsm_stateNext = fsm_1_BOOT;
+    end
+  end
+
+  assign when_EnvelopeCtrl_l86 = (gateOn && (! disable_1));
+  assign when_EnvelopeCtrl_l102 = (! gateOn);
+  assign when_EnvelopeCtrl_l123 = io_config_ctrl[2];
+  assign when_EnvelopeCtrl_l119 = (! gateOn);
+  assign when_EnvelopeCtrl_l140 = (! gateOn);
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      syncInD1 <= 1'b0;
+      swSyncD1 <= 1'b0;
+      fsm_stateReg <= fsm_1_BOOT;
+    end else begin
+      syncInD1 <= io_syncIn;
+      swSyncD1 <= io_config_gate[1];
+      fsm_stateReg <= fsm_stateNext;
+    end
+  end
+
+
+endmodule
+
+//OscMux_5 replaced by OscMux
+
+//OscNoise_5 replaced by OscNoise
+
+//OscGenerators_5 replaced by OscGenerators
+
+//OscAccumulator_5 replaced by OscAccumulator
+
+//FilterMux_4 replaced by FilterMux
+
+//FilterCore_4 replaced by FilterCore
+
+module ParameterMapper_4 (
+  input  wire [7:0]    io_cutoff,
+  input  wire [7:0]    io_resonance,
+  output wire [11:0]   io_cutoffCoeff,
+  output wire [7:0]    io_resonanceCoeff
+);
+
+  wire       [11:0]   cutoffRom_spinal_port0;
+  wire       [7:0]    resonanceRom_spinal_port0;
+  reg [11:0] cutoffRom [0:255];
+  reg [7:0] resonanceRom [0:255];
+
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_4_svf_6_mapper_cutoffRom.bin",cutoffRom);
+  end
+  assign cutoffRom_spinal_port0 = cutoffRom[io_cutoff];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_4_svf_6_mapper_resonanceRom.bin",resonanceRom);
+  end
+  assign resonanceRom_spinal_port0 = resonanceRom[io_resonance];
+  assign io_cutoffCoeff = cutoffRom_spinal_port0;
+  assign io_resonanceCoeff = resonanceRom_spinal_port0;
+
+endmodule
+
+module EnvelopeShaper_4 (
+  input  wire          io_phaseTick,
+  input  wire [7:0]    io_baseIndex,
+  input  wire [1:0]    io_fraction,
+  input  wire [1:0]    io_curveSelect,
+  input  wire [2:0]    io_activeStage,
+  input  wire          io_accumDir,
+  input  wire          io_disable,
+  output wire          io_envelopeOut_valid,
+  output wire [9:0]    io_envelopeOut_payload,
+  output wire          io_envelopeOutSigned_valid,
+  output wire [9:0]    io_envelopeOutSigned_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [7:0]    linRom_spinal_port0;
+  wire       [7:0]    linRom_spinal_port1;
+  wire       [7:0]    expRom_spinal_port0;
+  wire       [7:0]    expRom_spinal_port1;
+  wire       [7:0]    logRom_spinal_port0;
+  wire       [7:0]    logRom_spinal_port1;
+  wire       [7:0]    sigRom_spinal_port0;
+  wire       [7:0]    sigRom_spinal_port1;
+  wire       [8:0]    _zz_addr1;
+  wire       [10:0]   _zz_y0Shifted;
+  wire       [9:0]    _zz_deltaShifted;
+  wire       [11:0]   _zz_interp;
+  wire       [11:0]   _zz_finalValUnipolar;
+  wire       [8:0]    addr0;
+  wire       [8:0]    addr1;
+  reg        [7:0]    y0;
+  reg        [7:0]    y1;
+  wire       [8:0]    y0Signed;
+  wire       [8:0]    y1Signed;
+  wire       [8:0]    delta;
+  reg        [11:0]   interp;
+  wire       [11:0]   y0Shifted;
+  wire       [11:0]   deltaShifted;
+  wire       [11:0]   deltaResized;
+  wire       [9:0]    finalValUnipolar;
+  reg        [9:0]    _zz_io_envelopeOut_payload;
+  wire       [9:0]    finalValBipolar;
+  reg        [9:0]    _zz_io_envelopeOutSigned_payload;
+  reg                 outValid;
+  reg [7:0] linRom [0:256];
+  reg [7:0] expRom [0:256];
+  reg [7:0] logRom [0:256];
+  reg [7:0] sigRom [0:256];
+
+  assign _zz_addr1 = {1'd0, io_baseIndex};
+  assign _zz_y0Shifted = ({2'd0,y0Signed} <<< 2'd2);
+  assign _zz_deltaShifted = ({1'd0,delta} <<< 1'd1);
+  assign _zz_interp = ($signed(y0Shifted) + $signed(deltaShifted));
+  assign _zz_finalValUnipolar = interp;
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_4_envGen_shaper_linRom.bin",linRom);
+  end
+  assign linRom_spinal_port0 = linRom[addr0];
+  assign linRom_spinal_port1 = linRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_4_envGen_shaper_expRom.bin",expRom);
+  end
+  assign expRom_spinal_port0 = expRom[addr0];
+  assign expRom_spinal_port1 = expRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_4_envGen_shaper_logRom.bin",logRom);
+  end
+  assign logRom_spinal_port0 = logRom[addr0];
+  assign logRom_spinal_port1 = logRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_4_envGen_shaper_sigRom.bin",sigRom);
+  end
+  assign sigRom_spinal_port0 = sigRom[addr0];
+  assign sigRom_spinal_port1 = sigRom[addr1];
+  assign addr0 = {1'd0, io_baseIndex};
+  assign addr1 = (_zz_addr1 + 9'h001);
+  always @(*) begin
+    y0 = 8'h0;
+    case(io_curveSelect)
+      2'b00 : begin
+        y0 = linRom_spinal_port0;
+      end
+      2'b01 : begin
+        y0 = expRom_spinal_port0;
+      end
+      2'b10 : begin
+        y0 = logRom_spinal_port0;
+      end
+      default : begin
+        y0 = sigRom_spinal_port0;
+      end
+    endcase
+  end
+
+  always @(*) begin
+    y1 = 8'h0;
+    case(io_curveSelect)
+      2'b00 : begin
+        y1 = linRom_spinal_port1;
+      end
+      2'b01 : begin
+        y1 = expRom_spinal_port1;
+      end
+      2'b10 : begin
+        y1 = logRom_spinal_port1;
+      end
+      default : begin
+        y1 = sigRom_spinal_port1;
+      end
+    endcase
+  end
+
+  assign y0Signed = {1'b0,y0};
+  assign y1Signed = {1'b0,y1};
+  assign delta = ($signed(y1Signed) - $signed(y0Signed));
+  assign y0Shifted = {{1{_zz_y0Shifted[10]}}, _zz_y0Shifted};
+  assign deltaShifted = {{2{_zz_deltaShifted[9]}}, _zz_deltaShifted};
+  assign deltaResized = {{3{delta[8]}}, delta};
+  always @(*) begin
+    case(io_fraction)
+      2'b00 : begin
+        interp = y0Shifted;
+      end
+      2'b01 : begin
+        interp = ($signed(y0Shifted) + $signed(deltaResized));
+      end
+      2'b10 : begin
+        interp = ($signed(y0Shifted) + $signed(deltaShifted));
+      end
+      default : begin
+        interp = ($signed(_zz_interp) + $signed(deltaResized));
+      end
+    endcase
+  end
+
+  assign finalValUnipolar = _zz_finalValUnipolar[9:0];
+  assign io_envelopeOut_payload = _zz_io_envelopeOut_payload;
+  assign finalValBipolar = (finalValUnipolar ^ 10'h200);
+  assign io_envelopeOutSigned_payload = _zz_io_envelopeOutSigned_payload;
+  assign io_envelopeOut_valid = outValid;
+  assign io_envelopeOutSigned_valid = outValid;
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      _zz_io_envelopeOut_payload <= 10'h0;
+      _zz_io_envelopeOutSigned_payload <= 10'h0;
+      outValid <= 1'b0;
+    end else begin
+      _zz_io_envelopeOut_payload <= (io_disable ? 10'h0 : finalValUnipolar);
+      _zz_io_envelopeOutSigned_payload <= (io_disable ? 10'h0 : finalValBipolar);
+      outValid <= (io_phaseTick && (! io_reset));
+    end
+  end
+
+
+endmodule
+
+//EnvelopeAccumulator_4 replaced by EnvelopeAccumulator
+
+module EnvelopeCtrl_4 (
+  input  wire          io_syncIn,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [7:0]    io_config_attack,
+  input  wire [7:0]    io_config_decay,
+  input  wire [7:0]    io_config_sustain,
+  input  wire [7:0]    io_config_release,
+  input  wire [7:0]    io_config_gate,
+  input  wire          io_segmentDone,
+  output wire          io_resetAccum,
+  output wire          io_runAccum,
+  output wire          io_accumDir,
+  output wire [21:0]   io_phaseInc,
+  output wire [1:0]    io_curveSelect,
+  output wire [2:0]    io_activeStage,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+  localparam fsm_1_BOOT = 3'd0;
+  localparam fsm_1_IDLE = 3'd1;
+  localparam fsm_1_ATTACK = 3'd2;
+  localparam fsm_1_DECAY = 3'd3;
+  localparam fsm_1_SUSTAIN = 3'd4;
+  localparam fsm_1_RELEASE_1 = 3'd5;
+
+  wire       [21:0]   rom_spinal_port0;
+  wire                gateOn;
+  reg        [7:0]    romAddr;
+  wire                disable_1;
+  reg                 syncInD1;
+  wire                hwSyncPulse;
+  reg                 swSyncD1;
+  wire                swSyncPulse;
+  wire                hardSyncPulse;
+  reg                 fsmResetAccum;
+  reg                 fsmRunAccum;
+  reg        [2:0]    fsmActiveStage;
+  wire                fsm_wantExit;
+  reg                 fsm_wantStart;
+  wire                fsm_wantKill;
+  reg        [2:0]    fsm_stateReg;
+  reg        [2:0]    fsm_stateNext;
+  wire                when_EnvelopeCtrl_l86;
+  wire                when_EnvelopeCtrl_l102;
+  wire                when_EnvelopeCtrl_l123;
+  wire                when_EnvelopeCtrl_l119;
+  wire                when_EnvelopeCtrl_l140;
+  `ifndef SYNTHESIS
+  reg [71:0] fsm_stateReg_string;
+  reg [71:0] fsm_stateNext_string;
+  `endif
+
+  reg [21:0] rom [0:255];
+
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_4_envGen_ctrl_rom.bin",rom);
+  end
+  assign rom_spinal_port0 = rom[romAddr];
+  `ifndef SYNTHESIS
+  always @(*) begin
+    case(fsm_stateReg)
+      fsm_1_BOOT : fsm_stateReg_string = "BOOT     ";
+      fsm_1_IDLE : fsm_stateReg_string = "IDLE     ";
+      fsm_1_ATTACK : fsm_stateReg_string = "ATTACK   ";
+      fsm_1_DECAY : fsm_stateReg_string = "DECAY    ";
+      fsm_1_SUSTAIN : fsm_stateReg_string = "SUSTAIN  ";
+      fsm_1_RELEASE_1 : fsm_stateReg_string = "RELEASE_1";
+      default : fsm_stateReg_string = "?????????";
+    endcase
+  end
+  always @(*) begin
+    case(fsm_stateNext)
+      fsm_1_BOOT : fsm_stateNext_string = "BOOT     ";
+      fsm_1_IDLE : fsm_stateNext_string = "IDLE     ";
+      fsm_1_ATTACK : fsm_stateNext_string = "ATTACK   ";
+      fsm_1_DECAY : fsm_stateNext_string = "DECAY    ";
+      fsm_1_SUSTAIN : fsm_stateNext_string = "SUSTAIN  ";
+      fsm_1_RELEASE_1 : fsm_stateNext_string = "RELEASE_1";
+      default : fsm_stateNext_string = "?????????";
+    endcase
+  end
+  `endif
+
+  assign gateOn = io_config_gate[0];
+  always @(*) begin
+    romAddr = 8'h0;
+    case(io_activeStage)
+      3'b001 : begin
+        romAddr = io_config_attack;
+      end
+      3'b010 : begin
+        romAddr = io_config_decay;
+      end
+      3'b100 : begin
+        romAddr = io_config_release;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign io_phaseInc = rom_spinal_port0;
+  assign io_curveSelect = io_config_ctrl[5 : 4];
+  assign disable_1 = io_config_ctrl[0];
+  assign hwSyncPulse = (io_syncIn && (! syncInD1));
+  assign swSyncPulse = (io_config_gate[1] && (! swSyncD1));
+  assign hardSyncPulse = (((hwSyncPulse || swSyncPulse) && io_config_ctrl[3]) && (! io_reset));
+  assign io_accumDir = ((io_activeStage == 3'b010) || (io_activeStage == 3'b100));
+  assign fsm_wantExit = 1'b0;
+  always @(*) begin
+    fsm_wantStart = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+      end
+      fsm_1_ATTACK : begin
+      end
+      fsm_1_DECAY : begin
+      end
+      fsm_1_SUSTAIN : begin
+      end
+      fsm_1_RELEASE_1 : begin
+      end
+      default : begin
+        fsm_wantStart = 1'b1;
+      end
+    endcase
+  end
+
+  assign fsm_wantKill = 1'b0;
+  always @(*) begin
+    fsmResetAccum = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsmResetAccum = 1'b1;
+        end
+      end
+      fsm_1_ATTACK : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(!when_EnvelopeCtrl_l102) begin
+              if(io_segmentDone) begin
+                fsmResetAccum = 1'b1;
+              end
+            end
+          end
+        end
+      end
+      fsm_1_DECAY : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(!when_EnvelopeCtrl_l119) begin
+              if(io_segmentDone) begin
+                if(when_EnvelopeCtrl_l123) begin
+                  fsmResetAccum = 1'b1;
+                end
+              end
+            end
+          end
+        end
+      end
+      fsm_1_SUSTAIN : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end
+        end
+      end
+      fsm_1_RELEASE_1 : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(gateOn) begin
+              fsmResetAccum = 1'b1;
+            end else begin
+              if(io_segmentDone) begin
+                fsmResetAccum = 1'b1;
+              end
+            end
+          end
+        end
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    fsmRunAccum = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsmRunAccum = 1'b1;
+        end
+      end
+      fsm_1_ATTACK : begin
+        fsmRunAccum = 1'b1;
+      end
+      fsm_1_DECAY : begin
+        fsmRunAccum = 1'b1;
+      end
+      fsm_1_SUSTAIN : begin
+      end
+      fsm_1_RELEASE_1 : begin
+        fsmRunAccum = 1'b1;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    fsmActiveStage = 3'b000;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        fsmActiveStage = 3'b000;
+      end
+      fsm_1_ATTACK : begin
+        fsmActiveStage = 3'b001;
+      end
+      fsm_1_DECAY : begin
+        fsmActiveStage = 3'b010;
+      end
+      fsm_1_SUSTAIN : begin
+        fsmActiveStage = 3'b011;
+      end
+      fsm_1_RELEASE_1 : begin
+        fsmActiveStage = 3'b100;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign io_resetAccum = (fsmResetAccum && (! io_reset));
+  assign io_runAccum = (fsmRunAccum && (! io_reset));
+  assign io_activeStage = (io_reset ? 3'b000 : fsmActiveStage);
+  always @(*) begin
+    fsm_stateNext = fsm_stateReg;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsm_stateNext = fsm_1_ATTACK;
+        end
+      end
+      fsm_1_ATTACK : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l102) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end else begin
+              if(io_segmentDone) begin
+                fsm_stateNext = fsm_1_DECAY;
+              end
+            end
+          end
+        end
+      end
+      fsm_1_DECAY : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l119) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end else begin
+              if(io_segmentDone) begin
+                if(when_EnvelopeCtrl_l123) begin
+                  fsm_stateNext = fsm_1_ATTACK;
+                end else begin
+                  fsm_stateNext = fsm_1_SUSTAIN;
+                end
+              end
+            end
+          end
+        end
+      end
+      fsm_1_SUSTAIN : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l140) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end
+          end
+        end
+      end
+      fsm_1_RELEASE_1 : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(gateOn) begin
+              fsm_stateNext = fsm_1_ATTACK;
+            end else begin
+              if(io_segmentDone) begin
+                fsm_stateNext = fsm_1_IDLE;
+              end
+            end
+          end
+        end
+      end
+      default : begin
+      end
+    endcase
+    if(fsm_wantStart) begin
+      fsm_stateNext = fsm_1_IDLE;
+    end
+    if(fsm_wantKill) begin
+      fsm_stateNext = fsm_1_BOOT;
+    end
+  end
+
+  assign when_EnvelopeCtrl_l86 = (gateOn && (! disable_1));
+  assign when_EnvelopeCtrl_l102 = (! gateOn);
+  assign when_EnvelopeCtrl_l123 = io_config_ctrl[2];
+  assign when_EnvelopeCtrl_l119 = (! gateOn);
+  assign when_EnvelopeCtrl_l140 = (! gateOn);
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      syncInD1 <= 1'b0;
+      swSyncD1 <= 1'b0;
+      fsm_stateReg <= fsm_1_BOOT;
+    end else begin
+      syncInD1 <= io_syncIn;
+      swSyncD1 <= io_config_gate[1];
+      fsm_stateReg <= fsm_stateNext;
+    end
+  end
+
+
+endmodule
+
+//OscMux_4 replaced by OscMux
+
+//OscNoise_4 replaced by OscNoise
+
+//OscGenerators_4 replaced by OscGenerators
+
+//OscAccumulator_4 replaced by OscAccumulator
+
+//FilterMux_3 replaced by FilterMux
+
+//FilterCore_3 replaced by FilterCore
+
+module ParameterMapper_3 (
+  input  wire [7:0]    io_cutoff,
+  input  wire [7:0]    io_resonance,
+  output wire [11:0]   io_cutoffCoeff,
+  output wire [7:0]    io_resonanceCoeff
+);
+
+  wire       [11:0]   cutoffRom_spinal_port0;
+  wire       [7:0]    resonanceRom_spinal_port0;
+  reg [11:0] cutoffRom [0:255];
+  reg [7:0] resonanceRom [0:255];
+
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_3_svf_6_mapper_cutoffRom.bin",cutoffRom);
+  end
+  assign cutoffRom_spinal_port0 = cutoffRom[io_cutoff];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_3_svf_6_mapper_resonanceRom.bin",resonanceRom);
+  end
+  assign resonanceRom_spinal_port0 = resonanceRom[io_resonance];
+  assign io_cutoffCoeff = cutoffRom_spinal_port0;
+  assign io_resonanceCoeff = resonanceRom_spinal_port0;
+
+endmodule
+
+module EnvelopeShaper_3 (
+  input  wire          io_phaseTick,
+  input  wire [7:0]    io_baseIndex,
+  input  wire [1:0]    io_fraction,
+  input  wire [1:0]    io_curveSelect,
+  input  wire [2:0]    io_activeStage,
+  input  wire          io_accumDir,
+  input  wire          io_disable,
+  output wire          io_envelopeOut_valid,
+  output wire [9:0]    io_envelopeOut_payload,
+  output wire          io_envelopeOutSigned_valid,
+  output wire [9:0]    io_envelopeOutSigned_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [7:0]    linRom_spinal_port0;
+  wire       [7:0]    linRom_spinal_port1;
+  wire       [7:0]    expRom_spinal_port0;
+  wire       [7:0]    expRom_spinal_port1;
+  wire       [7:0]    logRom_spinal_port0;
+  wire       [7:0]    logRom_spinal_port1;
+  wire       [7:0]    sigRom_spinal_port0;
+  wire       [7:0]    sigRom_spinal_port1;
+  wire       [8:0]    _zz_addr1;
+  wire       [10:0]   _zz_y0Shifted;
+  wire       [9:0]    _zz_deltaShifted;
+  wire       [11:0]   _zz_interp;
+  wire       [11:0]   _zz_finalValUnipolar;
+  wire       [8:0]    addr0;
+  wire       [8:0]    addr1;
+  reg        [7:0]    y0;
+  reg        [7:0]    y1;
+  wire       [8:0]    y0Signed;
+  wire       [8:0]    y1Signed;
+  wire       [8:0]    delta;
+  reg        [11:0]   interp;
+  wire       [11:0]   y0Shifted;
+  wire       [11:0]   deltaShifted;
+  wire       [11:0]   deltaResized;
+  wire       [9:0]    finalValUnipolar;
+  reg        [9:0]    _zz_io_envelopeOut_payload;
+  wire       [9:0]    finalValBipolar;
+  reg        [9:0]    _zz_io_envelopeOutSigned_payload;
+  reg                 outValid;
+  reg [7:0] linRom [0:256];
+  reg [7:0] expRom [0:256];
+  reg [7:0] logRom [0:256];
+  reg [7:0] sigRom [0:256];
+
+  assign _zz_addr1 = {1'd0, io_baseIndex};
+  assign _zz_y0Shifted = ({2'd0,y0Signed} <<< 2'd2);
+  assign _zz_deltaShifted = ({1'd0,delta} <<< 1'd1);
+  assign _zz_interp = ($signed(y0Shifted) + $signed(deltaShifted));
+  assign _zz_finalValUnipolar = interp;
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_3_envGen_shaper_linRom.bin",linRom);
+  end
+  assign linRom_spinal_port0 = linRom[addr0];
+  assign linRom_spinal_port1 = linRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_3_envGen_shaper_expRom.bin",expRom);
+  end
+  assign expRom_spinal_port0 = expRom[addr0];
+  assign expRom_spinal_port1 = expRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_3_envGen_shaper_logRom.bin",logRom);
+  end
+  assign logRom_spinal_port0 = logRom[addr0];
+  assign logRom_spinal_port1 = logRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_3_envGen_shaper_sigRom.bin",sigRom);
+  end
+  assign sigRom_spinal_port0 = sigRom[addr0];
+  assign sigRom_spinal_port1 = sigRom[addr1];
+  assign addr0 = {1'd0, io_baseIndex};
+  assign addr1 = (_zz_addr1 + 9'h001);
+  always @(*) begin
+    y0 = 8'h0;
+    case(io_curveSelect)
+      2'b00 : begin
+        y0 = linRom_spinal_port0;
+      end
+      2'b01 : begin
+        y0 = expRom_spinal_port0;
+      end
+      2'b10 : begin
+        y0 = logRom_spinal_port0;
+      end
+      default : begin
+        y0 = sigRom_spinal_port0;
+      end
+    endcase
+  end
+
+  always @(*) begin
+    y1 = 8'h0;
+    case(io_curveSelect)
+      2'b00 : begin
+        y1 = linRom_spinal_port1;
+      end
+      2'b01 : begin
+        y1 = expRom_spinal_port1;
+      end
+      2'b10 : begin
+        y1 = logRom_spinal_port1;
+      end
+      default : begin
+        y1 = sigRom_spinal_port1;
+      end
+    endcase
+  end
+
+  assign y0Signed = {1'b0,y0};
+  assign y1Signed = {1'b0,y1};
+  assign delta = ($signed(y1Signed) - $signed(y0Signed));
+  assign y0Shifted = {{1{_zz_y0Shifted[10]}}, _zz_y0Shifted};
+  assign deltaShifted = {{2{_zz_deltaShifted[9]}}, _zz_deltaShifted};
+  assign deltaResized = {{3{delta[8]}}, delta};
+  always @(*) begin
+    case(io_fraction)
+      2'b00 : begin
+        interp = y0Shifted;
+      end
+      2'b01 : begin
+        interp = ($signed(y0Shifted) + $signed(deltaResized));
+      end
+      2'b10 : begin
+        interp = ($signed(y0Shifted) + $signed(deltaShifted));
+      end
+      default : begin
+        interp = ($signed(_zz_interp) + $signed(deltaResized));
+      end
+    endcase
+  end
+
+  assign finalValUnipolar = _zz_finalValUnipolar[9:0];
+  assign io_envelopeOut_payload = _zz_io_envelopeOut_payload;
+  assign finalValBipolar = (finalValUnipolar ^ 10'h200);
+  assign io_envelopeOutSigned_payload = _zz_io_envelopeOutSigned_payload;
+  assign io_envelopeOut_valid = outValid;
+  assign io_envelopeOutSigned_valid = outValid;
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      _zz_io_envelopeOut_payload <= 10'h0;
+      _zz_io_envelopeOutSigned_payload <= 10'h0;
+      outValid <= 1'b0;
+    end else begin
+      _zz_io_envelopeOut_payload <= (io_disable ? 10'h0 : finalValUnipolar);
+      _zz_io_envelopeOutSigned_payload <= (io_disable ? 10'h0 : finalValBipolar);
+      outValid <= (io_phaseTick && (! io_reset));
+    end
+  end
+
+
+endmodule
+
+//EnvelopeAccumulator_3 replaced by EnvelopeAccumulator
+
+module EnvelopeCtrl_3 (
+  input  wire          io_syncIn,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [7:0]    io_config_attack,
+  input  wire [7:0]    io_config_decay,
+  input  wire [7:0]    io_config_sustain,
+  input  wire [7:0]    io_config_release,
+  input  wire [7:0]    io_config_gate,
+  input  wire          io_segmentDone,
+  output wire          io_resetAccum,
+  output wire          io_runAccum,
+  output wire          io_accumDir,
+  output wire [21:0]   io_phaseInc,
+  output wire [1:0]    io_curveSelect,
+  output wire [2:0]    io_activeStage,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+  localparam fsm_1_BOOT = 3'd0;
+  localparam fsm_1_IDLE = 3'd1;
+  localparam fsm_1_ATTACK = 3'd2;
+  localparam fsm_1_DECAY = 3'd3;
+  localparam fsm_1_SUSTAIN = 3'd4;
+  localparam fsm_1_RELEASE_1 = 3'd5;
+
+  wire       [21:0]   rom_spinal_port0;
+  wire                gateOn;
+  reg        [7:0]    romAddr;
+  wire                disable_1;
+  reg                 syncInD1;
+  wire                hwSyncPulse;
+  reg                 swSyncD1;
+  wire                swSyncPulse;
+  wire                hardSyncPulse;
+  reg                 fsmResetAccum;
+  reg                 fsmRunAccum;
+  reg        [2:0]    fsmActiveStage;
+  wire                fsm_wantExit;
+  reg                 fsm_wantStart;
+  wire                fsm_wantKill;
+  reg        [2:0]    fsm_stateReg;
+  reg        [2:0]    fsm_stateNext;
+  wire                when_EnvelopeCtrl_l86;
+  wire                when_EnvelopeCtrl_l102;
+  wire                when_EnvelopeCtrl_l123;
+  wire                when_EnvelopeCtrl_l119;
+  wire                when_EnvelopeCtrl_l140;
+  `ifndef SYNTHESIS
+  reg [71:0] fsm_stateReg_string;
+  reg [71:0] fsm_stateNext_string;
+  `endif
+
+  reg [21:0] rom [0:255];
+
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_3_envGen_ctrl_rom.bin",rom);
+  end
+  assign rom_spinal_port0 = rom[romAddr];
+  `ifndef SYNTHESIS
+  always @(*) begin
+    case(fsm_stateReg)
+      fsm_1_BOOT : fsm_stateReg_string = "BOOT     ";
+      fsm_1_IDLE : fsm_stateReg_string = "IDLE     ";
+      fsm_1_ATTACK : fsm_stateReg_string = "ATTACK   ";
+      fsm_1_DECAY : fsm_stateReg_string = "DECAY    ";
+      fsm_1_SUSTAIN : fsm_stateReg_string = "SUSTAIN  ";
+      fsm_1_RELEASE_1 : fsm_stateReg_string = "RELEASE_1";
+      default : fsm_stateReg_string = "?????????";
+    endcase
+  end
+  always @(*) begin
+    case(fsm_stateNext)
+      fsm_1_BOOT : fsm_stateNext_string = "BOOT     ";
+      fsm_1_IDLE : fsm_stateNext_string = "IDLE     ";
+      fsm_1_ATTACK : fsm_stateNext_string = "ATTACK   ";
+      fsm_1_DECAY : fsm_stateNext_string = "DECAY    ";
+      fsm_1_SUSTAIN : fsm_stateNext_string = "SUSTAIN  ";
+      fsm_1_RELEASE_1 : fsm_stateNext_string = "RELEASE_1";
+      default : fsm_stateNext_string = "?????????";
+    endcase
+  end
+  `endif
+
+  assign gateOn = io_config_gate[0];
+  always @(*) begin
+    romAddr = 8'h0;
+    case(io_activeStage)
+      3'b001 : begin
+        romAddr = io_config_attack;
+      end
+      3'b010 : begin
+        romAddr = io_config_decay;
+      end
+      3'b100 : begin
+        romAddr = io_config_release;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign io_phaseInc = rom_spinal_port0;
+  assign io_curveSelect = io_config_ctrl[5 : 4];
+  assign disable_1 = io_config_ctrl[0];
+  assign hwSyncPulse = (io_syncIn && (! syncInD1));
+  assign swSyncPulse = (io_config_gate[1] && (! swSyncD1));
+  assign hardSyncPulse = (((hwSyncPulse || swSyncPulse) && io_config_ctrl[3]) && (! io_reset));
+  assign io_accumDir = ((io_activeStage == 3'b010) || (io_activeStage == 3'b100));
+  assign fsm_wantExit = 1'b0;
+  always @(*) begin
+    fsm_wantStart = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+      end
+      fsm_1_ATTACK : begin
+      end
+      fsm_1_DECAY : begin
+      end
+      fsm_1_SUSTAIN : begin
+      end
+      fsm_1_RELEASE_1 : begin
+      end
+      default : begin
+        fsm_wantStart = 1'b1;
+      end
+    endcase
+  end
+
+  assign fsm_wantKill = 1'b0;
+  always @(*) begin
+    fsmResetAccum = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsmResetAccum = 1'b1;
+        end
+      end
+      fsm_1_ATTACK : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(!when_EnvelopeCtrl_l102) begin
+              if(io_segmentDone) begin
+                fsmResetAccum = 1'b1;
+              end
+            end
+          end
+        end
+      end
+      fsm_1_DECAY : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(!when_EnvelopeCtrl_l119) begin
+              if(io_segmentDone) begin
+                if(when_EnvelopeCtrl_l123) begin
+                  fsmResetAccum = 1'b1;
+                end
+              end
+            end
+          end
+        end
+      end
+      fsm_1_SUSTAIN : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end
+        end
+      end
+      fsm_1_RELEASE_1 : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(gateOn) begin
+              fsmResetAccum = 1'b1;
+            end else begin
+              if(io_segmentDone) begin
+                fsmResetAccum = 1'b1;
+              end
+            end
+          end
+        end
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    fsmRunAccum = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsmRunAccum = 1'b1;
+        end
+      end
+      fsm_1_ATTACK : begin
+        fsmRunAccum = 1'b1;
+      end
+      fsm_1_DECAY : begin
+        fsmRunAccum = 1'b1;
+      end
+      fsm_1_SUSTAIN : begin
+      end
+      fsm_1_RELEASE_1 : begin
+        fsmRunAccum = 1'b1;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    fsmActiveStage = 3'b000;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        fsmActiveStage = 3'b000;
+      end
+      fsm_1_ATTACK : begin
+        fsmActiveStage = 3'b001;
+      end
+      fsm_1_DECAY : begin
+        fsmActiveStage = 3'b010;
+      end
+      fsm_1_SUSTAIN : begin
+        fsmActiveStage = 3'b011;
+      end
+      fsm_1_RELEASE_1 : begin
+        fsmActiveStage = 3'b100;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign io_resetAccum = (fsmResetAccum && (! io_reset));
+  assign io_runAccum = (fsmRunAccum && (! io_reset));
+  assign io_activeStage = (io_reset ? 3'b000 : fsmActiveStage);
+  always @(*) begin
+    fsm_stateNext = fsm_stateReg;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsm_stateNext = fsm_1_ATTACK;
+        end
+      end
+      fsm_1_ATTACK : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l102) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end else begin
+              if(io_segmentDone) begin
+                fsm_stateNext = fsm_1_DECAY;
+              end
+            end
+          end
+        end
+      end
+      fsm_1_DECAY : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l119) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end else begin
+              if(io_segmentDone) begin
+                if(when_EnvelopeCtrl_l123) begin
+                  fsm_stateNext = fsm_1_ATTACK;
+                end else begin
+                  fsm_stateNext = fsm_1_SUSTAIN;
+                end
+              end
+            end
+          end
+        end
+      end
+      fsm_1_SUSTAIN : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l140) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end
+          end
+        end
+      end
+      fsm_1_RELEASE_1 : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(gateOn) begin
+              fsm_stateNext = fsm_1_ATTACK;
+            end else begin
+              if(io_segmentDone) begin
+                fsm_stateNext = fsm_1_IDLE;
+              end
+            end
+          end
+        end
+      end
+      default : begin
+      end
+    endcase
+    if(fsm_wantStart) begin
+      fsm_stateNext = fsm_1_IDLE;
+    end
+    if(fsm_wantKill) begin
+      fsm_stateNext = fsm_1_BOOT;
+    end
+  end
+
+  assign when_EnvelopeCtrl_l86 = (gateOn && (! disable_1));
+  assign when_EnvelopeCtrl_l102 = (! gateOn);
+  assign when_EnvelopeCtrl_l123 = io_config_ctrl[2];
+  assign when_EnvelopeCtrl_l119 = (! gateOn);
+  assign when_EnvelopeCtrl_l140 = (! gateOn);
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      syncInD1 <= 1'b0;
+      swSyncD1 <= 1'b0;
+      fsm_stateReg <= fsm_1_BOOT;
+    end else begin
+      syncInD1 <= io_syncIn;
+      swSyncD1 <= io_config_gate[1];
+      fsm_stateReg <= fsm_stateNext;
+    end
+  end
+
+
+endmodule
+
+//OscMux_3 replaced by OscMux
+
+//OscNoise_3 replaced by OscNoise
+
+//OscGenerators_3 replaced by OscGenerators
+
+//OscAccumulator_3 replaced by OscAccumulator
+
+//FilterMux_2 replaced by FilterMux
+
+//FilterCore_2 replaced by FilterCore
+
+module ParameterMapper_2 (
+  input  wire [7:0]    io_cutoff,
+  input  wire [7:0]    io_resonance,
+  output wire [11:0]   io_cutoffCoeff,
+  output wire [7:0]    io_resonanceCoeff
+);
+
+  wire       [11:0]   cutoffRom_spinal_port0;
+  wire       [7:0]    resonanceRom_spinal_port0;
+  reg [11:0] cutoffRom [0:255];
+  reg [7:0] resonanceRom [0:255];
+
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_2_svf_6_mapper_cutoffRom.bin",cutoffRom);
+  end
+  assign cutoffRom_spinal_port0 = cutoffRom[io_cutoff];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_2_svf_6_mapper_resonanceRom.bin",resonanceRom);
+  end
+  assign resonanceRom_spinal_port0 = resonanceRom[io_resonance];
+  assign io_cutoffCoeff = cutoffRom_spinal_port0;
+  assign io_resonanceCoeff = resonanceRom_spinal_port0;
+
+endmodule
+
+module EnvelopeShaper_2 (
+  input  wire          io_phaseTick,
+  input  wire [7:0]    io_baseIndex,
+  input  wire [1:0]    io_fraction,
+  input  wire [1:0]    io_curveSelect,
+  input  wire [2:0]    io_activeStage,
+  input  wire          io_accumDir,
+  input  wire          io_disable,
+  output wire          io_envelopeOut_valid,
+  output wire [9:0]    io_envelopeOut_payload,
+  output wire          io_envelopeOutSigned_valid,
+  output wire [9:0]    io_envelopeOutSigned_payload,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+
+  wire       [7:0]    linRom_spinal_port0;
+  wire       [7:0]    linRom_spinal_port1;
+  wire       [7:0]    expRom_spinal_port0;
+  wire       [7:0]    expRom_spinal_port1;
+  wire       [7:0]    logRom_spinal_port0;
+  wire       [7:0]    logRom_spinal_port1;
+  wire       [7:0]    sigRom_spinal_port0;
+  wire       [7:0]    sigRom_spinal_port1;
+  wire       [8:0]    _zz_addr1;
+  wire       [10:0]   _zz_y0Shifted;
+  wire       [9:0]    _zz_deltaShifted;
+  wire       [11:0]   _zz_interp;
+  wire       [11:0]   _zz_finalValUnipolar;
+  wire       [8:0]    addr0;
+  wire       [8:0]    addr1;
+  reg        [7:0]    y0;
+  reg        [7:0]    y1;
+  wire       [8:0]    y0Signed;
+  wire       [8:0]    y1Signed;
+  wire       [8:0]    delta;
+  reg        [11:0]   interp;
+  wire       [11:0]   y0Shifted;
+  wire       [11:0]   deltaShifted;
+  wire       [11:0]   deltaResized;
+  wire       [9:0]    finalValUnipolar;
+  reg        [9:0]    _zz_io_envelopeOut_payload;
+  wire       [9:0]    finalValBipolar;
+  reg        [9:0]    _zz_io_envelopeOutSigned_payload;
+  reg                 outValid;
+  reg [7:0] linRom [0:256];
+  reg [7:0] expRom [0:256];
+  reg [7:0] logRom [0:256];
+  reg [7:0] sigRom [0:256];
+
+  assign _zz_addr1 = {1'd0, io_baseIndex};
+  assign _zz_y0Shifted = ({2'd0,y0Signed} <<< 2'd2);
+  assign _zz_deltaShifted = ({1'd0,delta} <<< 1'd1);
+  assign _zz_interp = ($signed(y0Shifted) + $signed(deltaShifted));
+  assign _zz_finalValUnipolar = interp;
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_2_envGen_shaper_linRom.bin",linRom);
+  end
+  assign linRom_spinal_port0 = linRom[addr0];
+  assign linRom_spinal_port1 = linRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_2_envGen_shaper_expRom.bin",expRom);
+  end
+  assign expRom_spinal_port0 = expRom[addr0];
+  assign expRom_spinal_port1 = expRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_2_envGen_shaper_logRom.bin",logRom);
+  end
+  assign logRom_spinal_port0 = logRom[addr0];
+  assign logRom_spinal_port1 = logRom[addr1];
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_2_envGen_shaper_sigRom.bin",sigRom);
+  end
+  assign sigRom_spinal_port0 = sigRom[addr0];
+  assign sigRom_spinal_port1 = sigRom[addr1];
+  assign addr0 = {1'd0, io_baseIndex};
+  assign addr1 = (_zz_addr1 + 9'h001);
+  always @(*) begin
+    y0 = 8'h0;
+    case(io_curveSelect)
+      2'b00 : begin
+        y0 = linRom_spinal_port0;
+      end
+      2'b01 : begin
+        y0 = expRom_spinal_port0;
+      end
+      2'b10 : begin
+        y0 = logRom_spinal_port0;
+      end
+      default : begin
+        y0 = sigRom_spinal_port0;
+      end
+    endcase
+  end
+
+  always @(*) begin
+    y1 = 8'h0;
+    case(io_curveSelect)
+      2'b00 : begin
+        y1 = linRom_spinal_port1;
+      end
+      2'b01 : begin
+        y1 = expRom_spinal_port1;
+      end
+      2'b10 : begin
+        y1 = logRom_spinal_port1;
+      end
+      default : begin
+        y1 = sigRom_spinal_port1;
+      end
+    endcase
+  end
+
+  assign y0Signed = {1'b0,y0};
+  assign y1Signed = {1'b0,y1};
+  assign delta = ($signed(y1Signed) - $signed(y0Signed));
+  assign y0Shifted = {{1{_zz_y0Shifted[10]}}, _zz_y0Shifted};
+  assign deltaShifted = {{2{_zz_deltaShifted[9]}}, _zz_deltaShifted};
+  assign deltaResized = {{3{delta[8]}}, delta};
+  always @(*) begin
+    case(io_fraction)
+      2'b00 : begin
+        interp = y0Shifted;
+      end
+      2'b01 : begin
+        interp = ($signed(y0Shifted) + $signed(deltaResized));
+      end
+      2'b10 : begin
+        interp = ($signed(y0Shifted) + $signed(deltaShifted));
+      end
+      default : begin
+        interp = ($signed(_zz_interp) + $signed(deltaResized));
+      end
+    endcase
+  end
+
+  assign finalValUnipolar = _zz_finalValUnipolar[9:0];
+  assign io_envelopeOut_payload = _zz_io_envelopeOut_payload;
+  assign finalValBipolar = (finalValUnipolar ^ 10'h200);
+  assign io_envelopeOutSigned_payload = _zz_io_envelopeOutSigned_payload;
+  assign io_envelopeOut_valid = outValid;
+  assign io_envelopeOutSigned_valid = outValid;
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      _zz_io_envelopeOut_payload <= 10'h0;
+      _zz_io_envelopeOutSigned_payload <= 10'h0;
+      outValid <= 1'b0;
+    end else begin
+      _zz_io_envelopeOut_payload <= (io_disable ? 10'h0 : finalValUnipolar);
+      _zz_io_envelopeOutSigned_payload <= (io_disable ? 10'h0 : finalValBipolar);
+      outValid <= (io_phaseTick && (! io_reset));
+    end
+  end
+
+
+endmodule
+
+//EnvelopeAccumulator_2 replaced by EnvelopeAccumulator
+
+module EnvelopeCtrl_2 (
+  input  wire          io_syncIn,
+  input  wire [7:0]    io_config_ctrl,
+  input  wire [7:0]    io_config_attack,
+  input  wire [7:0]    io_config_decay,
+  input  wire [7:0]    io_config_sustain,
+  input  wire [7:0]    io_config_release,
+  input  wire [7:0]    io_config_gate,
+  input  wire          io_segmentDone,
+  output wire          io_resetAccum,
+  output wire          io_runAccum,
+  output wire          io_accumDir,
+  output wire [21:0]   io_phaseInc,
+  output wire [1:0]    io_curveSelect,
+  output wire [2:0]    io_activeStage,
+  input  wire          io_reset,
+  input  wire          io_clk24MHz
+);
+  localparam fsm_1_BOOT = 3'd0;
+  localparam fsm_1_IDLE = 3'd1;
+  localparam fsm_1_ATTACK = 3'd2;
+  localparam fsm_1_DECAY = 3'd3;
+  localparam fsm_1_SUSTAIN = 3'd4;
+  localparam fsm_1_RELEASE_1 = 3'd5;
+
+  wire       [21:0]   rom_spinal_port0;
+  wire                gateOn;
+  reg        [7:0]    romAddr;
+  wire                disable_1;
+  reg                 syncInD1;
+  wire                hwSyncPulse;
+  reg                 swSyncD1;
+  wire                swSyncPulse;
+  wire                hardSyncPulse;
+  reg                 fsmResetAccum;
+  reg                 fsmRunAccum;
+  reg        [2:0]    fsmActiveStage;
+  wire                fsm_wantExit;
+  reg                 fsm_wantStart;
+  wire                fsm_wantKill;
+  reg        [2:0]    fsm_stateReg;
+  reg        [2:0]    fsm_stateNext;
+  wire                when_EnvelopeCtrl_l86;
+  wire                when_EnvelopeCtrl_l102;
+  wire                when_EnvelopeCtrl_l123;
+  wire                when_EnvelopeCtrl_l119;
+  wire                when_EnvelopeCtrl_l140;
+  `ifndef SYNTHESIS
+  reg [71:0] fsm_stateReg_string;
+  reg [71:0] fsm_stateNext_string;
+  `endif
+
+  reg [21:0] rom [0:255];
+
+  initial begin
+    $readmemb("Synth.v_toplevel_core_voices_2_envGen_ctrl_rom.bin",rom);
+  end
+  assign rom_spinal_port0 = rom[romAddr];
+  `ifndef SYNTHESIS
+  always @(*) begin
+    case(fsm_stateReg)
+      fsm_1_BOOT : fsm_stateReg_string = "BOOT     ";
+      fsm_1_IDLE : fsm_stateReg_string = "IDLE     ";
+      fsm_1_ATTACK : fsm_stateReg_string = "ATTACK   ";
+      fsm_1_DECAY : fsm_stateReg_string = "DECAY    ";
+      fsm_1_SUSTAIN : fsm_stateReg_string = "SUSTAIN  ";
+      fsm_1_RELEASE_1 : fsm_stateReg_string = "RELEASE_1";
+      default : fsm_stateReg_string = "?????????";
+    endcase
+  end
+  always @(*) begin
+    case(fsm_stateNext)
+      fsm_1_BOOT : fsm_stateNext_string = "BOOT     ";
+      fsm_1_IDLE : fsm_stateNext_string = "IDLE     ";
+      fsm_1_ATTACK : fsm_stateNext_string = "ATTACK   ";
+      fsm_1_DECAY : fsm_stateNext_string = "DECAY    ";
+      fsm_1_SUSTAIN : fsm_stateNext_string = "SUSTAIN  ";
+      fsm_1_RELEASE_1 : fsm_stateNext_string = "RELEASE_1";
+      default : fsm_stateNext_string = "?????????";
+    endcase
+  end
+  `endif
+
+  assign gateOn = io_config_gate[0];
+  always @(*) begin
+    romAddr = 8'h0;
+    case(io_activeStage)
+      3'b001 : begin
+        romAddr = io_config_attack;
+      end
+      3'b010 : begin
+        romAddr = io_config_decay;
+      end
+      3'b100 : begin
+        romAddr = io_config_release;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign io_phaseInc = rom_spinal_port0;
+  assign io_curveSelect = io_config_ctrl[5 : 4];
+  assign disable_1 = io_config_ctrl[0];
+  assign hwSyncPulse = (io_syncIn && (! syncInD1));
+  assign swSyncPulse = (io_config_gate[1] && (! swSyncD1));
+  assign hardSyncPulse = (((hwSyncPulse || swSyncPulse) && io_config_ctrl[3]) && (! io_reset));
+  assign io_accumDir = ((io_activeStage == 3'b010) || (io_activeStage == 3'b100));
+  assign fsm_wantExit = 1'b0;
+  always @(*) begin
+    fsm_wantStart = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+      end
+      fsm_1_ATTACK : begin
+      end
+      fsm_1_DECAY : begin
+      end
+      fsm_1_SUSTAIN : begin
+      end
+      fsm_1_RELEASE_1 : begin
+      end
+      default : begin
+        fsm_wantStart = 1'b1;
+      end
+    endcase
+  end
+
+  assign fsm_wantKill = 1'b0;
+  always @(*) begin
+    fsmResetAccum = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsmResetAccum = 1'b1;
+        end
+      end
+      fsm_1_ATTACK : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(!when_EnvelopeCtrl_l102) begin
+              if(io_segmentDone) begin
+                fsmResetAccum = 1'b1;
+              end
+            end
+          end
+        end
+      end
+      fsm_1_DECAY : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(!when_EnvelopeCtrl_l119) begin
+              if(io_segmentDone) begin
+                if(when_EnvelopeCtrl_l123) begin
+                  fsmResetAccum = 1'b1;
+                end
+              end
+            end
+          end
+        end
+      end
+      fsm_1_SUSTAIN : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end
+        end
+      end
+      fsm_1_RELEASE_1 : begin
+        if(disable_1) begin
+          fsmResetAccum = 1'b1;
+        end else begin
+          if(hardSyncPulse) begin
+            fsmResetAccum = 1'b1;
+          end else begin
+            if(gateOn) begin
+              fsmResetAccum = 1'b1;
+            end else begin
+              if(io_segmentDone) begin
+                fsmResetAccum = 1'b1;
+              end
+            end
+          end
+        end
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    fsmRunAccum = 1'b0;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsmRunAccum = 1'b1;
+        end
+      end
+      fsm_1_ATTACK : begin
+        fsmRunAccum = 1'b1;
+      end
+      fsm_1_DECAY : begin
+        fsmRunAccum = 1'b1;
+      end
+      fsm_1_SUSTAIN : begin
+      end
+      fsm_1_RELEASE_1 : begin
+        fsmRunAccum = 1'b1;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    fsmActiveStage = 3'b000;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        fsmActiveStage = 3'b000;
+      end
+      fsm_1_ATTACK : begin
+        fsmActiveStage = 3'b001;
+      end
+      fsm_1_DECAY : begin
+        fsmActiveStage = 3'b010;
+      end
+      fsm_1_SUSTAIN : begin
+        fsmActiveStage = 3'b011;
+      end
+      fsm_1_RELEASE_1 : begin
+        fsmActiveStage = 3'b100;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign io_resetAccum = (fsmResetAccum && (! io_reset));
+  assign io_runAccum = (fsmRunAccum && (! io_reset));
+  assign io_activeStage = (io_reset ? 3'b000 : fsmActiveStage);
+  always @(*) begin
+    fsm_stateNext = fsm_stateReg;
+    case(fsm_stateReg)
+      fsm_1_IDLE : begin
+        if(when_EnvelopeCtrl_l86) begin
+          fsm_stateNext = fsm_1_ATTACK;
+        end
+      end
+      fsm_1_ATTACK : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l102) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end else begin
+              if(io_segmentDone) begin
+                fsm_stateNext = fsm_1_DECAY;
+              end
+            end
+          end
+        end
+      end
+      fsm_1_DECAY : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l119) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end else begin
+              if(io_segmentDone) begin
+                if(when_EnvelopeCtrl_l123) begin
+                  fsm_stateNext = fsm_1_ATTACK;
+                end else begin
+                  fsm_stateNext = fsm_1_SUSTAIN;
+                end
+              end
+            end
+          end
+        end
+      end
+      fsm_1_SUSTAIN : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(when_EnvelopeCtrl_l140) begin
+              fsm_stateNext = fsm_1_RELEASE_1;
+            end
+          end
+        end
+      end
+      fsm_1_RELEASE_1 : begin
+        if(disable_1) begin
+          fsm_stateNext = fsm_1_IDLE;
+        end else begin
+          if(hardSyncPulse) begin
+            fsm_stateNext = fsm_1_ATTACK;
+          end else begin
+            if(gateOn) begin
+              fsm_stateNext = fsm_1_ATTACK;
+            end else begin
+              if(io_segmentDone) begin
+                fsm_stateNext = fsm_1_IDLE;
+              end
+            end
+          end
+        end
+      end
+      default : begin
+      end
+    endcase
+    if(fsm_wantStart) begin
+      fsm_stateNext = fsm_1_IDLE;
+    end
+    if(fsm_wantKill) begin
+      fsm_stateNext = fsm_1_BOOT;
+    end
+  end
+
+  assign when_EnvelopeCtrl_l86 = (gateOn && (! disable_1));
+  assign when_EnvelopeCtrl_l102 = (! gateOn);
+  assign when_EnvelopeCtrl_l123 = io_config_ctrl[2];
+  assign when_EnvelopeCtrl_l119 = (! gateOn);
+  assign when_EnvelopeCtrl_l140 = (! gateOn);
+  always @(posedge io_clk24MHz or posedge io_reset) begin
+    if(io_reset) begin
+      syncInD1 <= 1'b0;
+      swSyncD1 <= 1'b0;
+      fsm_stateReg <= fsm_1_BOOT;
+    end else begin
+      syncInD1 <= io_syncIn;
+      swSyncD1 <= io_config_gate[1];
+      fsm_stateReg <= fsm_stateNext;
+    end
+  end
+
+
+endmodule
+
+//OscMux_2 replaced by OscMux
+
+//OscNoise_2 replaced by OscNoise
+
+//OscGenerators_2 replaced by OscGenerators
+
+//OscAccumulator_2 replaced by OscAccumulator
+
 //FilterMux_1 replaced by FilterMux
 
 //FilterCore_1 replaced by FilterCore
@@ -1957,11 +6534,11 @@ module ParameterMapper_1 (
   reg [7:0] resonanceRom [0:255];
 
   initial begin
-    $readmemb("Synth.v_toplevel_core_voices_1_svf_2_mapper_cutoffRom.bin",cutoffRom);
+    $readmemb("Synth.v_toplevel_core_voices_1_svf_6_mapper_cutoffRom.bin",cutoffRom);
   end
   assign cutoffRom_spinal_port0 = cutoffRom[io_cutoff];
   initial begin
-    $readmemb("Synth.v_toplevel_core_voices_1_svf_2_mapper_resonanceRom.bin",resonanceRom);
+    $readmemb("Synth.v_toplevel_core_voices_1_svf_6_mapper_resonanceRom.bin",resonanceRom);
   end
   assign resonanceRom_spinal_port0 = resonanceRom[io_resonance];
   assign io_cutoffCoeff = cutoffRom_spinal_port0;
@@ -2942,11 +7519,11 @@ module ParameterMapper (
   reg [7:0] resonanceRom [0:255];
 
   initial begin
-    $readmemb("Synth.v_toplevel_core_voices_0_svf_2_mapper_cutoffRom.bin",cutoffRom);
+    $readmemb("Synth.v_toplevel_core_voices_0_svf_6_mapper_cutoffRom.bin",cutoffRom);
   end
   assign cutoffRom_spinal_port0 = cutoffRom[io_cutoff];
   initial begin
-    $readmemb("Synth.v_toplevel_core_voices_0_svf_2_mapper_resonanceRom.bin",resonanceRom);
+    $readmemb("Synth.v_toplevel_core_voices_0_svf_6_mapper_resonanceRom.bin",resonanceRom);
   end
   assign resonanceRom_spinal_port0 = resonanceRom[io_resonance];
   assign io_cutoffCoeff = cutoffRom_spinal_port0;
