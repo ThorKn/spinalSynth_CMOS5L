@@ -6,5 +6,6 @@ All categories arranged alphabetically.
 > significant portions of the code. See the contributors graph for a full list of
 > human authors.
 
+* Thorsten Knoll, Github: [ThorKn](https://github.com/ThorKn)
 * Leo Moser \<leo.moser@pm.me\>
 * IHP PDK Authors
