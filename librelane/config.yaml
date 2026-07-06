@@ -121,12 +121,12 @@ CLOCK_PERIOD: 20
 # Floorplanning
 FP_SIZING: absolute
 # for the sealring on all sides
-DIE_AREA: [0, 0, 1600, 1600]
-CORE_AREA: [365, 365, 1235, 1235]
+DIE_AREA: [0, 0, 2606, 2606]
+CORE_AREA: [365, 365, 2241, 2241]
 
 # Increase for more logic
-# on your die
-PL_TARGET_DENSITY_PCT: 10
+# on your die 
+PL_TARGET_DENSITY_PCT: 45
 GRT_ALLOW_CONGESTION: true
 
 # PDN

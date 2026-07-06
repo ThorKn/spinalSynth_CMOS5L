@@ -2,7 +2,7 @@
 // Component : Synth
 // Git hash  : ac65480b5c0cfc523ebcb7459e26e079f781c720
 
-`timescale 1ns/1ps
+// `timescale 1ns/1ps
 
 module Synth (
   input  wire          io_clk24MHz,

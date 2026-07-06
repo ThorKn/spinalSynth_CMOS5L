@@ -202,12 +202,19 @@ module ocdcprodemo #(
     assign _unused_input = &input_PAD2CORE[NUM_INPUT_PADS-1:1];
 
     //-----------------------
+    // SyncIn input wire (Unused)
+    //-----------------------
+    wire syncIn;
+    assign syncIn = 1'b0;
+
+    //-----------------------
     // Synth module instance
     //-----------------------
     (* keep *) Synth i_Synth (
         .io_clk24MHz (clk_PAD2CORE),
         .io_reset    (rst_n_PAD2CORE),
         .io_uartRx   (input_PAD2CORE[0]),
+        .io_syncIn   (syncIn),
         .io_i2sBclk  (output_CORE2PAD[0]),
         .io_i2sLrclk (output_CORE2PAD[1]),
         .io_i2sData  (output_CORE2PAD[2])
